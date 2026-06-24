@@ -3,7 +3,7 @@ export const siteConfig = {
   title: "白城 | AI for Biology Knowledge Assets",
   description:
     "白城的 AI for Biology 成长期知识资产库：生物竞赛、生物信息学、计算生物学、机器学习、AI4Bio 与 AIVC。",
-  url: "https://chengbai.github.io",
+  url: "https://methylation5mc2026-jpg.github.io/chengbai.github.io",
   author: "白城",
   securityEmail: "security@example.com",
   identity: "高中阶段开始系统建设 AI for Biology 知识资产，长期关注 AIVC、AI4Bio、计算生物学与多组学。",

@@ -5,7 +5,8 @@ import tailwind from "@astrojs/tailwind";
 import remarkGfm from "remark-gfm";
 
 export default defineConfig({
-  site: "https://chengbai.github.io",
+  site: "https://methylation5mc2026-jpg.github.io",
+  base: "/chengbai.github.io",
   integrations: [
     tailwind({ applyBaseStyles: false }),
     mdx({ remarkPlugins: [remarkGfm] }),
