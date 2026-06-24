@@ -1,0 +1,69 @@
+<svg viewBox="-24 -24 548 308" xmlns="http://www.w3.org/2000/svg" width="548" height="308" preserveAspectRatio="xMidYMid meet">
+<rect fill="#f8f9fa" height="260" rx="10" width="500" x="0" y="0"></rect>
+<text fill="#2E75B6" font-family="sans-serif" font-size="12" font-weight="700" text-anchor="middle" x="250" y="22">计算蛋白质设计：标准流水线</text>
+<!-- Step 1: RFdiffusion -->
+<g transform="translate(50,50)">
+<rect fill="#e3f2fd" height="60" rx="8" stroke="#42a5f5" stroke-width="2" width="100" x="0" y="0"></rect>
+<text fill="#1565c0" font-family="sans-serif" font-size="11" font-weight="700" text-anchor="middle" x="50" y="20">RFdiffusion</text>
+<text fill="#666" font-family="sans-serif" font-size="9" text-anchor="middle" x="50" y="35">骨架结构生成</text>
+<!-- mini protein illustration -->
+<path d="M30,42 C35,48 45,44 50,50 C55,44 65,48 70,42" fill="none" stroke="#42a5f5" stroke-width="1.5"></path>
+<text fill="#aaa" font-family="sans-serif" font-size="9" text-anchor="middle" x="50" y="-8">随机噪声输入</text>
+<line marker-end="url(#arrowS)" stroke="#ccc" stroke-width="1" x1="50" x2="50" y1="-4" y2="0"></line>
+</g>
+<!-- Arrow 1→2 -->
+<g transform="translate(150,70)"><line marker-end="url(#arrowB)" stroke="#42a5f5" stroke-width="2" x1="0" x2="40" y1="10" y2="10"></line>
+<text fill="#888" font-family="sans-serif" font-size="8" text-anchor="middle" x="20" y="0">3D骨架</text></g>
+<!-- Step 2: ProteinMPNN -->
+<g transform="translate(190,50)">
+<rect fill="#fff3e0" height="60" rx="8" stroke="#ffa726" stroke-width="2" width="100" x="0" y="0"></rect>
+<text fill="#e65100" font-family="sans-serif" font-size="11" font-weight="700" text-anchor="middle" x="50" y="20">ProteinMPNN</text>
+<text fill="#666" font-family="sans-serif" font-size="9" text-anchor="middle" x="50" y="35">序列设计</text>
+<text fill="#999" font-family="monospace" font-size="8" text-anchor="middle" x="50" y="50">MGKLD...</text>
+</g>
+<!-- Arrow 2→3 -->
+<g transform="translate(290,70)"><line marker-end="url(#arrowO)" stroke="#ffa726" stroke-width="2" x1="0" x2="40" y1="10" y2="10"></line>
+<text fill="#888" font-family="sans-serif" font-size="8" text-anchor="middle" x="20" y="0">氨基酸序列</text></g>
+<!-- Step 3: AlphaFold验证 -->
+<g transform="translate(330,50)">
+<rect fill="#e8f5e9" height="60" rx="8" stroke="#66bb6a" stroke-width="2" width="110" x="0" y="0"></rect>
+<text fill="#2e7d32" font-family="sans-serif" font-size="11" font-weight="700" text-anchor="middle" x="55" y="20">AlphaFold2</text>
+<text fill="#666" font-family="sans-serif" font-size="9" text-anchor="middle" x="55" y="35">结构验证</text>
+<text fill="#2e7d32" font-family="sans-serif" font-size="8" text-anchor="middle" x="55" y="50">pLDDT &gt; 90 ✓</text>
+</g>
+<!-- Arrow down from AlphaFold -->
+<line marker-end="url(#arrowGn)" stroke="#66bb6a" stroke-width="2" x1="385" x2="385" y1="110" y2="140"></line>
+<!-- Decision -->
+<g transform="translate(345,142)">
+<polygon fill="#fff9c4" points="40,0 80,20 40,40 0,20" stroke="#fbc02d" stroke-width="1.5"></polygon>
+<text fill="#f57f17" font-family="sans-serif" font-size="9" font-weight="600" text-anchor="middle" x="40" y="23">通过?</text>
+</g>
+<!-- Yes path -->
+<g transform="translate(435,160)">
+<line marker-end="url(#arrowGn)" stroke="#66bb6a" stroke-width="2" x1="0" x2="30" y1="2" y2="2"></line>
+<text fill="#2e7d32" font-family="sans-serif" font-size="8" text-anchor="middle" x="15" y="-5">是</text>
+</g>
+<!-- Step 4: Experiment -->
+<g transform="translate(370,195)">
+<rect fill="#f3e5f5" height="50" rx="8" stroke="#ab47bc" stroke-width="2" width="110" x="0" y="0"></rect>
+<text fill="#6a1b9a" font-family="sans-serif" font-size="11" font-weight="700" text-anchor="middle" x="55" y="18">实验验证</text>
+<text fill="#666" font-family="sans-serif" font-size="9" text-anchor="middle" x="55" y="33">表达·纯化·功能</text>
+</g>
+<line stroke="#ab47bc" stroke-width="1.5" x1="425" x2="425" y1="185" y2="195"></line>
+<!-- No path - loop back -->
+<g transform="translate(50,142)">
+<line stroke="#e53935" stroke-dasharray="4,2" stroke-width="1.5" x1="295" x2="260" y1="20" y2="20"></line>
+<text fill="#e53935" font-family="sans-serif" font-size="8" text-anchor="middle" x="278" y="14">否</text>
+<path d="M260,20 L260,90 L0,90 L0,38" fill="none" marker-end="url(#arrowR)" stroke="#e53935" stroke-dasharray="4,2" stroke-width="1.5"></path>
+<text fill="#e53935" font-family="sans-serif" font-size="8" text-anchor="middle" x="130" y="84">重新设计 / 调整约束</text>
+</g>
+<!-- 底部注释 -->
+<text fill="#aaa" font-family="sans-serif" font-size="9" text-anchor="middle" x="250" y="254">这一闭环流水线已成为当前计算蛋白质设计的标准范式 [16]</text>
+<defs>
+<marker id="arrowS" markerHeight="5" markerWidth="6" orient="auto" refX="6" refY="2.5"><path d="M0,0 L6,2.5 L0,5" fill="#ccc"></path></marker>
+<marker id="arrowB" markerHeight="6" markerWidth="8" orient="auto" refX="8" refY="3"><path d="M0,0 L8,3 L0,6" fill="#42a5f5"></path></marker>
+<marker id="arrowO" markerHeight="6" markerWidth="8" orient="auto" refX="8" refY="3"><path d="M0,0 L8,3 L0,6" fill="#ffa726"></path></marker>
+<marker id="arrowGn" markerHeight="6" markerWidth="8" orient="auto" refX="8" refY="3"><path d="M0,0 L8,3 L0,6" fill="#66bb6a"></path></marker>
+<marker id="arrowR" markerHeight="6" markerWidth="8" orient="auto" refX="8" refY="3"><path d="M0,0 L8,3 L0,6" fill="#e53935"></path></marker>
+</defs>
+</svg>

@@ -1,0 +1,4 @@
+Contact: mailto:security@example.com
+Preferred-Languages: zh, en
+Policy: https://example-knowledge.vercel.app/about/
+Expires: 2027-05-12T00:00:00Z

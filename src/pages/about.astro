@@ -1,0 +1,97 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+const evidence = [
+  {
+    title: "生物竞赛训练",
+    text: "高中阶段连续两年获得全国中学生生物学竞赛省一等奖，长期训练生物化学、细胞生物学、遗传学、生态学与实验设计。"
+  },
+  {
+    title: "AI for Science 项目经历",
+    text: "2026 年春季作为队长参加 Datawhale 与上智院合办的多智能体药物设计大赛，进入复赛并最终排名全国第 34 名。"
+  },
+  {
+    title: "自学路线",
+    text: "正在系统补齐生物信息学、计算生物学、机器学习、深度学习、强化学习与 AI for Biology 的基础能力。"
+  }
+];
+
+const stacks = [
+  "生物化学 / 细胞生物学 / 分子生物学",
+  "生物信息学 / 多组学 / 质控意识",
+  "Python / 数据分析 / 可复现笔记",
+  "机器学习 / 深度学习 / 强化学习基础",
+  "AI4Bio / AIVC / 计算蛋白质设计",
+  "论文阅读 / 项目复盘 / 长文写作"
+];
+
+const boundaries = [
+  "我仍处在成长期，不把学习笔记包装成科研成果。",
+  "竞赛和项目经历更多证明成长速度与执行力，不等同于完整研究能力。",
+  "这个网站优先展示少量质量足够高的文章；没有写扎实的内容不会强行上架。"
+];
+---
+<BaseLayout title="关于白城 | AI for Biology Knowledge Assets" description="白城的 AI for Biology 成长期履历、技术栈、项目经历与知识资产入口。">
+  <div class="grid gap-8 lg:grid-cols-[minmax(0,1fr)_360px]">
+    <section class="space-y-8">
+      <div class="paper px-6 py-8 md:px-10">
+        <p class="eyebrow mb-3">About</p>
+        <h1 class="font-serif text-4xl tracking-normal md:text-6xl">关于白城</h1>
+        <p class="mt-5 max-w-3xl text-base leading-8 text-ink-600 dark:text-ink-300">
+          我是一名正在申请接触 AI for Biology 前沿训练机会的高中阶段学习者。我的长期方向是 AI Virtual Cell、AI 蛋白质组学、计算生物学与多组学。这个网站是我的公开知识资产库，用来记录我如何从生物竞赛训练出发，逐步补齐 CS、AI 与生命科学交叉所需的能力。
+        </p>
+      </div>
+
+      <div class="paper px-6 py-8 md:px-10">
+        <p class="eyebrow mb-3">Evidence</p>
+        <h2 class="font-serif text-3xl">可以被检查的成长证据</h2>
+        <div class="mt-6 grid gap-5">
+          {evidence.map((item, index) => (
+            <article class="grid gap-4 border-b border-ink-200 pb-5 last:border-b-0 last:pb-0 dark:border-white/10 md:grid-cols-[72px_minmax(0,1fr)]">
+              <p class="font-mono text-sm text-ink-500 dark:text-ink-400">{String(index + 1).padStart(2, "0")}</p>
+              <div>
+                <h3 class="font-serif text-2xl">{item.title}</h3>
+                <p class="mt-2 text-sm leading-7 text-ink-600 dark:text-ink-300">{item.text}</p>
+              </div>
+            </article>
+          ))}
+        </div>
+      </div>
+
+      <div class="paper px-6 py-8 md:px-10">
+        <p class="eyebrow mb-3">Boundary</p>
+        <h2 class="font-serif text-3xl">我希望保持诚实的边界</h2>
+        <div class="mt-5 grid gap-4">
+          {boundaries.map((item) => (
+            <p class="border-b border-ink-200 pb-4 text-sm leading-7 text-ink-600 last:border-b-0 last:pb-0 dark:border-white/10 dark:text-ink-300">
+              {item}
+            </p>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <aside class="space-y-6">
+      <div class="paper p-6">
+        <h2 class="font-serif text-2xl">技术栈与知识栈</h2>
+        <div class="mt-4 flex flex-wrap gap-2">
+          {stacks.map((item) => <span class="focus-pill">{item}</span>)}
+        </div>
+      </div>
+      <div class="paper p-6">
+        <h2 class="font-serif text-2xl">推荐先读</h2>
+        <div class="mt-4 grid gap-3 text-sm leading-7 text-ink-600 dark:text-ink-300">
+          <a class="hover:text-accent-600 dark:hover:text-accent-400" href="/articles/aivc-week-learning-brief/">给 AIVC Week 的学习简报</a>
+          <a class="hover:text-accent-600 dark:hover:text-accent-400" href="/books/aivc-whitepaper/">AIVC白皮书</a>
+          <a class="hover:text-accent-600 dark:hover:text-accent-400" href="/articles/bioinformatics-pipeline-thinking/">生物信息学三层视角</a>
+        </div>
+      </div>
+      <div class="paper p-6">
+        <h2 class="font-serif text-2xl">联系信息</h2>
+        <p class="mt-4 text-sm leading-7 text-ink-600 dark:text-ink-300">
+          正式投递时可在这里补充邮箱、GitHub、个人简历和竞赛证明链接。
+        </p>
+      </div>
+    </aside>
+  </div>
+</BaseLayout>

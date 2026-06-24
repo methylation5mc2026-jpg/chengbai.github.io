@@ -1,0 +1,29 @@
+---
+interface Props {
+  title: string;
+  intro: string;
+}
+
+const { title, intro } = Astro.props;
+---
+<section class="paper overflow-hidden px-6 py-12 md:px-10 md:py-16">
+  <div class="grid gap-10 lg:grid-cols-[1.3fr_0.7fr] lg:items-end">
+    <div class="space-y-5">
+      <p class="eyebrow">Personal Knowledge Assets</p>
+      <h1 class="max-w-4xl font-serif text-4xl leading-tight tracking-tight text-ink-900 md:text-6xl dark:text-white">
+        {title}
+      </h1>
+      <p class="max-w-3xl text-base leading-8 text-ink-600 md:text-lg dark:text-ink-300">
+        {intro}
+      </p>
+    </div>
+    <div class="grid gap-3 text-sm text-ink-600 dark:text-ink-300">
+      <div class="rounded-2xl border border-ink-200 bg-ink-50/80 p-4 dark:border-white/10 dark:bg-white/5">
+        面向生物竞赛、生物信息学、计算生物学、AI for Science 与论文解读的长期知识沉淀。
+      </div>
+      <div class="rounded-2xl border border-ink-200 bg-ink-50/80 p-4 dark:border-white/10 dark:bg-white/5">
+        结构上兼顾文章、专题、书籍式长文，方便以后持续扩写到几万字甚至更多。
+      </div>
+    </div>
+  </div>
+</section>

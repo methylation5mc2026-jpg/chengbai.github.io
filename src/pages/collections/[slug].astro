@@ -1,0 +1,40 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import ArticleCard from "../../components/ArticleCard.astro";
+import { cleanSlug } from "../../lib/content";
+
+export async function getStaticPaths() {
+  const entries = await getCollection("collections");
+  return entries.map((entry) => ({
+    params: { slug: cleanSlug(entry.id) },
+    props: { entry }
+  }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await entry.render();
+const relatedArticles = (await getCollection("articles", ({ data }) => data.collection === entry.data.title)).sort(
+  (a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime()
+);
+---
+<BaseLayout title={`${entry.data.title} | 专题`}>
+  <div class="space-y-8">
+    <section class="paper px-6 py-8 md:px-10 md:py-10">
+      <p class="eyebrow mb-3">专题</p>
+      <h1 class="font-serif text-4xl tracking-tight">{entry.data.title}</h1>
+      <p class="mt-4 max-w-3xl text-base leading-8 text-ink-600 dark:text-ink-300">{entry.data.description}</p>
+    </section>
+    <section class="paper px-6 py-8 md:px-10">
+      <div class="prose-shell">
+        <Content />
+      </div>
+    </section>
+    <section>
+      <h2 class="mb-5 font-serif text-2xl">相关文章</h2>
+      <div class="grid gap-5 lg:grid-cols-2">
+        {relatedArticles.map((article) => <ArticleCard article={article} />)}
+      </div>
+    </section>
+  </div>
+</BaseLayout>

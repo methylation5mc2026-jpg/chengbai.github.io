@@ -1,0 +1,86 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { formatDate, getBooks } from "../../lib/content";
+import { getBookProjects, getBookStyle } from "../../lib/bookPlans";
+
+const books = await getBooks();
+const bookProjects = await getBookProjects(books);
+---
+<BaseLayout title="书架 | 白城 AI for Biology Knowledge Assets" description="白城的在线书架：AIVC白皮书、计算机与人工智能教程、AI4Bio白皮书、人人都能做商业，以及中英对照创业手册。">
+  <div class="space-y-12">
+    <section class="grid gap-8 border-b border-ink-200 pb-10 dark:border-white/10 lg:grid-cols-[1fr_0.6fr]">
+      <div>
+        <p class="eyebrow">Books</p>
+        <h1 class="mt-4 max-w-4xl font-serif text-5xl leading-tight tracking-normal md:text-7xl">书架，而不是文章列表。</h1>
+      </div>
+      <div class="text-sm leading-8 text-ink-600 dark:text-ink-300">
+        <p>这里放长期维护的书籍式内容：每一本都可以拥有目录、章节、阅读界面与上下章导航，适合沉淀几万字甚至几十万字的系统内容。</p>
+        <p class="mt-4 font-mono text-xs uppercase tracking-[0.18em] text-ink-500 dark:text-ink-400">
+          {books.length} books / {bookProjects.reduce((sum, item) => sum + item.chapters.length, 0)} chapters / MDX powered
+        </p>
+      </div>
+    </section>
+
+    <section class="overflow-x-auto border-y border-ink-200 dark:border-white/10">
+      <div class="book-shelf flex min-h-[34rem] min-w-max items-end gap-4 px-1 pb-10 pt-40">
+        {bookProjects.map((project) => (
+          <a
+            href={`/books/${project.slug}/`}
+            style={getBookStyle(project.index)}
+            class="book-card group flex min-h-80 w-36 flex-col justify-between px-5 py-6 md:w-40"
+          >
+            <span class="relative z-10 font-mono text-xs opacity-75">{String(project.index + 1).padStart(2, "0")}</span>
+            <span class="book-spine relative z-10 mx-auto max-h-64 font-serif text-3xl leading-tight">
+              {project.book.data.title}
+            </span>
+            <span class="relative z-10 font-mono text-xs opacity-75">{project.chapters.length} CH</span>
+          </a>
+        ))}
+      </div>
+    </section>
+
+    <section class="grid gap-6">
+      {bookProjects.map((project) => (
+        <article class="writing-card">
+          <div>
+            <p class="font-mono text-xs uppercase tracking-[0.18em] text-ink-500 dark:text-ink-400">
+              {String(project.index + 1).padStart(2, "0")} / {project.plan.status}
+            </p>
+            <a href={`/books/${project.slug}/`} class="mt-2 block font-serif text-4xl tracking-normal transition hover:text-accent-600 dark:hover:text-accent-400">
+              {project.book.data.title}
+            </a>
+            <p class="mt-4 max-w-3xl text-sm leading-7 text-ink-600 dark:text-ink-300">{project.book.data.description}</p>
+            <div class="mt-5 flex flex-wrap gap-2">
+              {project.book.data.tags.map((tag: string) => <span class="tag-chip">#{tag}</span>)}
+            </div>
+          </div>
+          <div class="space-y-4 text-sm text-ink-500 dark:text-ink-400">
+            <div class="grid grid-cols-2 gap-4 border-b border-ink-200 pb-4 dark:border-white/10">
+              <div>
+                <p class="font-mono text-xs uppercase tracking-[0.18em]">Chapters</p>
+                <p class="mt-2 text-ink-900 dark:text-white">{project.chapters.length} / {project.plan.goal}</p>
+              </div>
+              <div>
+                <p class="font-mono text-xs uppercase tracking-[0.18em]">Updated</p>
+                <p class="mt-2 text-ink-900 dark:text-white">{formatDate(project.book.data.updatedDate)}</p>
+              </div>
+            </div>
+            <div>
+              <div class="mb-2 flex justify-between font-mono text-xs">
+                <span>Progress</span>
+                <span>{project.progress}%</span>
+              </div>
+              <div class="progress-track">
+                <span class="progress-fill" style={`width:${project.progress}%`}></span>
+              </div>
+            </div>
+            <p class="leading-7 text-ink-600 dark:text-ink-300">{project.plan.next}</p>
+            <a class="inline-block text-accent-600 hover:text-accent-500 dark:text-accent-400" href={project.readingUrl}>
+              {project.chapters.length > 0 ? "Start reading →" : "查看目录 →"}
+            </a>
+          </div>
+        </article>
+      ))}
+    </section>
+  </div>
+</BaseLayout>

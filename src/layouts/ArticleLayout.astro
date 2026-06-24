@@ -1,0 +1,46 @@
+---
+import readingTime from "reading-time";
+import BaseLayout from "./BaseLayout.astro";
+import TOC from "../components/TOC.astro";
+import PrevNextNav from "../components/PrevNextNav.astro";
+import { formatDate } from "../lib/content";
+
+interface Props {
+  entry: any;
+  headings: { depth: number; slug: string; text: string }[];
+  prev?: { href: string; title: string } | null;
+  next?: { href: string; title: string } | null;
+}
+
+const { entry, headings, prev, next } = Astro.props;
+const stats = readingTime(entry.body);
+---
+<BaseLayout title={`${entry.data.title} | 白城 AI for Biology Knowledge Assets`} description={entry.data.description}>
+  <div class="grid gap-10 lg:grid-cols-[minmax(0,1fr)_280px]">
+    <article class="space-y-8">
+      <header class="paper px-6 py-8 md:px-10 md:py-10">
+        <div class="space-y-4">
+          <div class="flex flex-wrap gap-3 text-sm text-ink-500 dark:text-ink-400">
+            <time datetime={entry.data.pubDate.toISOString()}>{formatDate(entry.data.pubDate)}</time>
+            <span>{Math.max(1, Math.round(stats.minutes))} 分钟阅读</span>
+            {entry.data.updatedDate && <span>更新于 {formatDate(entry.data.updatedDate)}</span>}
+          </div>
+          <h1 class="font-serif text-4xl leading-tight tracking-tight md:text-5xl">{entry.data.title}</h1>
+          <p class="max-w-3xl text-base leading-8 text-ink-600 dark:text-ink-300">{entry.data.description}</p>
+          <div class="flex flex-wrap gap-2">
+            {entry.data.tags.map((tag: string) => <span class="tag-chip">#{tag}</span>)}
+          </div>
+        </div>
+      </header>
+      <div class="paper px-6 py-8 md:px-10 md:py-10">
+        <div class="prose-shell">
+          <slot />
+        </div>
+      </div>
+      <PrevNextNav prev={prev} next={next} />
+    </article>
+    <div class="space-y-6 lg:sticky lg:top-24 lg:h-fit">
+      <TOC headings={headings} />
+    </div>
+  </div>
+</BaseLayout>

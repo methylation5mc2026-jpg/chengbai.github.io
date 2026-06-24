@@ -1,0 +1,42 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { formatDate, getTaggedEntries, groupTaggedEntriesByTag, tagToSlug } from "../../lib/content";
+
+export async function getStaticPaths() {
+  const entries = await getTaggedEntries();
+  const grouped = groupTaggedEntriesByTag(entries);
+
+  return Object.entries(grouped).map(([tag, items]) => ({
+    params: { tag: tagToSlug(tag) },
+    props: { tag, items }
+  }));
+}
+
+const { tag, items } = Astro.props;
+const sortedItems = [...items].sort((a, b) => b.date.getTime() - a.date.getTime());
+---
+<BaseLayout title={`#${tag} | Tags`} description={`#${tag} 标签下的文章、书籍和章节。`}>
+  <div class="space-y-10">
+    <section class="border-b border-ink-200 pb-10 dark:border-white/10">
+      <p class="eyebrow">Tag</p>
+      <h1 class="mt-4 max-w-4xl font-serif text-5xl leading-tight tracking-normal md:text-7xl">#{tag}</h1>
+      <p class="mt-6 max-w-3xl text-base leading-8 text-ink-600 dark:text-ink-300">
+        这个标签下共有 {sortedItems.length} 条内容，包含文章、书籍和章节。
+      </p>
+      <a href="/tags" class="mt-6 inline-flex text-sm text-accent-600 hover:text-accent-500 dark:text-accent-400">← 返回标签列表</a>
+    </section>
+
+    <section class="grid gap-5">
+      {sortedItems.map((item) => (
+        <a href={item.href} class="grid gap-4 border-b border-ink-200 pb-5 transition hover:text-accent-600 dark:border-white/10 dark:hover:text-accent-400 md:grid-cols-[120px_minmax(0,1fr)_140px]">
+          <p class="font-mono text-xs uppercase tracking-[0.18em] text-ink-500 dark:text-ink-400">{item.kind}</p>
+          <div>
+            <h2 class="font-serif text-3xl tracking-normal">{item.title}</h2>
+            <p class="mt-2 text-sm leading-7 text-ink-600 dark:text-ink-300">{item.description}</p>
+          </div>
+          <time class="font-mono text-xs text-ink-500 dark:text-ink-400 md:text-right">{formatDate(item.date)}</time>
+        </a>
+      ))}
+    </section>
+  </div>
+</BaseLayout>

@@ -1,0 +1,21 @@
+---
+interface Props {
+  headings: { depth: number; slug: string; text: string }[];
+}
+
+const { headings } = Astro.props;
+---
+{headings.length > 0 && (
+  <aside class="paper p-5">
+    <p class="mb-4 text-sm font-medium text-ink-900 dark:text-white">目录</p>
+    <nav>
+      {headings
+        .filter((item) => item.depth <= 3)
+        .map((item) => (
+          <a class={`toc-link ${item.depth === 3 ? "ml-3" : ""}`} href={`#${item.slug}`}>
+            {item.text}
+          </a>
+        ))}
+    </nav>
+  </aside>
+)}

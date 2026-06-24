@@ -1,0 +1,35 @@
+---
+import { getCollection } from "astro:content";
+import BookChapterLayout from "../../../layouts/BookChapterLayout.astro";
+import { getBookChapters, getLeafSlug } from "../../../lib/content";
+
+export async function getStaticPaths() {
+  const entries = await getCollection("books");
+  const chapters = entries.filter((entry) => entry.data.type === "chapter");
+  return chapters.map((entry) => ({
+    params: {
+      book: entry.data.bookSlug,
+      chapter: getLeafSlug(entry.id)
+    },
+    props: { entry }
+  }));
+}
+
+const { entry } = Astro.props;
+const allBooks = await getCollection("books");
+const book = allBooks.find((item) => item.data.type === "book" && item.id === entry.data.bookSlug);
+const chapters = await getBookChapters(entry.data.bookSlug);
+const { Content } = await entry.render();
+const currentIndex = chapters.findIndex((item) => item.id === entry.id);
+const prevEntry = chapters[currentIndex - 1];
+const nextEntry = chapters[currentIndex + 1];
+---
+<BookChapterLayout
+  entry={entry}
+  bookTitle={book?.data.title ?? entry.data.bookSlug}
+  chapters={chapters}
+  prev={prevEntry ? { href: `/books/${entry.data.bookSlug}/${getLeafSlug(prevEntry.id)}/`, title: prevEntry.data.title } : null}
+  next={nextEntry ? { href: `/books/${entry.data.bookSlug}/${getLeafSlug(nextEntry.id)}/`, title: nextEntry.data.title } : null}
+>
+  <Content />
+</BookChapterLayout>

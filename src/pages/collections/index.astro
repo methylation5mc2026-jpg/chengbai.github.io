@@ -1,0 +1,21 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import SectionHeading from "../../components/SectionHeading.astro";
+import { cleanSlug, getTopicCollections } from "../../lib/content";
+
+const collections = await getTopicCollections();
+---
+<BaseLayout title="专题 | 白城 AI for Biology Knowledge Assets">
+  <SectionHeading title="专题系统" description="把零散文章逐步汇聚成可复用的知识结构。" />
+  <div class="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
+    {collections.map((item) => (
+      <a href={`/collections/${cleanSlug(item.id)}/`} class="paper flex min-h-56 flex-col justify-between p-6 transition hover:border-accent-500">
+        <div>
+          <p class="eyebrow">Collection</p>
+          <h2 class="mt-3 font-serif text-3xl">{item.data.title}</h2>
+        </div>
+        <p class="text-sm leading-7 text-ink-600 dark:text-ink-300">{item.data.description}</p>
+      </a>
+    ))}
+  </div>
+</BaseLayout>

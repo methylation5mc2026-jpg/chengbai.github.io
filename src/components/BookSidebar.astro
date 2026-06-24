@@ -1,0 +1,28 @@
+---
+import { getLeafSlug } from "../lib/content";
+
+interface Props {
+  title: string;
+  chapters: any[];
+  activeId?: string;
+}
+
+const { title, chapters, activeId } = Astro.props;
+---
+<aside class="paper h-fit p-5">
+  <p class="mb-4 font-serif text-lg">{title}</p>
+  <nav class="space-y-2">
+    {chapters.map((chapter, index) => (
+      <a
+        href={`/books/${chapter.data.bookSlug}/${getLeafSlug(chapter.id)}/`}
+        class={`block rounded-xl px-3 py-2 text-sm transition ${
+          activeId === chapter.id
+            ? "bg-accent-500 text-white"
+            : "text-ink-600 hover:bg-ink-100 dark:text-ink-300 dark:hover:bg-white/10"
+        }`}
+      >
+        {(index + 1).toString().padStart(2, "0")}. {chapter.data.title}
+      </a>
+    ))}
+  </nav>
+</aside>

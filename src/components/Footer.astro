@@ -1,0 +1,40 @@
+---
+import { siteConfig } from "../site.config";
+
+const year = new Date().getFullYear();
+---
+<footer class="mt-16 border-t border-ink-200/80 py-12 dark:border-white/10">
+  <div class="container-shell grid gap-10 text-sm text-ink-500 md:grid-cols-[1.3fr_0.7fr_0.7fr_0.7fr] dark:text-ink-400">
+    <div>
+      <p class="font-serif text-2xl text-ink-900 dark:text-white">{siteConfig.name}</p>
+      <p class="mt-3 max-w-md leading-7">
+        {siteConfig.identity}
+      </p>
+      <p class="mt-6">© {year} Baicheng / AI for Biology Assets</p>
+    </div>
+    <div>
+      <h2 class="font-mono text-xs uppercase tracking-[0.18em] text-ink-900 dark:text-white">Read</h2>
+      <div class="mt-4 grid gap-2">
+        <a class="hover:text-accent-600 dark:hover:text-accent-400" href="/articles/aivc-week-learning-brief/">精选简报</a>
+        <a class="hover:text-accent-600 dark:hover:text-accent-400" href="/books">书架</a>
+        <a class="hover:text-accent-600 dark:hover:text-accent-400" href="/articles">文章</a>
+        <a class="hover:text-accent-600 dark:hover:text-accent-400" href="/rss.xml">RSS</a>
+      </div>
+    </div>
+    <div>
+      <h2 class="font-mono text-xs uppercase tracking-[0.18em] text-ink-900 dark:text-white">Navigate</h2>
+      <div class="mt-4 grid gap-2">
+        <a class="hover:text-accent-600 dark:hover:text-accent-400" href="/start-here">Start Here</a>
+        <a class="hover:text-accent-600 dark:hover:text-accent-400" href="/now">Now</a>
+        <a class="hover:text-accent-600 dark:hover:text-accent-400" href="/knowledge-map">Map</a>
+        <a class="hover:text-accent-600 dark:hover:text-accent-400" href="/collections">Topics</a>
+        <a class="hover:text-accent-600 dark:hover:text-accent-400" href="/about">About</a>
+      </div>
+    </div>
+    <div>
+      <h2 class="font-mono text-xs uppercase tracking-[0.18em] text-ink-900 dark:text-white">Built</h2>
+      <p class="mt-4 leading-7">Astro / MDX / Pagefind / RSS / Sitemap</p>
+      <a class="mt-3 inline-block hover:text-accent-600 dark:hover:text-accent-400" href="/search">Search the archive</a>
+    </div>
+  </div>
+</footer>

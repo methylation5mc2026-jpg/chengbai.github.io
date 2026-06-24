@@ -1,0 +1,284 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import {
+  cleanSlug,
+  formatDate,
+  getArticles,
+  getBooks,
+  getDailyEntries,
+  getTopicCollections,
+  getWordCount
+} from "../lib/content";
+import { getBookProjects } from "../lib/bookPlans";
+import { siteConfig } from "../site.config";
+
+const articles = await getArticles();
+const collections = await getTopicCollections();
+const books = await getBooks();
+const bookProjects = await getBookProjects(books);
+const dailyEntries = await getDailyEntries();
+
+const featuredArticles = articles.filter((article) => article.data.featured).slice(0, 3);
+const selectedArticles = featuredArticles.length > 0 ? featuredArticles : articles.slice(0, 3);
+const primaryArticle = selectedArticles[0];
+const allTextEntries = [
+  ...articles,
+  ...dailyEntries,
+  ...bookProjects.flatMap(({ book, chapters }) => [book, ...chapters])
+];
+const totalWords = allTextEntries.reduce((sum, item) => sum + getWordCount(item.body), 0);
+const latestUpdated = [
+  ...articles.map((item) => item.data.updatedDate ?? item.data.pubDate),
+  ...dailyEntries.map((item) => item.data.updatedDate ?? item.data.pubDate),
+  ...books.map((item) => item.data.updatedDate),
+  ...bookProjects.flatMap(({ chapters }) => chapters.map((item) => item.data.pubDate))
+].sort((a, b) => b.getTime() - a.getTime())[0];
+
+const profileLinks = [
+  { label: "GitHub", href: "https://github.com/chengbai" },
+  { label: "Articles", href: "/articles" },
+  { label: "Books", href: "/books" },
+  { label: "Contact", href: "#contact" }
+];
+
+const newsItems = [
+  {
+    date: "Jun, 2026",
+    tag: "Website",
+    text: "Migrated this personal website to GitHub Pages as a public academic profile and knowledge-asset archive."
+  },
+  {
+    date: "Jun, 2026",
+    tag: "AIVC",
+    text: "Prepared a focused learning brief for Westlake AIVC Week 2026, explaining my motivation, current foundation, and open questions."
+  },
+  {
+    date: "Spring, 2026",
+    tag: "Competition",
+    text: "Led a team in the Datawhale multi-agent drug design competition and entered the second round, finishing 34th nationally."
+  },
+  {
+    date: "High school",
+    tag: "Biology",
+    text: "Built a biology olympiad foundation and received provincial first prizes in consecutive years."
+  }
+];
+
+const educationItems = [
+  {
+    title: "High School Student",
+    meta: "Current",
+    text: "School information can be added after the public version is finalized. The current page focuses on growth evidence, reading quality, and knowledge assets."
+  },
+  {
+    title: "Biology Olympiad Training",
+    meta: "Bio foundation",
+    text: "Systematic training in biochemistry, cell biology, genetics, physiology, ecology, and experimental reasoning."
+  }
+];
+
+const experienceItems = [
+  {
+    date: "2026",
+    title: "Team Lead, Multi-agent Drug Design Competition",
+    text: "Completed a project under time pressure, coordinated teammates, and learned to connect AI tooling with life-science problems."
+  },
+  {
+    date: "2026",
+    title: "AI for Biology Self-study",
+    text: "Building foundations in Python, bioinformatics, machine learning, deep learning, reinforcement learning, AIVC, and protein-related omics."
+  },
+  {
+    date: "Ongoing",
+    title: "Knowledge Asset Builder",
+    text: "Turning papers, notes, projects, and reflections into searchable long-form assets instead of scattered short-term notes."
+  }
+];
+
+const researchInterests = [
+  "AI Virtual Cell",
+  "AI Proteomics",
+  "Bioinformatics",
+  "Computational Biology",
+  "Multi-omics",
+  "Protein Design"
+];
+
+const honors = [
+  "Provincial First Prize, National Biology Olympiad for High School Students, two consecutive years.",
+  "National Rank 34 and second-round entry, Datawhale multi-agent drug design competition, 2026.",
+  "Public learning archive with articles, book projects, topic maps, search, RSS, and sitemap."
+];
+---
+<BaseLayout title={siteConfig.title} description={siteConfig.description}>
+  <div class="mx-auto grid max-w-6xl gap-10 lg:grid-cols-[300px_minmax(0,1fr)]">
+    <aside class="lg:sticky lg:top-24 lg:h-fit">
+      <section class="paper overflow-hidden">
+        <div class="border-b border-ink-200 bg-white p-6 dark:border-white/10 dark:bg-white/[0.03]">
+          <div class="mx-auto flex h-36 w-36 items-center justify-center rounded-full border border-ink-200 bg-ink-100 font-serif text-5xl text-ink-700 dark:border-white/10 dark:bg-white/10 dark:text-ink-100">
+            CB
+          </div>
+          <h1 class="mt-5 text-center font-serif text-3xl tracking-normal">白城</h1>
+          <p class="mt-2 text-center font-mono text-xs uppercase tracking-[0.16em] text-ink-500 dark:text-ink-400">Cheng Bai</p>
+          <p class="mt-4 text-center text-sm leading-7 text-ink-600 dark:text-ink-300">
+            High school student interested in AI for Biology, AIVC, bioinformatics, and computational biology.
+          </p>
+        </div>
+
+        <div class="space-y-4 p-6 text-sm">
+          <div>
+            <p class="font-mono text-xs uppercase tracking-[0.16em] text-ink-500 dark:text-ink-400">Current Focus</p>
+            <div class="mt-3 flex flex-wrap gap-2">
+              {researchInterests.map((item) => <span class="focus-pill">{item}</span>)}
+            </div>
+          </div>
+          <div class="border-t border-ink-200 pt-4 dark:border-white/10">
+            <p class="font-mono text-xs uppercase tracking-[0.16em] text-ink-500 dark:text-ink-400">Archive</p>
+            <p class="mt-2 leading-7 text-ink-600 dark:text-ink-300">
+              {articles.length} articles · {books.length} book projects · {collections.length} topic maps · {totalWords.toLocaleString("zh-CN")}+ words
+            </p>
+          </div>
+          <div class="flex flex-wrap gap-2 border-t border-ink-200 pt-4 dark:border-white/10">
+            {profileLinks.map((item) => (
+              <a class="tag-chip transition hover:border-accent-500 hover:text-accent-600 dark:hover:text-accent-400" href={item.href}>{item.label}</a>
+            ))}
+          </div>
+        </div>
+      </section>
+    </aside>
+
+    <div class="space-y-12">
+      <section id="biography" class="section-rule scroll-mt-24 pt-0">
+        <p class="eyebrow">Biography</p>
+        <div class="mt-4 space-y-5 text-base leading-8 text-ink-700 dark:text-ink-200">
+          <p>
+            Hi, I am 白城, a high-school-stage learner building toward AI for Biology. My current interests include AI Virtual Cell, AI proteomics, bioinformatics, computational biology, multi-omics, and protein design.
+          </p>
+          <p>
+            This website is my public knowledge-asset archive. It is designed less like a feed and more like an academic profile plus a reading room: a place to show growth evidence, selected writing, project notes, and the questions I am learning to ask.
+          </p>
+          <p>
+            I am still early in this journey, so I try to keep the boundary honest: competition results and self-study notes are growth signals, not finished research claims. The goal is to make my learning visible, inspectable, and useful for future collaboration.
+          </p>
+        </div>
+        <div class="mt-6 flex flex-wrap gap-3">
+          <a href="/articles/aivc-week-learning-brief/" class="asset-button">AIVC Week learning brief</a>
+          <a href="/knowledge-map" class="asset-button">Knowledge map</a>
+          <a href="/search" class="asset-button">Search archive</a>
+        </div>
+      </section>
+
+      <section id="news" class="section-rule scroll-mt-24">
+        <div class="flex items-end justify-between gap-6">
+          <div>
+            <p class="eyebrow">News</p>
+            <h2 class="mt-2 font-serif text-4xl tracking-normal">Recent updates</h2>
+          </div>
+          <p class="text-sm text-ink-500 dark:text-ink-400">Last updated: {latestUpdated ? formatDate(latestUpdated) : "N/A"}</p>
+        </div>
+        <div class="mt-6 grid gap-4">
+          {newsItems.map((item) => (
+            <article class="grid gap-3 border-b border-ink-200 pb-4 dark:border-white/10 md:grid-cols-[120px_minmax(0,1fr)]">
+              <p class="font-mono text-sm text-ink-500 dark:text-ink-400">{item.date}</p>
+              <p class="leading-7 text-ink-700 dark:text-ink-200">
+                <span class="font-medium text-accent-600 dark:text-accent-400">[{item.tag}]</span> {item.text}
+              </p>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section id="education" class="section-rule scroll-mt-24">
+        <p class="eyebrow">Education</p>
+        <h2 class="mt-2 font-serif text-4xl tracking-normal">Education and training</h2>
+        <div class="mt-6 grid gap-4">
+          {educationItems.map((item) => (
+            <article class="paper grid gap-4 p-5 md:grid-cols-[84px_minmax(0,1fr)]">
+              <div class="flex h-16 w-16 items-center justify-center rounded-lg border border-ink-200 bg-ink-100 font-serif text-2xl dark:border-white/10 dark:bg-white/10">
+                {item.title.slice(0, 1)}
+              </div>
+              <div>
+                <p class="font-mono text-xs uppercase tracking-[0.16em] text-ink-500 dark:text-ink-400">{item.meta}</p>
+                <h3 class="mt-2 font-serif text-2xl tracking-normal">{item.title}</h3>
+                <p class="mt-2 text-sm leading-7 text-ink-600 dark:text-ink-300">{item.text}</p>
+              </div>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section id="experiences" class="section-rule scroll-mt-24">
+        <p class="eyebrow">Experiences</p>
+        <h2 class="mt-2 font-serif text-4xl tracking-normal">Growth experiences</h2>
+        <div class="mt-6 grid gap-5">
+          {experienceItems.map((item) => (
+            <article class="grid gap-4 border-b border-ink-200 pb-5 dark:border-white/10 md:grid-cols-[110px_minmax(0,1fr)]">
+              <p class="font-mono text-sm text-ink-500 dark:text-ink-400">{item.date}</p>
+              <div>
+                <h3 class="font-serif text-2xl tracking-normal">{item.title}</h3>
+                <p class="mt-2 text-sm leading-7 text-ink-600 dark:text-ink-300">{item.text}</p>
+              </div>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section id="assets" class="section-rule scroll-mt-24">
+        <p class="eyebrow">Selected Assets</p>
+        <h2 class="mt-2 font-serif text-4xl tracking-normal">Writing, projects, and knowledge assets</h2>
+        <p class="mt-3 max-w-3xl text-sm leading-7 text-ink-600 dark:text-ink-300">
+          I prefer a small set of readable assets over a large pile of weak posts. The best entries are kept visible here.
+        </p>
+
+        {primaryArticle && (
+          <a href={`/articles/${cleanSlug(primaryArticle.id)}/`} class="paper group mt-6 block p-6 transition hover:-translate-y-1 hover:border-accent-500">
+            <p class="eyebrow">Featured</p>
+            <h3 class="mt-3 font-serif text-3xl tracking-normal transition group-hover:text-accent-600 dark:group-hover:text-accent-400">{primaryArticle.data.title}</h3>
+            <p class="mt-3 text-sm leading-7 text-ink-600 dark:text-ink-300">{primaryArticle.data.description}</p>
+            <div class="mt-4 flex flex-wrap gap-2">
+              {primaryArticle.data.tags.map((tag) => <span class="tag-chip">#{tag}</span>)}
+            </div>
+          </a>
+        )}
+
+        <div class="mt-5 grid gap-4 md:grid-cols-2">
+          {selectedArticles.slice(1).map((article) => (
+            <a href={`/articles/${cleanSlug(article.id)}/`} class="border-y border-ink-200 py-5 transition hover:border-accent-500 hover:text-accent-600 dark:border-white/10 dark:hover:text-accent-400">
+              <time class="font-mono text-xs text-ink-500 dark:text-ink-400" datetime={article.data.pubDate.toISOString()}>{formatDate(article.data.pubDate)}</time>
+              <h3 class="mt-3 font-serif text-2xl tracking-normal">{article.data.title}</h3>
+              <p class="mt-2 text-sm leading-7 text-ink-600 dark:text-ink-300">{article.data.description}</p>
+            </a>
+          ))}
+        </div>
+
+        <div class="mt-8 grid gap-4 md:grid-cols-2">
+          {bookProjects.slice(0, 4).map((project) => (
+            <a href={`/books/${project.slug}/`} class="paper p-5 transition hover:-translate-y-1 hover:border-accent-500">
+              <p class="font-mono text-xs uppercase tracking-[0.16em] text-ink-500 dark:text-ink-400">{project.plan.status} · {project.progress}%</p>
+              <h3 class="mt-3 font-serif text-2xl tracking-normal">{project.book.data.title}</h3>
+              <p class="mt-2 text-sm leading-7 text-ink-600 dark:text-ink-300">{project.plan.promise}</p>
+            </a>
+          ))}
+        </div>
+      </section>
+
+      <section id="honors" class="section-rule scroll-mt-24">
+        <p class="eyebrow">Honors & Awards</p>
+        <h2 class="mt-2 font-serif text-4xl tracking-normal">Selected signals</h2>
+        <ul class="mt-6 space-y-4 text-sm leading-7 text-ink-700 dark:text-ink-200">
+          {honors.map((item) => (
+            <li class="border-b border-ink-200 pb-4 dark:border-white/10">{item}</li>
+          ))}
+        </ul>
+      </section>
+
+      <section id="contact" class="section-rule scroll-mt-24">
+        <p class="eyebrow">Contact</p>
+        <h2 class="mt-2 font-serif text-4xl tracking-normal">Open to learning and discussion</h2>
+        <p class="mt-4 max-w-3xl text-sm leading-7 text-ink-600 dark:text-ink-300">
+          Public contact details, CV, school information, and proof links can be added here before formal outreach. GitHub profile: <a class="text-accent-600 hover:text-accent-500 dark:text-accent-400" href="https://github.com/chengbai">github.com/chengbai</a>.
+        </p>
+      </section>
+    </div>
+  </div>
+</BaseLayout>

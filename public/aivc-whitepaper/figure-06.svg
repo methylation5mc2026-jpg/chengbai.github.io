@@ -1,0 +1,50 @@
+<svg viewBox="-24 -24 548 193" xmlns="http://www.w3.org/2000/svg" width="548" height="193" preserveAspectRatio="xMidYMid meet">
+<rect fill="#f8f9fa" height="145" rx="10" width="500" x="0" y="0"></rect>
+<text fill="#2E75B6" font-family="sans-serif" font-size="11" font-weight="700" text-anchor="middle" x="250" y="18">AI for Biology 关键里程碑（2020-2025）</text>
+<!-- 时间轴 -->
+<line stroke="#ddd" stroke-width="2" x1="40" x2="460" y1="70" y2="70"></line>
+<!-- 2020 -->
+<g transform="translate(60,70)">
+<circle cx="0" cy="0" fill="#1565c0" r="6" stroke="#fff" stroke-width="2"></circle>
+<text fill="#1565c0" font-family="sans-serif" font-size="9" font-weight="700" text-anchor="middle" x="0" y="-14">2020</text>
+<text fill="#555" font-family="sans-serif" font-size="8" text-anchor="middle" x="0" y="18">AlphaFold2</text>
+<text fill="#999" font-family="sans-serif" font-size="7" text-anchor="middle" x="0" y="28">CASP14冠军</text>
+</g>
+<!-- 2021 -->
+<g transform="translate(130,70)">
+<circle cx="0" cy="0" fill="#42a5f5" r="5" stroke="#fff" stroke-width="2"></circle>
+<text fill="#42a5f5" font-family="sans-serif" font-size="9" font-weight="700" text-anchor="middle" x="0" y="-14">2021</text>
+<text fill="#555" font-family="sans-serif" font-size="8" text-anchor="middle" x="0" y="18">RoseTTAFold</text>
+</g>
+<!-- 2022 -->
+<g transform="translate(200,70)">
+<circle cx="0" cy="0" fill="#ffa726" r="5" stroke="#fff" stroke-width="2"></circle>
+<text fill="#e65100" font-family="sans-serif" font-size="9" font-weight="700" text-anchor="middle" x="0" y="-14">2022</text>
+<text fill="#555" font-family="sans-serif" font-size="8" text-anchor="middle" x="0" y="18">ProteinMPNN</text>
+</g>
+<!-- 2023 -->
+<g transform="translate(270,70)">
+<circle cx="0" cy="0" fill="#66bb6a" r="5" stroke="#fff" stroke-width="2"></circle>
+<text fill="#2e7d32" font-family="sans-serif" font-size="9" font-weight="700" text-anchor="middle" x="0" y="-14">2023</text>
+<text fill="#555" font-family="sans-serif" font-size="8" text-anchor="middle" x="0" y="18">RFdiffusion</text>
+<text fill="#999" font-family="sans-serif" font-size="7" text-anchor="middle" x="0" y="28">Geneformer</text>
+</g>
+<!-- 2024 -->
+<g transform="translate(350,70)">
+<circle cx="0" cy="0" fill="#ffd54f" r="7" stroke="#f57f17" stroke-width="2"></circle>
+<text fill="#f57f17" font-family="sans-serif" font-size="9" font-weight="700" text-anchor="middle" x="0" y="-14">2024</text>
+<text fill="#555" font-family="sans-serif" font-size="8" text-anchor="middle" x="0" y="18">诺贝尔奖</text>
+<text fill="#999" font-family="sans-serif" font-size="7" text-anchor="middle" x="0" y="28">AF3 · AIVC论文</text>
+<!-- star -->
+<text fill="#f57f17" font-size="12" text-anchor="middle" x="0" y="-25">⭐</text>
+</g>
+<!-- 2025 -->
+<g transform="translate(430,70)">
+<circle cx="0" cy="0" fill="#ab47bc" r="6" stroke="#fff" stroke-width="2"></circle>
+<text fill="#7b1fa2" font-family="sans-serif" font-size="9" font-weight="700" text-anchor="middle" x="0" y="-14">2025</text>
+<text fill="#555" font-family="sans-serif" font-size="8" text-anchor="middle" x="0" y="18">RFdiffusion2</text>
+<text fill="#999" font-family="sans-serif" font-size="7" text-anchor="middle" x="0" y="28">AIVC Challenge</text>
+</g>
+<!-- 底部 -->
+<text fill="#bbb" font-family="sans-serif" font-size="8" text-anchor="middle" x="250" y="140">每一层突破都为下一层提供基础，同时提出更高的数据和算力需求</text>
+</svg>

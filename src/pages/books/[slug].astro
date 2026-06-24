@@ -1,0 +1,124 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { cleanSlug, formatDate, getBookChapters, getLeafSlug, getWordCount } from "../../lib/content";
+import { bookPlans } from "../../lib/bookPlans";
+
+export async function getStaticPaths() {
+  const entries = await getCollection("books");
+  return entries
+    .filter((entry) => entry.data.type === "book")
+    .map((entry) => ({
+      params: { slug: cleanSlug(entry.id) },
+      props: { entry }
+    }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await entry.render();
+const slug = cleanSlug(entry.id);
+const chapters = await getBookChapters(entry.id);
+const firstChapter = chapters[0];
+
+const plan = bookPlans[slug] ?? {
+  status: "持续更新",
+  goal: Math.max(chapters.length + 4, 8),
+  next: "继续补充目录与章节。",
+  audience: "适合对该主题感兴趣的长期读者。",
+  cadence: "建议按目录阅读。"
+};
+
+const progress = Math.min(100, Math.round((chapters.length / plan.goal) * 100));
+const chapterWords = chapters.reduce((sum, chapter) => sum + getWordCount(chapter.body), 0);
+const firstReadUrl = firstChapter ? `/books/${slug}/${getLeafSlug(firstChapter.id)}/` : null;
+---
+<BaseLayout title={`${entry.data.title} | Books`} description={entry.data.description}>
+  <div class="space-y-12">
+    <section class="grid gap-8 border-b border-ink-200 pb-10 dark:border-white/10 lg:grid-cols-[minmax(0,1fr)_360px]">
+      <div>
+        <p class="eyebrow">Book / {plan.status}</p>
+        <h1 class="mt-4 max-w-4xl font-serif text-5xl leading-tight tracking-normal md:text-7xl">{entry.data.title}</h1>
+        <p class="mt-6 max-w-3xl text-base leading-8 text-ink-600 dark:text-ink-300">{entry.data.description}</p>
+        <div class="mt-6 flex flex-wrap gap-2">
+          {entry.data.tags.map((tag: string) => <span class="tag-chip">#{tag}</span>)}
+        </div>
+        <div class="mt-8 flex flex-wrap gap-3">
+          {firstReadUrl && <a href={firstReadUrl} class="asset-button">Start reading</a>}
+          <a href="/books" class="asset-button">Back to shelf</a>
+          <a href="/search" class="asset-button">Search this site</a>
+        </div>
+      </div>
+
+      <aside class="h-fit border-y border-ink-200 py-5 text-sm dark:border-white/10 lg:border-l lg:border-y-0 lg:pl-8">
+        <div class="grid gap-4">
+          <div class="flex justify-between gap-6 border-b border-ink-200 pb-4 dark:border-white/10">
+            <span class="text-ink-500 dark:text-ink-400">Chapters</span>
+            <span>{chapters.length} / {plan.goal}</span>
+          </div>
+          <div class="flex justify-between gap-6 border-b border-ink-200 pb-4 dark:border-white/10">
+            <span class="text-ink-500 dark:text-ink-400">Progress</span>
+            <span>{progress}%</span>
+          </div>
+          <div class="progress-track">
+            <span class="progress-fill" style={`width:${progress}%`}></span>
+          </div>
+          <div class="flex justify-between gap-6 border-b border-ink-200 py-4 dark:border-white/10">
+            <span class="text-ink-500 dark:text-ink-400">Words</span>
+            <span>{chapterWords.toLocaleString("zh-CN")}+</span>
+          </div>
+          <div class="flex justify-between gap-6 border-b border-ink-200 pb-4 dark:border-white/10">
+            <span class="text-ink-500 dark:text-ink-400">Updated</span>
+            <span>{formatDate(entry.data.updatedDate)}</span>
+          </div>
+          <div>
+            <p class="text-ink-500 dark:text-ink-400">For</p>
+            <p class="mt-2 leading-7">{plan.audience}</p>
+          </div>
+        </div>
+      </aside>
+    </section>
+
+    <section class="grid gap-10 lg:grid-cols-[minmax(0,1fr)_360px]">
+      <div class="space-y-8">
+        <div class="prose-shell">
+          <Content />
+        </div>
+
+        <div class="grid gap-4 border-y border-ink-200 py-6 dark:border-white/10 md:grid-cols-2">
+          <div>
+            <p class="eyebrow">Next Update</p>
+            <p class="mt-3 text-sm leading-7 text-ink-600 dark:text-ink-300">{plan.next}</p>
+          </div>
+          <div>
+            <p class="eyebrow">Reading Mode</p>
+            <p class="mt-3 text-sm leading-7 text-ink-600 dark:text-ink-300">{plan.cadence}</p>
+          </div>
+        </div>
+      </div>
+
+      <aside class="h-fit border-t border-ink-200 pt-6 dark:border-white/10 lg:sticky lg:top-24">
+        <h2 class="font-serif text-3xl">Contents</h2>
+        <div class="mt-6 grid gap-3">
+          {chapters.length > 0 ? (
+            chapters.map((chapter, index) => (
+              <a href={`/books/${slug}/${getLeafSlug(chapter.id)}/`} class="chapter-card group">
+                <span class="font-mono text-sm text-ink-500 dark:text-ink-400">{String(index + 1).padStart(2, "0")}</span>
+                <span>
+                  <span class="block font-serif text-xl transition group-hover:text-accent-600 dark:group-hover:text-accent-400">{chapter.data.title}</span>
+                  <span class="mt-1 block text-sm leading-6 text-ink-500 dark:text-ink-400">{chapter.data.description}</span>
+                  <span class="mt-3 block font-mono text-xs uppercase tracking-[0.18em] text-ink-500 dark:text-ink-400">
+                    {getWordCount(chapter.body).toLocaleString("zh-CN")} words / Read →
+                  </span>
+                </span>
+              </a>
+            ))
+          ) : (
+            <div class="border-y border-ink-200 py-5 text-sm leading-7 text-ink-600 dark:border-white/10 dark:text-ink-300">
+              这本书还没有正式章节。可以先把目录搭出来，再逐章扩写。
+            </div>
+          )}
+        </div>
+      </aside>
+    </section>
+  </div>
+</BaseLayout>

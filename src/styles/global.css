@@ -1,0 +1,339 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: light;
+}
+
+.dark {
+  color-scheme: dark;
+}
+
+html {
+  @apply scroll-smooth bg-ink-50 text-ink-900;
+}
+
+html.dark {
+  @apply bg-ink-900 text-ink-100;
+}
+
+body {
+  @apply font-sans antialiased;
+  background-image:
+    linear-gradient(to right, rgba(64, 58, 52, 0.045) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(64, 58, 52, 0.035) 1px, transparent 1px);
+  background-size: 56px 56px;
+}
+
+.container-shell {
+  @apply mx-auto w-full max-w-[1500px] px-5 md:px-8;
+}
+
+.paper {
+  @apply rounded-lg border border-ink-200/80 bg-white/80 shadow-paper backdrop-blur dark:border-white/10 dark:bg-white/[0.04] dark:shadow-none;
+}
+
+.eyebrow {
+  @apply font-mono text-xs uppercase tracking-[0.18em] text-accent-600 dark:text-accent-400;
+}
+
+.prose-shell {
+  @apply prose max-w-reading prose-headings:font-serif prose-headings:text-ink-900 prose-headings:tracking-normal prose-p:text-[1.07rem] prose-p:leading-8 prose-li:leading-8 prose-a:text-accent-600 prose-a:no-underline hover:prose-a:text-accent-500 prose-strong:text-ink-900 prose-code:rounded prose-code:bg-ink-100 prose-code:px-1 prose-code:py-0.5 prose-pre:rounded-lg prose-pre:border prose-pre:border-ink-200 prose-pre:bg-ink-900 prose-blockquote:border-accent-500 dark:prose-invert dark:prose-headings:text-white dark:prose-strong:text-white dark:prose-code:bg-white/10 dark:prose-pre:border-white/10;
+}
+
+.toc-link {
+  @apply block border-l border-transparent py-1 pl-3 text-sm text-ink-500 transition hover:border-accent-500 hover:text-ink-900 dark:text-ink-400 dark:hover:text-white;
+}
+
+.nav-link {
+  @apply text-sm text-ink-600 transition hover:text-ink-900 dark:text-ink-300 dark:hover:text-white;
+}
+
+.tag-chip {
+  @apply inline-flex items-center rounded-full border border-ink-200 px-3 py-1 text-xs text-ink-600 dark:border-white/10 dark:text-ink-300;
+}
+
+.section-rule {
+  @apply border-t border-ink-200 pt-8 dark:border-white/10;
+}
+
+.asset-button {
+  @apply inline-flex border border-ink-300 px-5 py-3 text-sm font-medium transition hover:-translate-y-0.5 hover:border-accent-500 hover:text-accent-600 dark:border-white/10 dark:hover:text-accent-400;
+}
+
+.focus-pill {
+  @apply inline-flex rounded-full border border-ink-200 bg-white/50 px-3 py-1 text-xs text-ink-600 dark:border-white/10 dark:bg-white/[0.04] dark:text-ink-300;
+}
+
+.route-card {
+  @apply border-y border-ink-200 py-6 transition duration-300 hover:-translate-y-1 hover:border-accent-500 hover:text-accent-600 dark:border-white/10 dark:hover:text-accent-400;
+}
+
+.writing-card {
+  @apply grid gap-6 border-b border-ink-200 pb-6 dark:border-white/10 lg:grid-cols-[minmax(0,1fr)_360px];
+}
+
+.chapter-card {
+  @apply grid grid-cols-[48px_minmax(0,1fr)] gap-4 border-b border-ink-200 pb-4 transition hover:border-accent-500 dark:border-white/10;
+}
+
+.ops-card {
+  @apply border-y border-ink-200 py-6 dark:border-white/10;
+}
+
+.progress-track {
+  @apply h-1.5 overflow-hidden rounded-full bg-ink-200 dark:bg-white/10;
+}
+
+.progress-fill {
+  @apply block h-full rounded-full bg-accent-500 transition-all duration-500 dark:bg-accent-400;
+}
+
+.knowledge-ticker {
+  @apply overflow-hidden border-y border-ink-200 py-4 text-sm text-ink-600 dark:border-white/10 dark:text-ink-300;
+}
+
+.ticker-track {
+  display: flex;
+  width: max-content;
+  gap: 2rem;
+  animation: ticker-scroll 34s linear infinite;
+}
+
+.ticker-track span {
+  white-space: nowrap;
+}
+
+@keyframes ticker-scroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ticker-track {
+    animation: none;
+  }
+}
+
+.reader-shell {
+  --reader-size: 1.08rem;
+  --reader-width: 74ch;
+}
+
+.reader-body {
+  max-width: var(--reader-width);
+}
+
+.reader-body .prose-shell {
+  font-size: var(--reader-size);
+}
+
+.reader-body .prose-shell img,
+.reader-body .prose-shell svg {
+  width: 100%;
+  max-width: min(100%, 860px);
+  height: auto;
+  max-height: none;
+  object-fit: contain;
+  margin-left: auto;
+  margin-right: auto;
+  border: 1px solid rgba(214, 208, 196, 0.85);
+  background: rgba(255, 255, 255, 0.72);
+}
+
+.reader-body .prose-shell p:has(img) {
+  max-width: 100%;
+}
+
+.bilingual-reader-body {
+  --reader-width: min(100%, 1120px);
+}
+
+.bilingual-reader-body .prose-shell {
+  max-width: none;
+}
+
+.bilingual-reader-body .prose-shell > :not(.bilingual-reader):not(.bilingual-chapter-note) {
+  max-width: 74ch;
+}
+
+.bilingual-source-grid {
+  @apply my-8 grid gap-4 md:grid-cols-2;
+}
+
+.bilingual-source-card {
+  @apply grid gap-2 border border-ink-200 bg-white/70 p-5 text-ink-800 transition hover:-translate-y-1 hover:border-accent-500 hover:text-accent-600 dark:border-white/10 dark:bg-white/[0.04] dark:text-ink-100 dark:hover:text-accent-400;
+}
+
+.bilingual-source-card span,
+.bilingual-source-card small {
+  @apply font-mono text-xs uppercase tracking-[0.16em] text-ink-500 dark:text-ink-400;
+}
+
+.bilingual-source-card strong {
+  @apply font-serif text-2xl font-normal tracking-normal;
+}
+
+.bilingual-chapter-note {
+  @apply mb-8 border-y border-ink-200 py-5 text-sm leading-7 text-ink-600 dark:border-white/10 dark:text-ink-300;
+}
+
+.bilingual-chapter-note a {
+  @apply text-accent-600 hover:text-accent-500 dark:text-accent-400;
+}
+
+.bilingual-reader {
+  @apply grid gap-8;
+  max-width: none;
+}
+
+.bilingual-page {
+  @apply scroll-mt-24 border-b border-ink-200 pb-8 dark:border-white/10;
+}
+
+.bilingual-page-head {
+  @apply mb-4 flex items-center justify-between font-mono text-xs uppercase tracking-[0.18em] text-ink-500 dark:text-ink-400;
+}
+
+.bilingual-page-head a {
+  @apply transition hover:text-accent-600 dark:hover:text-accent-400;
+}
+
+.bilingual-grid {
+  @apply grid gap-4 lg:grid-cols-2;
+}
+
+.bilingual-column {
+  @apply rounded-lg border border-ink-200/80 bg-white/70 p-5 text-sm leading-7 shadow-paper dark:border-white/10 dark:bg-white/[0.04] dark:shadow-none;
+}
+
+.bilingual-column h2 {
+  @apply mb-4 font-mono text-xs uppercase tracking-[0.18em] text-accent-600 dark:text-accent-400;
+}
+
+.bilingual-column p {
+  @apply mb-4 text-ink-700 dark:text-ink-200;
+}
+
+.bilingual-column p:last-child {
+  @apply mb-0;
+}
+
+.bilingual-column[lang="en"] p {
+  @apply font-serif text-[1rem] leading-8;
+}
+
+.bilingual-column[lang="zh-CN"] p {
+  @apply text-[0.98rem] leading-8;
+}
+
+.facsimile-reader {
+  @apply grid gap-10;
+  max-width: none;
+}
+
+.facsimile-page {
+  @apply scroll-mt-24 border-b border-ink-200 pb-10 dark:border-white/10;
+}
+
+.facsimile-page-head {
+  @apply mb-4 flex items-center justify-between font-mono text-xs uppercase tracking-[0.18em] text-ink-500 dark:text-ink-400;
+}
+
+.facsimile-page-head a {
+  @apply transition hover:text-accent-600 dark:hover:text-accent-400;
+}
+
+.facsimile-grid {
+  @apply grid gap-5 xl:grid-cols-2;
+}
+
+.facsimile-panel {
+  @apply m-0 overflow-hidden rounded-lg border border-ink-200 bg-white shadow-paper dark:border-white/10 dark:bg-white/[0.04] dark:shadow-none;
+}
+
+.facsimile-panel figcaption {
+  @apply border-b border-ink-200 bg-ink-50 px-4 py-3 font-mono text-xs uppercase tracking-[0.16em] text-ink-500 dark:border-white/10 dark:bg-white/[0.03] dark:text-ink-400;
+}
+
+.facsimile-panel img {
+  @apply block h-auto w-full max-w-none border-0 bg-white;
+}
+
+.book-spine {
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+}
+
+.book-shelf {
+  perspective: 1400px;
+}
+
+.book-card {
+  position: relative;
+  isolation: isolate;
+  color: var(--book-fg);
+  background:
+    linear-gradient(90deg, var(--book-edge) 0 10px, rgba(255, 255, 255, 0.22) 10px 12px, transparent 12px),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.2), transparent 26%, rgba(0, 0, 0, 0.24)),
+    var(--book-bg);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  box-shadow:
+    inset -16px 0 28px rgba(0, 0, 0, 0.2),
+    inset 5px 0 14px rgba(255, 255, 255, 0.12),
+    0 18px 28px rgba(36, 31, 24, 0.18);
+  transform: translateY(0) rotateX(0deg);
+  transform-origin: bottom center;
+  transition:
+    transform 360ms cubic-bezier(0.2, 0.8, 0.2, 1),
+    box-shadow 360ms ease,
+    filter 360ms ease;
+}
+
+.book-card::before {
+  content: "";
+  position: absolute;
+  inset: 12px 10px;
+  z-index: -1;
+  border: 1px solid color-mix(in srgb, var(--book-accent) 62%, transparent);
+  opacity: 0.56;
+  pointer-events: none;
+}
+
+.book-card::after {
+  content: "";
+  position: absolute;
+  inset: auto 18px 18px;
+  height: 2px;
+  background: var(--book-accent);
+  opacity: 0.76;
+  pointer-events: none;
+}
+
+.book-card:hover {
+  z-index: 10;
+  filter: saturate(1.08);
+  transform: translateY(-33%) rotateZ(-1deg);
+  box-shadow:
+    inset -16px 0 28px rgba(0, 0, 0, 0.2),
+    inset 5px 0 14px rgba(255, 255, 255, 0.14),
+    0 34px 48px rgba(36, 31, 24, 0.28);
+}
+
+.book-card:focus-visible {
+  outline: 3px solid var(--book-accent);
+  outline-offset: 4px;
+}
+
+.reader-control-button {
+  @apply h-9 min-w-9 border border-ink-300 px-2 font-mono text-xs text-ink-600 transition hover:border-accent-500 hover:text-accent-600 dark:border-white/10 dark:text-ink-300 dark:hover:text-accent-400;
+}
+
+::selection {
+  @apply bg-accent-500 text-white;
+}

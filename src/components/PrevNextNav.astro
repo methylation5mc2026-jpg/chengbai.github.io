@@ -1,0 +1,23 @@
+---
+interface LinkItem {
+  href: string;
+  title: string;
+}
+
+interface Props {
+  prev?: LinkItem | null;
+  next?: LinkItem | null;
+}
+
+const { prev, next } = Astro.props;
+---
+<div class="grid gap-4 md:grid-cols-2">
+  <a class="paper min-h-28 p-5 transition hover:border-accent-500" href={prev?.href ?? "#"}>
+    <p class="text-xs uppercase tracking-[0.18em] text-ink-500 dark:text-ink-400">上一篇</p>
+    <p class={`mt-3 font-serif text-xl ${prev ? "" : "opacity-40"}`}>{prev?.title ?? "没有了"}</p>
+  </a>
+  <a class="paper min-h-28 p-5 transition hover:border-accent-500" href={next?.href ?? "#"}>
+    <p class="text-xs uppercase tracking-[0.18em] text-ink-500 dark:text-ink-400">下一篇</p>
+    <p class={`mt-3 font-serif text-xl ${next ? "" : "opacity-40"}`}>{next?.title ?? "没有了"}</p>
+  </a>
+</div>

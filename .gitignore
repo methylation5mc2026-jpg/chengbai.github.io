@@ -1,0 +1,12 @@
+node_modules/
+dist/
+.astro/
+
+*.log
+server.out.log
+server.err.log
+preview-server.out.log
+preview-server.err.log
+
+.DS_Store
+Thumbs.db

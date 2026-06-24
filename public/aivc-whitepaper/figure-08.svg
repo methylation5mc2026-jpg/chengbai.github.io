@@ -1,0 +1,39 @@
+<svg viewBox="-24 -24 548 268" xmlns="http://www.w3.org/2000/svg" width="548" height="268" preserveAspectRatio="xMidYMid meet">
+<rect fill="#f8f9fa" height="220" rx="10" width="500" x="0" y="0"></rect>
+<text fill="#c0392b" font-family="sans-serif" font-size="12" font-weight="700" text-anchor="middle" x="250" y="22">AI时代生命科学研究者的"T型能力模型"</text>
+<!-- T横 -->
+<rect fill="#e3f2fd" height="40" rx="6" stroke="#42a5f5" stroke-width="2" width="420" x="40" y="45"></rect>
+<text fill="#1565c0" font-family="sans-serif" font-size="12" font-weight="700" text-anchor="middle" x="250" y="62">横向：AI工具链理解与使用能力</text>
+<text fill="#666" font-family="sans-serif" font-size="9" text-anchor="middle" x="250" y="77">AlphaFold · RFdiffusion · ProteinMPNN · scGPT · PyMOL · Scanpy · LLM ...</text>
+<!-- T竖 -->
+<rect fill="#fce4ec" height="110" rx="6" stroke="#ef5350" stroke-width="2" width="100" x="200" y="85"></rect>
+<text fill="#c62828" font-family="sans-serif" font-size="12" font-weight="700" text-anchor="middle" x="250" y="115">纵向</text>
+<text fill="#c62828" font-family="sans-serif" font-size="10" text-anchor="middle" x="250" y="133">领域专业</text>
+<text fill="#c62828" font-family="sans-serif" font-size="10" text-anchor="middle" x="250" y="148">知识深度</text>
+<text fill="#888" font-family="sans-serif" font-size="9" text-anchor="middle" x="250" y="168">结构生物学</text>
+<text fill="#888" font-family="sans-serif" font-size="9" text-anchor="middle" x="250" y="181">蛋白质工程</text>
+<!-- 横向工具图标标注 -->
+<g transform="translate(55,50)">
+<circle cx="0" cy="15" fill="#42a5f5" opacity="0.5" r="3"></circle>
+<circle cx="30" cy="15" fill="#42a5f5" opacity="0.5" r="3"></circle>
+<circle cx="60" cy="15" fill="#42a5f5" opacity="0.5" r="3"></circle>
+</g>
+<g transform="translate(385,50)">
+<circle cx="0" cy="15" fill="#42a5f5" opacity="0.5" r="3"></circle>
+<circle cx="30" cy="15" fill="#42a5f5" opacity="0.5" r="3"></circle>
+<circle cx="55" cy="15" fill="#42a5f5" opacity="0.5" r="3"></circle>
+</g>
+<!-- 标注 -->
+<text fill="#aaa" font-family="sans-serif" font-size="9" text-anchor="end" x="115" y="120">广度</text>
+<line marker-end="url(#arrowTL)" stroke="#aaa" stroke-width="1" x1="55" x2="85" y1="62" y2="62"></line>
+<line marker-end="url(#arrowTR)" stroke="#aaa" stroke-width="1" x1="445" x2="415" y1="62" y2="62"></line>
+<text fill="#aaa" font-family="sans-serif" font-size="9" x="315" y="185">深度 ↓</text>
+<!-- 核心心态 -->
+<g transform="translate(60,200)">
+<text fill="#555" font-family="sans-serif" font-size="10" text-anchor="middle" x="190" y="10">核心心态：<tspan fill="#c0392b" font-weight="700">批判性整合</tspan> — 既不盲目崇拜AI，也不闭门排斥</text>
+</g>
+<defs>
+<marker id="arrowTL" markerHeight="5" markerWidth="6" orient="auto" refX="0" refY="2.5"><path d="M6,0 L0,2.5 L6,5" fill="#aaa"></path></marker>
+<marker id="arrowTR" markerHeight="5" markerWidth="6" orient="auto" refX="0" refY="2.5"><path d="M6,0 L0,2.5 L6,5" fill="#aaa"></path></marker>
+</defs>
+</svg>

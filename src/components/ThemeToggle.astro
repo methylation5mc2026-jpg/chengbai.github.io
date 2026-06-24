@@ -1,0 +1,22 @@
+<button
+  class="inline-flex h-10 w-10 items-center justify-center rounded-full border border-ink-200 text-sm text-ink-600 transition hover:border-accent-500 hover:text-ink-900 dark:border-white/10 dark:text-ink-300 dark:hover:text-white"
+  type="button"
+  aria-label="切换深色模式"
+  data-theme-toggle
+>
+  <span class="dark:hidden">◐</span>
+  <span class="hidden dark:inline">◑</span>
+</button>
+
+<script is:inline>
+  const root = document.documentElement;
+  const saved = localStorage.getItem("theme");
+  if (saved === "dark") {
+    root.classList.add("dark");
+  }
+
+  document.querySelector("[data-theme-toggle]")?.addEventListener("click", () => {
+    root.classList.toggle("dark");
+    localStorage.setItem("theme", root.classList.contains("dark") ? "dark" : "light");
+  });
+</script>

@@ -1,0 +1,39 @@
+<svg viewBox="-24 -24 548 228" xmlns="http://www.w3.org/2000/svg" width="548" height="228" preserveAspectRatio="xMidYMid meet">
+<rect fill="#f8f9fa" height="180" rx="10" width="500" x="0" y="0"></rect>
+<text fill="#2E75B6" font-family="sans-serif" font-size="12" font-weight="700" text-anchor="middle" x="250" y="20">AI+生物技术领域重大融资（2024-2025）</text>
+<!-- Bar chart -->
+<g transform="translate(60,35)">
+<!-- Y axis -->
+<line stroke="#ddd" stroke-width="1" x1="0" x2="0" y1="0" y2="115"></line>
+<text fill="#aaa" font-family="sans-serif" font-size="8" text-anchor="end" x="-5" y="5">$B</text>
+<!-- Grid lines -->
+<line stroke="#f0f0f0" stroke-width="0.5" x1="0" x2="380" y1="23" y2="23"></line><text fill="#ccc" font-family="sans-serif" font-size="7" text-anchor="end" x="-5" y="26">10</text>
+<line stroke="#f0f0f0" stroke-width="0.5" x1="0" x2="380" y1="46" y2="46"></line>
+<line stroke="#f0f0f0" stroke-width="0.5" x1="0" x2="380" y1="69" y2="69"></line>
+<line stroke="#f0f0f0" stroke-width="0.5" x1="0" x2="380" y1="92" y2="92"></line>
+<!-- Biopharma VC total -->
+<rect fill="url(#grad1)" height="112" opacity="0.85" rx="4" width="55" x="15" y="0"></rect>
+<text fill="#1565c0" font-family="sans-serif" font-size="10" font-weight="700" text-anchor="middle" x="42" y="-5">$260亿</text>
+<text fill="#555" font-family="sans-serif" font-size="9" text-anchor="middle" x="42" y="125">生物VC总额</text>
+<text fill="#999" font-family="sans-serif" font-size="8" text-anchor="middle" x="42" y="135">2024</text>
+<!-- Xaira -->
+<rect fill="#e67e22" height="22" opacity="0.85" rx="4" width="55" x="100" y="90"></rect>
+<text fill="#e67e22" font-family="sans-serif" font-size="10" font-weight="700" text-anchor="middle" x="128" y="-5+85">&gt;$10亿</text>
+<text fill="#555" font-family="sans-serif" font-size="9" text-anchor="middle" x="128" y="125">Xaira</text>
+<text fill="#999" font-family="sans-serif" font-size="8" text-anchor="middle" x="128" y="135">A轮 2024</text>
+<!-- EvolutionaryScale -->
+<rect fill="#ab47bc" height="13" opacity="0.85" rx="4" width="55" x="185" y="99"></rect>
+<text fill="#ab47bc" font-family="sans-serif" font-size="10" font-weight="700" text-anchor="middle" x="212" y="94">$1.42亿</text>
+<text fill="#555" font-family="sans-serif" font-size="8" text-anchor="middle" x="212" y="125">EvolutionaryScale</text>
+<text fill="#999" font-family="sans-serif" font-size="8" text-anchor="middle" x="212" y="135">种子轮 2024</text>
+<!-- Profluent -->
+<rect fill="#2e7d32" height="12" opacity="0.85" rx="4" width="55" x="270" y="100"></rect>
+<text fill="#2e7d32" font-family="sans-serif" font-size="10" font-weight="700" text-anchor="middle" x="298" y="95">$1.06亿</text>
+<text fill="#555" font-family="sans-serif" font-size="9" text-anchor="middle" x="298" y="125">Profluent</text>
+<text fill="#999" font-family="sans-serif" font-size="8" text-anchor="middle" x="298" y="135">2025 (Bezos)</text>
+</g>
+<text fill="#aaa" font-family="sans-serif" font-size="9" text-anchor="middle" x="250" y="174">数据来源：JPMorgan 2024 Report · Fierce Biotech · IntuitionLabs [24,25]</text>
+<defs>
+<lineargradient id="grad1" x1="0" x2="0" y1="0" y2="1"><stop offset="0%" stop-color="#42a5f5"></stop><stop offset="100%" stop-color="#1565c0"></stop></lineargradient>
+</defs>
+</svg>

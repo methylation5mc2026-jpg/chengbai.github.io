@@ -1,0 +1,27 @@
+---
+import ThemeToggle from "./ThemeToggle.astro";
+import { siteConfig } from "../site.config";
+
+const links = siteConfig.nav;
+---
+<header class="sticky top-0 z-30 border-b border-ink-200/80 bg-ink-50/90 backdrop-blur dark:border-white/10 dark:bg-ink-900/85">
+  <div class="container-shell flex min-h-16 flex-wrap items-center justify-between gap-x-6 gap-y-3 py-3">
+    <a href="/" class="flex items-baseline gap-2 font-serif text-xl tracking-normal">
+      <span>{siteConfig.name}</span>
+      <span class="font-mono text-xs uppercase text-ink-500 dark:text-ink-400">AI for Biology Assets</span>
+    </a>
+    <div class="flex items-center gap-4">
+      <nav class="hidden gap-4 md:flex">
+        {links.map((link) => (
+          <a class="nav-link whitespace-nowrap" href={link.href}>{link.label}</a>
+        ))}
+      </nav>
+      <ThemeToggle />
+    </div>
+    <nav class="order-3 -mx-1 flex w-full gap-4 overflow-x-auto border-t border-ink-200/70 px-1 pt-3 md:hidden">
+      {links.map((link) => (
+        <a class="nav-link whitespace-nowrap" href={link.href}>{link.label}</a>
+      ))}
+    </nav>
+  </div>
+</header>

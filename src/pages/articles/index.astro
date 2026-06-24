@@ -1,0 +1,39 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import SectionHeading from "../../components/SectionHeading.astro";
+import { cleanSlug, formatDate, getArticles, groupArticlesByYear } from "../../lib/content";
+
+const articles = await getArticles();
+const grouped = groupArticlesByYear(articles);
+const years = Object.keys(grouped).sort((a, b) => Number(b) - Number(a));
+---
+<BaseLayout title="文章 | 白城 AI for Biology Knowledge Assets">
+  <SectionHeading title="精选文章" description="少量、可复读、能展示问题意识和成长轨迹的公开写作。" />
+  <div class="space-y-10">
+    {years.map((year) => (
+      <section>
+        <h2 class="mb-4 font-serif text-3xl">{year}</h2>
+        <div class="space-y-4">
+          {grouped[year].map((article) => (
+            <article class="paper p-6">
+              <div class="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
+                <div class="space-y-3">
+                  <h3 class="font-serif text-2xl">
+                    <a href={`/articles/${cleanSlug(article.id)}/`} class="hover:text-accent-600 dark:hover:text-accent-400">{article.data.title}</a>
+                  </h3>
+                  <p class="text-sm leading-7 text-ink-600 dark:text-ink-300">{article.data.description}</p>
+                  <div class="flex flex-wrap gap-2">
+                    {article.data.tags.map((tag: string) => <span class="tag-chip">#{tag}</span>)}
+                  </div>
+                </div>
+                <time class="text-sm text-ink-500 dark:text-ink-400" datetime={article.data.pubDate.toISOString()}>
+                  {formatDate(article.data.pubDate)}
+                </time>
+              </div>
+            </article>
+          ))}
+        </div>
+      </section>
+    ))}
+  </div>
+</BaseLayout>

@@ -1,0 +1,36 @@
+---
+interface Props {
+  pages: number[];
+}
+
+const { pages } = Astro.props;
+const pad = (page: number) => String(page).padStart(2, "0");
+---
+<div class="facsimile-reader">
+  {pages.map((page) => (
+    <section class="facsimile-page" id={`page-${page}`}>
+      <div class="facsimile-page-head">
+        <span>原文第 {page} 页 / Page {page}</span>
+        <a href={`#page-${page}`}>#</a>
+      </div>
+      <div class="facsimile-grid">
+        <figure class="facsimile-panel">
+          <figcaption>English Original</figcaption>
+          <img
+            src={`/assets/books/founders-playbook/pages/en-${pad(page)}.png`}
+            alt={`The Founder's Playbook English original page ${page}`}
+            loading="lazy"
+          />
+        </figure>
+        <figure class="facsimile-panel">
+          <figcaption>中文原文</figcaption>
+          <img
+            src={`/assets/books/founders-playbook/pages/zh-${pad(page)}.png`}
+            alt={`创始人行动手册中文原文第 ${page} 页`}
+            loading="lazy"
+          />
+        </figure>
+      </div>
+    </section>
+  ))}
+</div>
