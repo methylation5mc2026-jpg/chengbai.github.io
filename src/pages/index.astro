@@ -30,11 +30,31 @@ const latestUpdated = [
   ...bookProjects.flatMap(({ chapters }) => chapters.map((item) => item.data.pubDate))
 ].sort((a, b) => b.getTime() - a.getTime())[0];
 
-const profileLinks = [
-  { label: "GitHub", href: "https://github.com/chengbai" },
-  { label: "AIVC Whitepaper", href: "/books/aivc-whitepaper" },
-  { label: "Books", href: "/books" },
-  { label: "Contact", href: "#contact" }
+const socialLinks = [
+  {
+    label: "GitHub",
+    href: "https://github.com/methylation5mc2026-jpg",
+    color: "#111111",
+    icon: "github"
+  },
+  {
+    label: "LinkedIn",
+    href: "https://www.linkedin.com/in/%E5%9F%8E-%E7%99%BD-302529419/",
+    color: "#0a66c2",
+    icon: "linkedin"
+  },
+  {
+    label: "X",
+    href: "https://x.com/cheng_bai89213",
+    color: "#111111",
+    icon: "x"
+  },
+  {
+    label: "WeChat",
+    href: "/assets/profile/wechat-qr.jpg",
+    color: "#07c160",
+    icon: "wechat"
+  }
 ];
 
 const newsItems = [
@@ -129,6 +149,38 @@ const honors = [
           <p class="mt-4 text-center text-sm leading-7 text-ink-600 dark:text-ink-300">
             High school student interested in AI for Biology, AIVC, bioinformatics, and computational biology.
           </p>
+          <div class="social-media mt-5" aria-label="Social profiles">
+            {socialLinks.map((item) => (
+              <a
+                class="social-button"
+                href={item.href}
+                target="_blank"
+                rel="noreferrer"
+                style={`--social-accent:${item.color}`}
+                aria-label={item.label}
+                title={item.label}
+              >
+                <span class="social-fill" aria-hidden="true"></span>
+                <svg viewBox="0 0 24 24" aria-hidden="true" class="social-icon-svg">
+                  {item.icon === "github" && (
+                    <path d="M12 2.25c-5.39 0-9.75 4.36-9.75 9.75 0 4.31 2.79 7.96 6.66 9.25.49.09.67-.21.67-.47v-1.82c-2.71.59-3.28-1.15-3.28-1.15-.44-1.13-1.08-1.43-1.08-1.43-.89-.61.07-.6.07-.6.98.07 1.5 1.01 1.5 1.01.87 1.49 2.28 1.06 2.84.81.09-.63.34-1.06.62-1.31-2.16-.25-4.43-1.08-4.43-4.82 0-1.06.38-1.94 1.01-2.62-.1-.25-.44-1.24.1-2.58 0 0 .82-.26 2.68 1 .78-.22 1.61-.33 2.44-.33.83 0 1.66.11 2.44.33 1.86-1.26 2.68-1 2.68-1 .54 1.34.2 2.33.1 2.58.63.68 1.01 1.55 1.01 2.62 0 3.75-2.28 4.57-4.45 4.81.35.3.66.9.66 1.82v2.7c0 .26.18.57.68.47A9.75 9.75 0 0 0 21.75 12c0-5.39-4.36-9.75-9.75-9.75Z" />
+                  )}
+                  {item.icon === "linkedin" && (
+                    <path d="M5.37 8.84H2.56v9.03h2.81V8.84ZM3.97 4.37c-.9 0-1.62.73-1.62 1.62s.72 1.62 1.62 1.62c.89 0 1.62-.73 1.62-1.62S4.86 4.37 3.97 4.37Zm12.22 4.25c-1.38 0-2.31.76-2.69 1.48h-.04V8.84h-2.69v9.03h2.81v-4.47c0-1.18.22-2.32 1.68-2.32 1.44 0 1.46 1.35 1.46 2.39v4.4h2.81v-4.96c0-2.43-.52-4.29-3.34-4.29ZM9.11 8.84H6.31v9.03h2.8V8.84Z" />
+                  )}
+                  {item.icon === "x" && (
+                    <path d="M14.28 10.16 22.03 1.5h-1.84l-6.73 7.52L8.09 1.5H1.9l8.13 11.39-8.13 9.09h1.84l7.1-7.94 5.67 7.94h6.19l-8.42-11.82Zm-2.51 2.81-.82-1.13L4.39 2.83h2.82l5.29 7.26.82 1.13 6.88 9.45h-2.82l-5.61-7.7Z" />
+                  )}
+                  {item.icon === "wechat" && (
+                    <>
+                      <path d="M9.25 5.05c-4.02 0-7.28 2.68-7.28 5.98 0 1.87 1.05 3.54 2.69 4.63l-.6 2.12 2.47-1.24c.84.29 1.75.45 2.72.45.3 0 .6-.02.89-.05a5.74 5.74 0 0 1-.35-1.97c0-3.01 2.73-5.45 6.13-5.45.18 0 .37.01.55.02-.82-2.58-3.71-4.49-7.22-4.49Zm-2.49 4.9a.9.9 0 1 1 0-1.8.9.9 0 0 1 0 1.8Zm5.01 0a.9.9 0 1 1 0-1.8.9.9 0 0 1 0 1.8Z" />
+                      <path d="M16.05 10.63c-2.88 0-5.21 1.96-5.21 4.37s2.33 4.37 5.21 4.37c.7 0 1.37-.12 1.98-.33l1.9.95-.46-1.65c1.09-.81 1.78-2 1.78-3.34 0-2.41-2.33-4.37-5.2-4.37Zm-1.76 3.25a.7.7 0 1 1 0-1.4.7.7 0 0 1 0 1.4Zm3.53 0a.7.7 0 1 1 0-1.4.7.7 0 0 1 0 1.4Z" />
+                    </>
+                  )}
+                </svg>
+              </a>
+            ))}
+          </div>
         </div>
 
         <div class="space-y-4 p-6 text-sm">
@@ -143,11 +195,6 @@ const honors = [
             <p class="mt-2 leading-7 text-ink-600 dark:text-ink-300">
               {articles.length} articles · {books.length} book projects · {collections.length} topic maps · {totalWords.toLocaleString("zh-CN")}+ words
             </p>
-          </div>
-          <div class="flex flex-wrap gap-2 border-t border-ink-200 pt-4 dark:border-white/10">
-            {profileLinks.map((item) => (
-              <a class="tag-chip transition hover:border-accent-500 hover:text-accent-600 dark:hover:text-accent-400" href={item.href}>{item.label}</a>
-            ))}
           </div>
         </div>
       </section>
@@ -261,7 +308,7 @@ const honors = [
         <p class="eyebrow">Contact</p>
         <h2 class="mt-2 font-serif text-4xl tracking-normal">Open to learning and discussion</h2>
         <p class="mt-4 max-w-3xl text-sm leading-7 text-ink-600 dark:text-ink-300">
-          For academic discussion, feedback on notes, or project-related communication, the current public contact route is GitHub: <a class="text-accent-600 hover:text-accent-500 dark:text-accent-400" href="https://github.com/chengbai">github.com/chengbai</a>.
+          For academic discussion, feedback on notes, or project-related communication, the current public contact route is GitHub: <a class="text-accent-600 hover:text-accent-500 dark:text-accent-400" href="https://github.com/methylation5mc2026-jpg">github.com/methylation5mc2026-jpg</a>.
         </p>
       </section>
     </div>
@@ -287,4 +334,94 @@ const honors = [
       }
     }
   </script>
+
+  <style>
+    .social-media {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.72rem;
+    }
+
+    .social-button {
+      position: relative;
+      display: inline-flex;
+      width: 2.8rem;
+      height: 2.8rem;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      border: 1px solid rgba(214, 208, 196, 0.92);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.82);
+      color: var(--social-accent);
+      box-shadow: 0 8px 22px rgba(36, 31, 24, 0.1);
+      transition:
+        transform 260ms cubic-bezier(0.2, 0.8, 0.2, 1),
+        border-color 260ms ease,
+        box-shadow 260ms ease,
+        color 260ms ease;
+    }
+
+    .social-fill {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: 0;
+      height: 0;
+      border-radius: 999px;
+      background: var(--social-accent);
+      transform: translate(-50%, -50%);
+      transition:
+        width 280ms ease,
+        height 280ms ease;
+    }
+
+    .social-icon-svg {
+      position: relative;
+      z-index: 1;
+      width: 1.28rem;
+      height: 1.28rem;
+      fill: currentColor;
+      transition: transform 260ms ease;
+    }
+
+    .social-button:hover,
+    .social-button:focus-visible {
+      border-color: color-mix(in srgb, var(--social-accent) 58%, transparent);
+      color: #ffffff;
+      transform: translateY(-4px);
+      box-shadow: 0 16px 30px rgba(36, 31, 24, 0.18);
+    }
+
+    .social-button:hover .social-fill,
+    .social-button:focus-visible .social-fill {
+      width: 100%;
+      height: 100%;
+    }
+
+    .social-button:hover .social-icon-svg,
+    .social-button:focus-visible .social-icon-svg {
+      transform: scale(1.08);
+    }
+
+    .social-button:focus-visible {
+      outline: 3px solid color-mix(in srgb, var(--social-accent) 42%, transparent);
+      outline-offset: 3px;
+    }
+
+    :global(.dark) .social-button {
+      border-color: rgba(255, 255, 255, 0.12);
+      background: rgba(255, 255, 255, 0.06);
+      box-shadow: none;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .social-button,
+      .social-fill,
+      .social-icon-svg {
+        transition: none;
+      }
+    }
+  </style>
 </BaseLayout>
