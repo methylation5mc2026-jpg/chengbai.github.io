@@ -1,7 +1,6 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import {
-  cleanSlug,
   formatDate,
   getArticles,
   getBooks,
@@ -18,9 +17,6 @@ const books = await getBooks();
 const bookProjects = await getBookProjects(books);
 const dailyEntries = await getDailyEntries();
 
-const featuredArticles = articles.filter((article) => article.data.featured).slice(0, 3);
-const selectedArticles = featuredArticles.length > 0 ? featuredArticles : articles.slice(0, 3);
-const primaryArticle = selectedArticles[0];
 const allTextEntries = [
   ...articles,
   ...dailyEntries,
@@ -36,7 +32,7 @@ const latestUpdated = [
 
 const profileLinks = [
   { label: "GitHub", href: "https://github.com/chengbai" },
-  { label: "Articles", href: "/articles" },
+  { label: "AIVC Whitepaper", href: "/books/aivc-whitepaper" },
   { label: "Books", href: "/books" },
   { label: "Contact", href: "#contact" }
 ];
@@ -45,12 +41,12 @@ const newsItems = [
   {
     date: "Jun, 2026",
     tag: "Website",
-    text: "Migrated this personal website to GitHub Pages as a public academic profile and knowledge-asset archive."
+    text: "Built this site on GitHub Pages as a public profile for long-form notes, project records, and reading work."
   },
   {
     date: "Jun, 2026",
     tag: "AIVC",
-    text: "Prepared a focused learning brief for Westlake AIVC Week 2026, explaining my motivation, current foundation, and open questions."
+    text: "Started organizing AIVC-related notes around virtual cells, proteomics, multi-omics data, and model evaluation."
   },
   {
     date: "Spring, 2026",
@@ -68,7 +64,7 @@ const educationItems = [
   {
     title: "High School Student",
     meta: "Current",
-    text: "School information can be added after the public version is finalized. The current page focuses on growth evidence, reading quality, and knowledge assets."
+    text: "Completing high school study while building a biology and computing foundation for future work in AI for Biology."
   },
   {
     title: "Biology Olympiad Training",
@@ -90,8 +86,8 @@ const experienceItems = [
   },
   {
     date: "Ongoing",
-    title: "Knowledge Asset Builder",
-    text: "Turning papers, notes, projects, and reflections into searchable long-form assets instead of scattered short-term notes."
+    title: "Long-form Learning Archive",
+    text: "Keeping paper notes, project records, and study plans in a form that can be reviewed, corrected, and extended."
   }
 ];
 
@@ -107,7 +103,7 @@ const researchInterests = [
 const honors = [
   "Provincial First Prize, National Biology Olympiad for High School Students, two consecutive years.",
   "National Rank 34 and second-round entry, Datawhale multi-agent drug design competition, 2026.",
-  "Public learning archive with articles, book projects, topic maps, search, RSS, and sitemap."
+  "Maintains a public site with long-form notes, book projects, topic maps, search, RSS, and sitemap."
 ];
 ---
 <BaseLayout title={siteConfig.title} description={siteConfig.description}>
@@ -116,10 +112,9 @@ const honors = [
       <section class="paper overflow-hidden">
         <div class="border-b border-ink-200 bg-white p-6 dark:border-white/10 dark:bg-white/[0.03]">
           <div class="mx-auto w-44" data-profile-photo-root>
-            <label
-              class="group relative mx-auto flex h-36 w-36 cursor-pointer items-center justify-center overflow-hidden rounded-full border border-ink-200 bg-ink-100 font-serif text-5xl text-ink-700 transition hover:border-accent-500 dark:border-white/10 dark:bg-white/10 dark:text-ink-100"
-              for="profile-photo-input"
-              aria-label="Upload a local profile photo"
+            <div
+              class="mx-auto flex h-36 w-36 items-center justify-center overflow-hidden rounded-full border border-ink-200 bg-ink-100 font-serif text-5xl text-ink-700 dark:border-white/10 dark:bg-white/10 dark:text-ink-100"
+              aria-label="Profile photo"
             >
               <img
                 class="hidden h-full w-full object-cover"
@@ -127,36 +122,7 @@ const honors = [
                 alt="Cheng Bai profile photo preview"
               />
               <span data-profile-photo-initials>CB</span>
-              <span class="absolute inset-x-4 bottom-3 rounded-full border border-white/70 bg-ink-900/70 px-3 py-1 text-center font-sans text-[11px] font-medium text-white opacity-0 shadow-sm backdrop-blur transition group-hover:opacity-100">
-                上传照片
-              </span>
-              <input
-                id="profile-photo-input"
-                class="sr-only"
-                data-profile-photo-input
-                type="file"
-                accept="image/png,image/jpeg,image/webp"
-              />
-            </label>
-            <div class="mt-3 flex items-center justify-center gap-2">
-              <button
-                class="tag-chip bg-white/70 transition hover:border-accent-500 hover:text-accent-600 dark:bg-white/[0.04] dark:hover:text-accent-400"
-                data-profile-photo-trigger
-                type="button"
-              >
-                上传照片
-              </button>
-              <button
-                class="tag-chip hidden bg-white/70 transition hover:border-accent-500 hover:text-accent-600 dark:bg-white/[0.04] dark:hover:text-accent-400"
-                data-profile-photo-reset
-                type="button"
-              >
-                恢复默认
-              </button>
             </div>
-            <p class="mt-2 text-center text-xs leading-5 text-ink-500 dark:text-ink-400" data-profile-photo-status>
-              仅保存在当前浏览器
-            </p>
           </div>
           <h1 class="mt-5 text-center font-serif text-3xl tracking-normal">白城</h1>
           <p class="mt-2 text-center font-mono text-xs uppercase tracking-[0.16em] text-ink-500 dark:text-ink-400">Cheng Bai</p>
@@ -192,17 +158,17 @@ const honors = [
         <p class="eyebrow">Biography</p>
         <div class="mt-4 space-y-5 text-base leading-8 text-ink-700 dark:text-ink-200">
           <p>
-            Hi, I am 白城, a high-school-stage learner building toward AI for Biology. My current interests include AI Virtual Cell, AI proteomics, bioinformatics, computational biology, multi-omics, and protein design.
+            Hi, I am 白城, a high school student preparing for future work at the intersection of biology and computation. My current focus is AI for Biology, especially virtual-cell modeling, proteomics, bioinformatics, and protein design.
           </p>
           <p>
-            This website is my public knowledge-asset archive. It is designed less like a feed and more like an academic profile plus a reading room: a place to show growth evidence, selected writing, project notes, and the questions I am learning to ask.
+            This site collects work that can be inspected directly: long-form notes, reading records, project summaries, competition experience, and study plans.
           </p>
           <p>
-            I am still early in this journey, so I try to keep the boundary honest: competition results and self-study notes are growth signals, not finished research claims. The goal is to make my learning visible, inspectable, and useful for future collaboration.
+            I am still early in this path. The point here is not to overstate what I have done, but to show how I read, organize problems, finish work, and keep improving.
           </p>
         </div>
         <div class="mt-6 flex flex-wrap gap-3">
-          <a href="/articles/aivc-week-learning-brief/" class="asset-button">AIVC Week learning brief</a>
+          <a href="/books/aivc-whitepaper/" class="asset-button">AIVC whitepaper</a>
           <a href="/knowledge-map" class="asset-button">Knowledge map</a>
           <a href="/search" class="asset-button">Search archive</a>
         </div>
@@ -264,34 +230,13 @@ const honors = [
       </section>
 
       <section id="assets" class="section-rule scroll-mt-24">
-        <p class="eyebrow">Selected Assets</p>
-        <h2 class="mt-2 font-serif text-4xl tracking-normal">Writing, projects, and knowledge assets</h2>
+        <p class="eyebrow">Selected Work</p>
+        <h2 class="mt-2 font-serif text-4xl tracking-normal">Long-form materials and projects</h2>
         <p class="mt-3 max-w-3xl text-sm leading-7 text-ink-600 dark:text-ink-300">
-          I prefer a small set of readable assets over a large pile of weak posts. The best entries are kept visible here.
+          The entries below are the main materials I want visitors to read first. They show my current preparation more clearly than short posts.
         </p>
 
-        {primaryArticle && (
-          <a href={`/articles/${cleanSlug(primaryArticle.id)}/`} class="paper group mt-6 block p-6 transition hover:-translate-y-1 hover:border-accent-500">
-            <p class="eyebrow">Featured</p>
-            <h3 class="mt-3 font-serif text-3xl tracking-normal transition group-hover:text-accent-600 dark:group-hover:text-accent-400">{primaryArticle.data.title}</h3>
-            <p class="mt-3 text-sm leading-7 text-ink-600 dark:text-ink-300">{primaryArticle.data.description}</p>
-            <div class="mt-4 flex flex-wrap gap-2">
-              {primaryArticle.data.tags.map((tag) => <span class="tag-chip">#{tag}</span>)}
-            </div>
-          </a>
-        )}
-
-        <div class="mt-5 grid gap-4 md:grid-cols-2">
-          {selectedArticles.slice(1).map((article) => (
-            <a href={`/articles/${cleanSlug(article.id)}/`} class="border-y border-ink-200 py-5 transition hover:border-accent-500 hover:text-accent-600 dark:border-white/10 dark:hover:text-accent-400">
-              <time class="font-mono text-xs text-ink-500 dark:text-ink-400" datetime={article.data.pubDate.toISOString()}>{formatDate(article.data.pubDate)}</time>
-              <h3 class="mt-3 font-serif text-2xl tracking-normal">{article.data.title}</h3>
-              <p class="mt-2 text-sm leading-7 text-ink-600 dark:text-ink-300">{article.data.description}</p>
-            </a>
-          ))}
-        </div>
-
-        <div class="mt-8 grid gap-4 md:grid-cols-2">
+        <div class="mt-6 grid gap-4 md:grid-cols-2">
           {bookProjects.slice(0, 4).map((project) => (
             <a href={`/books/${project.slug}/`} class="paper p-5 transition hover:-translate-y-1 hover:border-accent-500">
               <p class="font-mono text-xs uppercase tracking-[0.16em] text-ink-500 dark:text-ink-400">{project.plan.status} · {project.progress}%</p>
@@ -316,7 +261,7 @@ const honors = [
         <p class="eyebrow">Contact</p>
         <h2 class="mt-2 font-serif text-4xl tracking-normal">Open to learning and discussion</h2>
         <p class="mt-4 max-w-3xl text-sm leading-7 text-ink-600 dark:text-ink-300">
-          Public contact details, CV, school information, and proof links can be added here before formal outreach. GitHub profile: <a class="text-accent-600 hover:text-accent-500 dark:text-accent-400" href="https://github.com/chengbai">github.com/chengbai</a>.
+          For academic discussion, feedback on notes, or project-related communication, the current public contact route is GitHub: <a class="text-accent-600 hover:text-accent-500 dark:text-accent-400" href="https://github.com/chengbai">github.com/chengbai</a>.
         </p>
       </section>
     </div>
@@ -327,122 +272,18 @@ const honors = [
 
     if (root) {
       const storageKey = "chengbai.profilePhoto";
-      const input = root.querySelector<HTMLInputElement>("[data-profile-photo-input]");
-      const trigger = root.querySelector<HTMLButtonElement>("[data-profile-photo-trigger]");
-      const reset = root.querySelector<HTMLButtonElement>("[data-profile-photo-reset]");
       const preview = root.querySelector<HTMLImageElement>("[data-profile-photo-preview]");
       const initials = root.querySelector<HTMLElement>("[data-profile-photo-initials]");
-      const status = root.querySelector<HTMLElement>("[data-profile-photo-status]");
 
-      const setStatus = (message: string) => {
-        if (status) status.textContent = message;
-      };
-
-      const storage = {
-        get() {
-          try {
-            return localStorage.getItem(storageKey);
-          } catch {
-            return null;
-          }
-        },
-        set(value: string) {
-          try {
-            localStorage.setItem(storageKey, value);
-            return true;
-          } catch {
-            return false;
-          }
-        },
-        remove() {
-          try {
-            localStorage.removeItem(storageKey);
-          } catch {
-            // Ignore storage errors; reset still updates the visible preview.
-          }
+      try {
+        const storedPhoto = localStorage.getItem(storageKey);
+        if (storedPhoto && preview && initials) {
+          preview.src = storedPhoto;
+          preview.classList.remove("hidden");
+          initials.classList.add("hidden");
         }
-      };
-
-      const showPhoto = (dataUrl: string) => {
-        if (!preview || !initials || !reset) return;
-        preview.src = dataUrl;
-        preview.classList.remove("hidden");
-        initials.classList.add("hidden");
-        reset.classList.remove("hidden");
-        setStatus("照片已在本机保存");
-      };
-
-      const clearPhoto = () => {
-        if (!preview || !initials || !reset || !input) return;
-        storage.remove();
-        preview.removeAttribute("src");
-        preview.classList.add("hidden");
-        initials.classList.remove("hidden");
-        reset.classList.add("hidden");
-        input.value = "";
-        setStatus("仅保存在当前浏览器");
-      };
-
-      const loadImage = (source: string) =>
-        new Promise<HTMLImageElement>((resolve, reject) => {
-          const image = new Image();
-          image.onload = () => resolve(image);
-          image.onerror = reject;
-          image.src = source;
-        });
-
-      const readAsDataUrl = (file: File) =>
-        new Promise<string>((resolve, reject) => {
-          const reader = new FileReader();
-          reader.onload = () => resolve(String(reader.result));
-          reader.onerror = reject;
-          reader.readAsDataURL(file);
-        });
-
-      const preparePhoto = async (file: File) => {
-        const source = await readAsDataUrl(file);
-        const image = await loadImage(source);
-        const maxSide = 720;
-        const scale = Math.min(1, maxSide / Math.max(image.width, image.height));
-        const width = Math.max(1, Math.round(image.width * scale));
-        const height = Math.max(1, Math.round(image.height * scale));
-        const canvas = document.createElement("canvas");
-        canvas.width = width;
-        canvas.height = height;
-        const context = canvas.getContext("2d");
-        if (!context) return source;
-        context.drawImage(image, 0, 0, width, height);
-        return canvas.toDataURL(file.type === "image/png" ? "image/png" : "image/jpeg", 0.9);
-      };
-
-      trigger?.addEventListener("click", () => input?.click());
-      reset?.addEventListener("click", clearPhoto);
-
-      input?.addEventListener("change", async () => {
-        const file = input.files?.[0];
-        if (!file) return;
-        if (!file.type.startsWith("image/")) {
-          setStatus("请选择图片文件");
-          input.value = "";
-          return;
-        }
-
-        try {
-          setStatus("正在处理照片...");
-          const dataUrl = await preparePhoto(file);
-          showPhoto(dataUrl);
-          if (!storage.set(dataUrl)) {
-            setStatus("照片已预览，浏览器未允许保存");
-          }
-        } catch {
-          setStatus("照片读取失败，请换一张图片");
-          input.value = "";
-        }
-      });
-
-      const storedPhoto = storage.get();
-      if (storedPhoto) {
-        showPhoto(storedPhoto);
+      } catch {
+        // Keep the default initials if browser storage is unavailable.
       }
     }
   </script>
