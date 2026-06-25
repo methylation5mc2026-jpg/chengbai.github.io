@@ -7,34 +7,10 @@ export const bookPlans: Record<
   "aivc-whitepaper": {
     status: "重点推进",
     goal: 12,
-    next: "扩写 AIVC 的定义、技术路线、虚拟细胞、计算蛋白质设计和科研创业机会。",
+    next: "继续整理章节目录、图表、参考文献和可复读的学习笔记。",
     audience: "关注 AI for Science、AI4Bio、科研创业和未来产业机会的人。",
     cadence: "建议按章节连续阅读，后续会持续追加。",
     promise: "理解 AI Virtual Cell、计算蛋白质设计与科研创业机会。"
-  },
-  "bioinformatics-roadmap": {
-    status: "底座课程",
-    goal: 18,
-    next: "补齐计算机、编程、Python、AI 工具链与普通人真实项目路线。",
-    audience: "想从零进入计算机与人工智能世界的普通学习者。",
-    cadence: "适合从第一章开始顺序读。",
-    promise: "让普通人从零开始进入计算机与人工智能世界。"
-  },
-  "ai-science-reading-book": {
-    status: "研究白皮书",
-    goal: 10,
-    next: "沉淀 AI4Bio 的论文地图、技术路线、关键公司与产业判断。",
-    audience: "关注生物学与人工智能交叉方向的学生、研究者和创业者。",
-    cadence: "建议配合论文和专题页一起读。",
-    promise: "跟踪生物学与人工智能交叉处正在发生的结构性变化。"
-  },
-  "everyone-can-business": {
-    status: "新书占位",
-    goal: 10,
-    next: "从需求、产品、销售、内容、增长、现金流和长期复利开始写。",
-    audience: "想理解商业、创业和个人影响力的人。",
-    cadence: "目录会先建立，再逐章扩写。",
-    promise: "把商业常识写成普通人能读懂、能实践的长期教程。"
   },
   "founders-playbook": {
     status: "中英对照手册",

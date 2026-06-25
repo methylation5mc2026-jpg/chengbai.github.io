@@ -1,0 +1,113 @@
+---
+interface Props {
+  slug: string;
+  sourceUrl: string;
+}
+
+const { slug, sourceUrl } = Astro.props;
+const htmlFiles = import.meta.glob("../data/wechat/*.html", {
+  query: "?raw",
+  import: "default",
+  eager: true
+});
+const html = htmlFiles[`../data/wechat/${slug}.html`];
+
+if (typeof html !== "string") {
+  throw new Error(`Missing WeChat article HTML for ${slug}`);
+}
+---
+
+<article class="wechat-original">
+  <div class="wechat-source">
+    <span>原载于微信公众号 · 白城</span>
+    <a href={sourceUrl} target="_blank" rel="noreferrer">查看原文</a>
+  </div>
+  <div class="wechat-body" set:html={html} />
+</article>
+
+<style is:global>
+  .wechat-original {
+    max-width: 760px;
+    margin: 0 auto;
+  }
+
+  .wechat-source {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid rgba(40, 36, 31, 0.14);
+    color: rgb(105, 97, 87);
+    font-size: 0.82rem;
+  }
+
+  .dark .wechat-source {
+    border-color: rgba(255, 255, 255, 0.12);
+    color: rgb(190, 184, 174);
+  }
+
+  .wechat-source a {
+    color: rgb(151, 88, 35);
+    text-decoration: none;
+  }
+
+  .dark .wechat-source a {
+    color: rgb(246, 178, 107);
+  }
+
+  .wechat-body {
+    overflow-wrap: anywhere;
+    color: rgb(51, 51, 51);
+    font-size: 16px;
+    line-height: 1.85;
+  }
+
+  .dark .wechat-body {
+    color: rgb(231, 226, 218);
+  }
+
+  .wechat-body * {
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+
+  .wechat-body p,
+  .wechat-body section,
+  .wechat-body figure {
+    max-width: 100%;
+  }
+
+  .wechat-body img {
+    display: block;
+    max-width: 100%;
+    height: auto !important;
+    margin: 1.25rem auto;
+    border-radius: 4px;
+  }
+
+  .wechat-body a {
+    color: rgb(151, 88, 35);
+  }
+
+  .dark .wechat-body a {
+    color: rgb(246, 178, 107);
+  }
+
+  .wechat-body svg {
+    max-width: 100%;
+  }
+
+  @media (max-width: 640px) {
+    .wechat-original {
+      max-width: 100%;
+    }
+
+    .wechat-body {
+      font-size: 15.5px;
+      line-height: 1.9;
+    }
+  }
+</style>

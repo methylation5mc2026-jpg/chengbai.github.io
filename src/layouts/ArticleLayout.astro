@@ -14,6 +14,7 @@ interface Props {
 
 const { entry, headings, prev, next } = Astro.props;
 const stats = readingTime(entry.body);
+const minutes = entry.data.readingMinutes ?? Math.max(1, Math.round(stats.minutes));
 ---
 <BaseLayout title={`${entry.data.title} | 白城 AI for Biology Knowledge Assets`} description={entry.data.description}>
   <div class="grid gap-10 lg:grid-cols-[minmax(0,1fr)_280px]">
@@ -22,7 +23,7 @@ const stats = readingTime(entry.body);
         <div class="space-y-4">
           <div class="flex flex-wrap gap-3 text-sm text-ink-500 dark:text-ink-400">
             <time datetime={entry.data.pubDate.toISOString()}>{formatDate(entry.data.pubDate)}</time>
-            <span>{Math.max(1, Math.round(stats.minutes))} 分钟阅读</span>
+            <span>{minutes} 分钟阅读</span>
             {entry.data.updatedDate && <span>更新于 {formatDate(entry.data.updatedDate)}</span>}
           </div>
           <h1 class="font-serif text-4xl leading-tight tracking-tight md:text-5xl">{entry.data.title}</h1>

@@ -8,7 +8,7 @@ const grouped = groupArticlesByYear(articles);
 const years = Object.keys(grouped).sort((a, b) => Number(b) - Number(a));
 ---
 <BaseLayout title="文章 | 白城 AI for Biology Knowledge Assets">
-  <SectionHeading title="精选文章" description="少量、可复读、能展示问题意识和成长轨迹的公开写作。" />
+  <SectionHeading title="文章" description="从微信公众号迁移来的原创公开写作，保留原文、原图与主要排版。" />
   <div class="space-y-10">
     {years.map((year) => (
       <section>

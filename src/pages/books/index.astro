@@ -6,16 +6,15 @@ import { getBookProjects, getBookStyle } from "../../lib/bookPlans";
 const books = await getBooks();
 const bookProjects = await getBookProjects(books);
 ---
-<BaseLayout title="书架 | 白城 AI for Biology Knowledge Assets" description="白城的在线书架：AIVC白皮书、计算机与人工智能教程、AI4Bio白皮书、人人都能做商业，以及中英对照创业手册。">
+<BaseLayout title="书籍 | 白城 AI for Biology Knowledge Assets" description="白城个人网站中的长期书籍项目。">
   <div class="space-y-12">
     <section class="grid gap-8 border-b border-ink-200 pb-10 dark:border-white/10 lg:grid-cols-[1fr_0.6fr]">
       <div>
         <p class="eyebrow">Books</p>
-        <h1 class="mt-4 max-w-4xl font-serif text-5xl leading-tight tracking-normal md:text-7xl">书架，而不是文章列表。</h1>
+        <h1 class="mt-4 max-w-4xl font-serif text-5xl leading-tight tracking-normal md:text-7xl">书籍项目</h1>
       </div>
       <div class="text-sm leading-8 text-ink-600 dark:text-ink-300">
-        <p>这里放长期维护的书籍式内容：每一本都可以拥有目录、章节、阅读界面与上下章导航，适合沉淀几万字甚至几十万字的系统内容。</p>
-        <p class="mt-4 font-mono text-xs uppercase tracking-[0.18em] text-ink-500 dark:text-ink-400">
+        <p class="font-mono text-xs uppercase tracking-[0.18em] text-ink-500 dark:text-ink-400">
           {books.length} books / {bookProjects.reduce((sum, item) => sum + item.chapters.length, 0)} chapters / MDX powered
         </p>
       </div>
