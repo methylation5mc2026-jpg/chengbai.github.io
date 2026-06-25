@@ -67,6 +67,22 @@ export function getLeafSlug(id: string) {
   return cleanSlug(id.split("/").pop() ?? id);
 }
 
+export function getChapterDisplayNumber(
+  entry: { data?: { bookSlug?: string; title?: string; order?: number } },
+  index: number
+) {
+  if (entry.data?.bookSlug === "aivc-whitepaper") {
+    if (entry.data.title?.startsWith("前言")) {
+      return "00";
+    }
+    if (typeof entry.data.order === "number" && entry.data.order > 1) {
+      return String(entry.data.order - 1).padStart(2, "0");
+    }
+  }
+
+  return String(index + 1).padStart(2, "0");
+}
+
 export function tagToSlug(tag: string) {
   return tag
     .trim()

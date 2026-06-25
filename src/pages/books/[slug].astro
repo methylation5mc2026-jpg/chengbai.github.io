@@ -1,7 +1,7 @@
 ---
 import { getCollection } from "astro:content";
 import BaseLayout from "../../layouts/BaseLayout.astro";
-import { cleanSlug, formatDate, getBookChapters, getLeafSlug, getWordCount } from "../../lib/content";
+import { cleanSlug, formatDate, getBookChapters, getChapterDisplayNumber, getLeafSlug, getWordCount } from "../../lib/content";
 import { bookPlans } from "../../lib/bookPlans";
 
 export async function getStaticPaths() {
@@ -102,7 +102,7 @@ const firstReadUrl = firstChapter ? `/books/${slug}/${getLeafSlug(firstChapter.i
           {chapters.length > 0 ? (
             chapters.map((chapter, index) => (
               <a href={`/books/${slug}/${getLeafSlug(chapter.id)}/`} class="chapter-card group">
-                <span class="font-mono text-sm text-ink-500 dark:text-ink-400">{String(index + 1).padStart(2, "0")}</span>
+                <span class="font-mono text-sm text-ink-500 dark:text-ink-400">{getChapterDisplayNumber(chapter, index)}</span>
                 <span>
                   <span class="block font-serif text-xl transition group-hover:text-accent-600 dark:group-hover:text-accent-400">{chapter.data.title}</span>
                   <span class="mt-1 block text-sm leading-6 text-ink-500 dark:text-ink-400">{chapter.data.description}</span>

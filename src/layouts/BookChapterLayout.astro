@@ -2,7 +2,7 @@
 import readingTime from "reading-time";
 import BaseLayout from "./BaseLayout.astro";
 import BookReaderControls from "../components/BookReaderControls.astro";
-import { getLeafSlug } from "../lib/content";
+import { getChapterDisplayNumber, getLeafSlug } from "../lib/content";
 
 interface Props {
   entry: any;
@@ -15,7 +15,9 @@ interface Props {
 const { entry, bookTitle, chapters, prev, next } = Astro.props;
 const stats = readingTime(entry.body);
 const chapterIndex = chapters.findIndex((chapter) => chapter.id === entry.id);
-const progressLabel = `${chapterIndex + 1} / ${chapters.length}`;
+const currentChapterNumber = getChapterDisplayNumber(entry, chapterIndex);
+const lastChapterNumber = getChapterDisplayNumber(chapters[chapters.length - 1] ?? entry, chapters.length - 1);
+const progressLabel = `${currentChapterNumber} / ${lastChapterNumber}`;
 const isBilingualReader = entry.data.bookSlug === "founders-playbook";
 ---
 <BaseLayout title={`${entry.data.title} | ${bookTitle}`}>
@@ -43,7 +45,7 @@ const isBilingualReader = entry.data.bookSlug === "founders-playbook";
                   : "border-transparent text-ink-500 hover:border-ink-300 hover:text-ink-900 dark:text-ink-400 dark:hover:text-white"
               }`}
             >
-              <span class="font-mono">{String(index + 1).padStart(2, "0")}</span>
+              <span class="font-mono">{getChapterDisplayNumber(chapter, index)}</span>
               <span>{chapter.data.title}</span>
             </a>
           ))}
@@ -55,7 +57,7 @@ const isBilingualReader = entry.data.bookSlug === "founders-playbook";
       <header class="border-b border-ink-200 pb-8 dark:border-white/10">
         <div class="flex flex-wrap items-center gap-3 font-mono text-xs uppercase tracking-[0.18em] text-ink-500 dark:text-ink-400">
           <a href={`/books/${entry.data.bookSlug}/`} class="hover:text-accent-600 dark:hover:text-accent-400">{bookTitle}</a>
-          <span>Chapter {String(chapterIndex + 1).padStart(2, "0")}</span>
+          <span>Chapter {currentChapterNumber}</span>
           <span>{Math.max(1, Math.round(stats.minutes))} min read</span>
         </div>
         <h1 class="mt-5 font-serif text-4xl leading-tight tracking-normal md:text-6xl">{entry.data.title}</h1>
@@ -66,7 +68,7 @@ const isBilingualReader = entry.data.bookSlug === "founders-playbook";
           <nav class="mt-4 grid gap-2">
             {chapters.map((chapter, index) => (
               <a href={`/books/${chapter.data.bookSlug}/${getLeafSlug(chapter.id)}/`} class={`grid grid-cols-[34px_minmax(0,1fr)] gap-3 py-2 text-sm ${chapter.id === entry.id ? "text-accent-600 dark:text-accent-400" : "text-ink-600 dark:text-ink-300"}`}>
-                <span class="font-mono">{String(index + 1).padStart(2, "0")}</span>
+                <span class="font-mono">{getChapterDisplayNumber(chapter, index)}</span>
                 <span>{chapter.data.title}</span>
               </a>
             ))}
