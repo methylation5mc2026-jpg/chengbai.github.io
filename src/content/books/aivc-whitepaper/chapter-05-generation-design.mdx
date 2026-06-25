@@ -1,0 +1,676 @@
+---
+type: "chapter"
+title: "第五章 分子生成与设计（Generation & Design）：从结构预测到可验证候选分子的创造"
+description: "第四章回答的是“给定序列或分子组合，结构可能是什么”；第五章进一步回答“给定目标结构、功能或细胞效应，我们能否设计出新的分子”。本章以RFdiffusion、ProteinMPNN、ProtGPT2为代表，建立从结构生成、序列回填到序列..."
+bookSlug: "aivc-whitepaper"
+order: 6
+pubDate: 2026-06-25
+tags:
+  - AIVC
+  - Generation
+  - Molecular Design
+  - Protein Design
+---
+
+> 原始章节标题：第五章 分子生成与设计（Generation & Design）：从结构预测到可验证候选分子的创造
+
+> **说明：** 第四章回答的是“给定序列或分子组合，结构可能是什么”；第五章进一步回答“给定目标结构、功能或细胞效应，我们能否设计出新的分子”。本章以RFdiffusion、ProteinMPNN、ProtGPT2为代表，建立从结构生成、序列回填到序列空间探索的统一框架。写作主线不是模型堆砌，而是一个设计闭环： 任务定义 → 骨架生成 → 序列设计 → 结构复核 → 功能评估 → 实验验证 → 数据回流 。
+
+> **说明：** 生物安全说明： 本章仅用于公开知识学习、良性科研训练和AIVC白皮书建设，讨论范围限定在一般蛋白结构设计、工具原理和工程工作流。不要使用这些方法设计、优化、表达或传播毒素、病原体增强因子、免疫逃逸构件、危险功能蛋白或任何可能造成生物安全风险的实体。实际科研应遵守所在机构的生物安全、伦理审查和数据治理要求。
+
+## 0. 本章知识结构与学习目标
+
+### 0.1 知识结构图
+
+```text
+第五章 分子生成与设计（Generation & Design）
+├── 1. 从预测到设计
+│   ├── 结构预测回答“是什么”
+│   ├── 生成设计回答“能不能造出什么”
+│   ├── design objective / constraint / evaluator
+│   └── 为什么生成模型必须进入AIVC闭环
+├── 2. 设计问题的数学形式
+│   ├── 序列空间、结构空间、功能空间
+│   ├── p(sequence | structure)
+│   ├── p(structure | constraints)
+│   ├── p(sequence | context)
+│   └── 多目标优化：稳定性、功能、特异性、可表达性、安全性
+├── 3. RFdiffusion：结构空间生成
+│   ├── 扩散模型回顾
+│   ├── 从RoseTTAFold到RFdiffusion
+│   ├── backbone generation
+│   ├── motif scaffolding
+│   ├── binder design
+│   ├── partial diffusion / inpainting / symmetry
+│   └── 技术栈与教程
+├── 4. ProteinMPNN：结构到序列的逆折叠
+│   ├── inverse folding
+│   ├── backbone graph
+│   ├── message passing
+│   ├── autoregressive sequence sampling
+│   ├── fixed residues / tied positions / chain design
+│   └── 技术栈与教程
+├── 5. ProtGPT2：蛋白语言模型序列生成
+│   ├── decoder-only protein language model
+│   ├── autoregressive generation
+│   ├── temperature / top-k / top-p
+│   ├── novelty vs plausibility
+│   └── 技术栈与教程
+├── 6. 设计闭环
+│   ├── RFdiffusion生成骨架
+│   ├── ProteinMPNN回填序列
+│   ├── AF2/ESMFold/AF3复核
+│   ├── Rosetta/MD/几何过滤
+│   ├── 实验筛选
+│   └── 数据回流到AIVC
+├── 7. 评估体系
+│   ├── structural plausibility
+│   ├── sequence recovery / diversity / novelty
+│   ├── pLDDT / PAE / RMSD / TM-score
+│   ├── interface metrics
+│   ├── expression / solubility / aggregation
+│   └── 实验成功率
+├── 8. 应用场景
+│   ├── de novo backbone
+│   ├── motif scaffolding
+│   ├── binder design
+│   ├── enzyme scaffold
+│   ├── antibody-like design
+│   └── cell-state-oriented design
+└── 9. 局限、治理与展望
+    ├── “看起来像蛋白”不等于“可用蛋白”
+    ├── 结构合理不等于功能成立
+    ├── 计算筛选不等于实验成功
+    ├── 安全边界与双重用途
+    └── 面向AIVC的闭环主动学习
+```
+
+### 0.2 学习目标
+
+- 理解分子生成与结构预测的关系：结构预测是评估器和先验，生成设计是创造候选并进入实验闭环。
+- 掌握三类核心生成任务：结构生成 \(p(X|c)\)、逆折叠序列设计 \(p(S|X)\)、自回归序列生成 \(p(S)\) 或 \(p(S|c)\)。
+- 理解RFdiffusion为什么能在结构空间中从噪声生成蛋白骨架，以及motif scaffolding、binder design、partial diffusion等模式的直觉。
+- 理解ProteinMPNN如何把固定骨架转化为氨基酸序列设计问题，以及message passing和采样温度如何影响多样性与可信度。
+- 理解ProtGPT2为何代表纯序列语言模型路线，以及它在新颖序列探索中的价值和局限。
+- 掌握一个最小设计流水线：RFdiffusion → ProteinMPNN → AlphaFold/ESMFold复核 → 几何与功能过滤 → 实验验证。
+- 建立评估意识：设计蛋白不能只看外观或pLDDT，必须同时看结构、功能、特异性、可表达性、聚集风险、实验可验证性和生物安全。
+
+> **说明：** 图5-1｜本章总图：结构生成、序列设计与评估闭环
+> **说明：** 建议插图：任务定义 → RFdiffusion生成backbone → ProteinMPNN设计sequence → AF2/ESMFold/AF3复核 → 过滤与实验验证 → 数据回流AIVC。可自绘为全书第五章主图。
+
+## 1. 从预测到设计：为什么第五章是AIVC的“创造模块”？
+
+结构预测的成功让我们能够从序列看到可能的三维结构，但科学发现并不止步于“看见”。如果AIVC只是预测已有分子和已有细胞状态，它更像一个分析系统；如果AIVC能够根据目标功能提出新的蛋白、分子或扰动方案，并通过实验闭环不断修正，它才真正变成一个能参与发现和设计的系统。第五章讨论的分子生成与设计，就是从“解释世界”走向“构造假设”的关键环节。
+
+在蛋白质工程中，传统设计往往依赖人工经验、定点突变、定向进化或基于物理能量函数的大量采样。深度生成模型改变了这个流程：模型可以直接从大量天然结构、预测结构和序列数据中学习“什么样的骨架像蛋白”“什么样的序列能折叠到某个骨架”“什么样的序列分布像天然蛋白家族”。这并不意味着AI可以跳过实验，但它可以显著改变实验前的候选生成方式，把原本盲目的搜索空间压缩到更有希望的区域。
+
+本章的核心观点是：RFdiffusion、ProteinMPNN和ProtGPT2不是三个互相替代的模型，而是三条互补路线。RFdiffusion擅长在结构空间中生成骨架；ProteinMPNN擅长给定骨架反推可折叠序列；ProtGPT2擅长在序列语言空间中探索新颖蛋白序列。若把它们串成流水线，就形成“结构先行、序列回填、预测复核、实验筛选”的现代蛋白设计范式。
+
+> **说明：** 直觉解释： 如果把蛋白设计类比为建筑设计，RFdiffusion像建筑师先生成房屋骨架和空间布局，ProteinMPNN像材料工程师根据骨架选择合适构件，AlphaFold/ESMFold像结构安全检查工具，实验验证则像真正建造并测试。ProtGPT2则像从大量已有建筑文本中学习风格后，提出一些新颖但需要结构审查的设计草案。
+
+> **说明：** 图5-2｜预测、设计与实验闭环的区别
+> **说明：** 建议插图：左侧“结构预测”：sequence → structure；右侧“分子设计”：objective/constraints → structure/sequence candidates → evaluation → experiment。可自绘。
+
+## 2. 设计问题的数学形式：序列空间、结构空间与功能空间
+
+### 2.1 三个空间
+
+蛋白设计至少涉及三个空间。第一是序列空间 \(S\)，由20种常见氨基酸组成的离散字符串构成；一条长度为 \(L\) 的蛋白理论上有 \(20^L\) 种序列，空间巨大。第二是结构空间 \(X\)，由主链和侧链原子在三维空间中的坐标构成，是连续几何空间。第三是功能空间 \(Y\)，包括稳定性、结合能力、催化活性、特异性、免疫原性、可表达性、溶解性、细胞效应等。设计任务的困难在于：序列、结构和功能之间不是一一对应的简单关系。
+
+```text
+\[
+S \rightarrow X \rightarrow Y
+\]
+```
+
+这个箭头表示从序列到结构再到功能的常见理解路径。但设计问题往往是反向的：我们先有目标功能 \(Y^\*\)，希望找到结构 \(X\) 和序列 \(S\) 使其实现该功能。因此更接近：
+
+```text
+\[
+Y^\* \rightarrow X \rightarrow S
+\]
+```
+
+现代生成模型常把这个反向问题拆开：RFdiffusion先在结构空间中生成满足条件的 \(X\)，ProteinMPNN再从 \(X\) 生成序列 \(S\)，结构预测模型再检查 \(S\) 是否折回目标 \(X\)。这不是完美反演，但它把难以直接求解的功能设计问题拆成几个可建模子问题。
+
+### 2.2 条件生成与多目标优化
+
+最一般的条件生成可以写为：
+
+```text
+\[
+p_\theta(S,X|c)
+\]
+```
+
+其中 \(S\) 是序列，\(X\) 是结构，\(c\) 是条件。条件可以是目标结构域、功能motif、结合靶点、对称性、长度范围、固定残基、界面位置、细胞状态目标或实验约束。若重点生成结构，则可写为：
+
+```text
+\[
+p_\theta(X|c)
+\]
+```
+
+若重点固定结构设计序列，则可写为：
+
+```text
+\[
+p_\phi(S|X,c)
+\]
+```
+
+若重点探索序列语言分布，则可写为：
+
+```text
+\[
+p_\psi(S)=\prod_{t=1}^{L}p_\psi(s_t|s_{
+真实设计不是单目标最大化，而是多目标优化。一个候选蛋白可能结构稳定但不表达，表达好但聚集，结合靶点但不特异，序列新颖但免疫原性高，计算评分漂亮但实验失败。可以把综合目标写成：
+\[
+\max_{S,X}\;
+\lambda_1 F_{\mathrm{function}}(S,X)
++\lambda_2 F_{\mathrm{stability}}(S,X)
++\lambda_3 F_{\mathrm{specificity}}(S,X)
++\lambda_4 F_{\mathrm{developability}}(S)
+-\lambda_5 R_{\mathrm{safety}}(S,X)
+\]
+其中每个 \(F\) 是一个评分函数，\(\lambda\) 是权重，\(R_{\mathrm{safety}}\) 表示安全风险或不可接受性质。这个公式并不是某个软件直接使用的唯一目标，而是提醒我们：蛋白设计不是“生成一个看起来像蛋白的结构”，而是在多个约束之间寻找可实验验证的候选。
+图5-3｜蛋白设计的三个空间：序列、结构、功能
+建议插图：三个相互映射的空间：sequence space、structure space、function space。箭头标注folding、inverse folding、functional selection、experimental feedback。可自绘。
+3. 扩散模型回顾：RFdiffusion为什么叫diffusion？
+扩散模型的基本思想已经在第二章介绍过：先把真实数据逐步加噪，使其接近高斯噪声；再训练神经网络学习反向去噪，从噪声恢复到真实样本。对于图像，真实数据是像素；对于蛋白骨架设计，真实数据可以理解为空间中的残基框架、主链坐标和几何关系。
+前向加噪过程可写为：
+\[
+q(x_t|x_{t-1})=\mathcal{N}(\sqrt{1-\beta_t}x_{t-1},\beta_t I)
+\]
+等价地，可以直接从初始样本 \(x_0\) 得到任意时刻 \(x_t\)：
+\[
+q(x_t|x_0)=\mathcal{N}(\sqrt{\bar{\alpha}_t}x_0,(1-\bar{\alpha}_t)I)
+\]
+其中 \(\beta_t\) 是噪声调度，\(\alpha_t=1-\beta_t\)，\(\bar{\alpha}_t=\prod_{s=1}^{t}\alpha_s\)。直觉上，\(t\) 越大，原始结构信息越少，噪声越多。模型训练的目标通常是预测噪声或预测去噪后的样本：
+\[
+\mathcal{L}_{\mathrm{diffusion}}
+=
+\mathbb{E}_{t,x_0,\epsilon}
+\left[
+\|\epsilon-\epsilon_\theta(x_t,t,c)\|^2
+\right]
+\]
+其中 \(c\) 是条件，例如固定motif、靶点结构、长度、对称性或局部约束。这个公式的直觉是：模型反复练习“给我一个被污染的结构和任务条件，我要猜出噪声是什么，从而把结构修回来”。推理时则反过来，从随机噪声开始，逐步去噪，得到一个满足条件的蛋白骨架。
+为什么扩散适合结构生成？
+蛋白骨架不是离散字符串，而是三维几何对象。扩散过程可以在连续空间中逐步调整坐标，使局部键长、二级结构、整体fold和条件约束逐渐变得合理。相比一次性生成，逐步去噪更容易让模型在复杂几何空间中形成稳定结构。
+图5-4｜扩散模型在蛋白骨架生成中的直觉
+建议插图：真实蛋白骨架逐步加噪变成随机点云；推理时从随机点云逐步去噪恢复成蛋白骨架。可参考DDPM图和RFdiffusion论文示意图重绘。
+4. RFdiffusion：在结构空间中生成蛋白骨架
+4.1 RFdiffusion解决什么问题？
+RFdiffusion是现代蛋白生成设计中的代表性模型。它的核心能力是生成蛋白骨架，尤其适用于de novo backbone generation、motif scaffolding、binder design、对称寡聚体设计和partial diffusion等任务。与直接生成序列不同，RFdiffusion先生成结构骨架，再把序列设计交给ProteinMPNN等逆折叠模型。这种“结构先行”路线的优势在于：许多功能约束本质上是几何约束，例如活性位点残基的相对位置、结合界面的形状、螺旋束的拓扑、对称装配体的空间关系。
+RFdiffusion建立在RoseTTAFold结构预测网络的基础上，可以把它理解为把一个“结构预测器”改造成“结构去噪生成器”。结构预测器学会了什么样的序列和残基对关系能形成合理蛋白结构；扩散训练则让模型学会从被噪声破坏的结构中恢复合理骨架。由于模型继承了结构预测网络对蛋白几何的强先验，它能在生成任务中产生具有蛋白样几何的骨架。
+图5-5｜RFdiffusion核心范式：从RoseTTAFold预测网络到结构扩散生成
+建议插图：RoseTTAFold三轨网络 → 加噪结构输入 → 去噪预测 → 生成骨架。可参考RFdiffusion Nature论文图重绘。
+4.2 无条件骨架生成
+最基本的RFdiffusion任务是无条件生成指定长度范围的蛋白骨架。输入条件可以只是长度，例如希望生成一条100到150个残基的蛋白。模型从随机噪声开始生成骨架，输出主链结构。随后需要用ProteinMPNN设计序列，再用AF2/ESMFold预测该序列是否折回原骨架。
+无条件生成的价值在于探索新的fold或结构拓扑，但它不是最直接的功能设计。一个新骨架即使看起来合理，也未必有明确功能。因此，无条件生成更适合作为骨架库构建、结构多样性探索或后续功能模块植入的基础。
+4.3 Motif scaffolding：围绕功能片段生成支架
+Motif scaffolding是RFdiffusion最有教学价值的任务之一。假设我们已知一个短功能motif，例如几个关键残基必须保持特定三维位置才能结合金属、催化反应或识别靶标。设计目标不是改变这个motif，而是生成一个新蛋白支架，把motif稳定地放在合适环境中。
+数学上，可以把motif坐标 \(X_{\mathrm{motif}}\) 作为条件，生成完整骨架 \(X_{\mathrm{full}}\)：
+\[
+p_\theta(X_{\mathrm{full}}|X_{\mathrm{motif}}, c_{\mathrm{length}}, c_{\mathrm{topology}})
+\]
+直觉上，motif像一个必须保留的“功能零件”，RFdiffusion要设计一个“支架”把它固定住。这个任务体现了结构生成的优势：功能往往依赖残基之间的三维相对位置，而不是简单序列片段。若只在序列空间搜索，很难保证motif几何被保留。
+图5-6｜Motif scaffolding：固定功能motif，生成支架结构
+建议插图：红色固定motif保留，灰色噪声区域逐步生成成蓝色支架。可参考RFdiffusion motif scaffolding示意图重绘。
+4.4 Binder design：面向靶点的结合蛋白设计
+Binder design的目标是设计一个新蛋白，使其能与给定靶蛋白表面结合。输入通常包括靶点结构，模型生成一个与靶点形成界面的binder骨架。这个任务对几何要求很高：binder不仅要自己折叠稳定，还要在界面上形成形状互补、极性互补和合理接触。
+简化表示为：
+\[
+p_\theta(X_{\mathrm{binder}}|X_{\mathrm{target}}, c_{\mathrm{interface}})
+\]
+其中 \(X_{\mathrm{target}}\) 是靶点结构，\(c_{\mathrm{interface}}\) 可以包括目标表面、热点残基、距离约束或链长范围。生成后，ProteinMPNN为binder设计序列，再用AlphaFold-Multimer、AF3或其他工具预测target-binder复合体是否重现目标界面。最终仍需实验验证，例如表达纯化、结合实验、突变扫描或结构解析。
+重要边界：
+计算生成的binder不等于真实结合蛋白。界面几何看起来合理、AF复核分数高，也可能因表达失败、聚集、非特异结合、构象不稳定或热力学不利而实验失败。Binder design必须被看作候选生成，而非最终结论。
+4.5 Partial diffusion、inpainting与对称设计
+Partial diffusion指从已有结构出发，只对部分区域加噪并重新生成。它适合局部重设计、loop设计或在保留整体fold的情况下改变某个区域。Inpainting类似图像修复：给定一部分结构，要求模型补全缺失区域。对称设计则要求生成满足Cyclic、Dihedral等对称性的寡聚体结构，在纳米笼、对称酶支架或多价展示中有潜在应用。
+这些模式共同说明：RFdiffusion不是单一“生成蛋白”按钮，而是一套条件生成框架。用户需要把生物学目标翻译成结构约束：哪些部分固定？哪些部分可变？长度范围是多少？是否需要结合靶点？是否需要对称性？是否保留motif？设计质量很大程度取决于条件定义是否清晰。
+图5-7｜RFdiffusion常见任务模式
+建议插图：四宫格：unconditional generation、motif scaffolding、binder design、partial diffusion/inpainting/symmetry。可自绘为任务图谱。
+4.6 RFdiffusion技术栈与概念性教程
+RFdiffusion通常依赖Linux、GPU、Python环境、模型权重、结构输入文件和配置参数。官方仓库提供Docker和脚本运行方式。下面给出概念性流程，具体命令应以官方README为准，并根据环境调整。用于公开展示时，建议写清楚这是“复现路线”，不要把未验证命令当作保证可运行的最终脚本。
+# 概念性流程：克隆仓库
+git clone https://github.com/RosettaCommons/RFdiffusion.git
+cd RFdiffusion
+
+# 推荐使用官方Docker或conda环境
+# 下载模型权重，并按README放置到指定目录
+
+# 示例1：无条件生成指定长度骨架（命令格式以官方README为准）
+python scripts/run_inference.py \
+  inference.output_prefix=outputs/unconditional/design \
+  'contigmap.contigs=[120-120]' \
+  inference.num_designs=10
+
+# 示例2：motif scaffolding（保留输入PDB中的motif）
+python scripts/run_inference.py \
+  inference.output_prefix=outputs/motif_scaffold/design \
+  inference.input_pdb=motif_input.pdb \
+  'contigmap.contigs=[A10-25/50-80]' \
+  inference.num_designs=20
+
+# 示例3：binder design（靶点输入 + binder长度条件）
+python scripts/run_inference.py \
+  inference.output_prefix=outputs/binder/design \
+  inference.input_pdb=target.pdb \
+  'contigmap.contigs=[A1-150/0 80-120]' \
+  inference.num_designs=50
+命令解释：
+RFdiffusion的contig语法非常关键，用于指定哪些残基来自输入结构、哪些区域由模型生成、链如何分隔、长度范围如何设定。contig写错会直接改变任务定义。实际运行前必须对照官方示例和输出结构检查设计是否符合预期。
+5. ProteinMPNN：从骨架到序列的逆折叠模型
+5.1 为什么RFdiffusion之后需要ProteinMPNN？
+RFdiffusion主要生成蛋白骨架，但一个骨架本身还不能表达、折叠或实验验证。真实蛋白需要氨基酸序列。逆折叠（inverse folding）的任务就是：给定一个目标骨架结构，设计一条或多条可能折叠到该骨架的序列。ProteinMPNN是这一任务中的代表性模型。
+从概率角度，ProteinMPNN学习的是：
+\[
+p_\phi(S|X)
+\]
+其中 \(X\) 是骨架结构，\(S=(s_1,s_2,\ldots,s_L)\) 是氨基酸序列。直觉上，模型需要判断每个位置适合什么残基：疏水核心更倾向疏水残基，表面更适合亲水残基，特定几何环境可能偏好Gly/Pro，界面位置可能需要形成氢键、盐桥或疏水接触。人工做这件事很困难，因为每个位置的选择依赖周围所有位置；ProteinMPNN用图消息传递学习这种依赖。
+图5-8｜ProteinMPNN任务：固定骨架，设计序列
+建议插图：输入灰色骨架结构，节点是残基位置，输出多条彩色氨基酸序列。可参考ProteinMPNN Science论文图重绘。
+5.2 蛋白骨架图与message passing
+ProteinMPNN把蛋白骨架看作一个图。节点代表残基位置，边代表空间邻近关系，节点和边包含几何特征，例如 \(C_\alpha\) 距离、相对方向、骨架原子局部坐标等。模型通过message passing让每个残基位置接收邻居环境信息：
+\[
+m_i^{(t)}=\sum_{j\in \mathcal{N}(i)}\phi_m(h_i^{(t)},h_j^{(t)},e_{ij})
+\]
+\[
+h_i^{(t+1)}=\phi_u(h_i^{(t)},m_i^{(t)})
+\]
+其中 \(h_i\) 是第 \(i\) 个位置的隐藏表示，\(e_{ij}\) 是位置 \(i\) 与 \(j\) 之间的边特征，\(\mathcal{N}(i)\) 是邻居集合。经过多层消息传递后，每个位置不仅知道自己的局部几何，也知道周围环境。最后模型输出该位置上20种氨基酸的概率分布。
+ProteinMPNN还可以以自回归方式设计序列：
+\[
+p(S|X)=\prod_{i=1}^{L}p(s_i|s_{
+这表示当前位置的氨基酸选择不仅依赖骨架，也依赖已经设计出的其他位置。这样模型能考虑序列内部相互适配，而不是把每个残基独立设计。
+5.3 采样温度：保守性与多样性的旋钮
+ProteinMPNN通常可以生成多条序列。采样温度（sampling temperature）控制序列多样性。若温度低，模型更倾向选择概率最高的氨基酸，序列更保守、更稳定但多样性较低；若温度高，模型更愿意探索低概率选项，序列更多样但失败风险更高。
+如果原始logits为 \(z_k\)，温度采样使用：
+\[
+p_k=\frac{\exp(z_k/T)}{\sum_j \exp(z_j/T)}
+\]
+其中 \(T\) 是温度。\(T<1\) 时概率分布更尖锐，\(T>1\) 时更平坦。设计实践中常用多个温度生成候选，再用结构预测和过滤器筛选。AIVC中的主动学习也可以利用这一点：低温生成高置信候选，高温探索新区域，实验反馈再决定下一轮采样策略。
+图5-9｜ProteinMPNN采样温度对序列多样性的影响
+建议插图：同一骨架在低温、中温、高温下生成序列集合；显示序列identity分布和AF2复核成功率差异。可用模拟数据自绘。
+5.4 固定残基、链选择与多链设计
+ProteinMPNN的实用价值在于它不仅能设计整条序列，还能指定某些位置固定、某些链设计、某些链不设计、某些位置使用bias或omit amino acids。例如在motif scaffolding中，功能motif残基应固定；在binder design中，靶点链通常固定，只设计binder链；在对称体设计中，可能需要多个位置共享同一氨基酸约束。
+这种灵活性使ProteinMPNN非常适合作为RFdiffusion之后的序列回填工具。RFdiffusion负责满足几何约束，ProteinMPNN负责让骨架获得可折叠序列，后续AF2/ESMFold检查设计序列是否回到原始骨架。
+5.5 ProteinMPNN技术栈与概念性教程
+# 克隆仓库
+git clone https://github.com/dauparas/ProteinMPNN.git
+cd ProteinMPNN
+
+# 创建环境（示意）
+conda create -n proteinmpnn python=3.10
+conda activate proteinmpnn
+pip install torch numpy biopython
+
+# 对单个PDB设计序列
+python protein_mpnn_run.py \
+  --pdb_path input_backbone.pdb \
+  --out_folder outputs/proteinmpnn \
+  --num_seq_per_target 32 \
+  --sampling_temp "0.1"
+
+# 多温度采样
+python protein_mpnn_run.py \
+  --pdb_path input_backbone.pdb \
+  --out_folder outputs/proteinmpnn_multitemp \
+  --num_seq_per_target 64 \
+  --sampling_temp "0.1 0.2 0.3"
+输出通常包括FASTA序列和设计得分。实践中不要只选ProteinMPNN score最低的序列，还要结合AF2/ESMFold复核、序列多样性、关键位点保留、可表达性预测、聚集倾向和实验可行性。对binder任务，还要复核复合体结构而不是只复核单体折叠。
+图5-10｜RFdiffusion骨架到ProteinMPNN序列回填流程
+建议插图：一组RFdiffusion backbone输入ProteinMPNN，每个骨架生成多条序列，形成候选矩阵，随后进入AF2/ESMFold复核。可自绘。
+6. ProtGPT2：蛋白语言模型与纯序列生成
+6.1 ProtGPT2的基本思想
+ProtGPT2代表蛋白序列生成的语言模型路线。它借鉴GPT式decoder-only Transformer，把蛋白序列看作由氨基酸token组成的“语言”。训练时，模型学习给定前面氨基酸预测下一个氨基酸：
+\[
+p(S)=\prod_{t=1}^{L}p(s_t|s_1,\ldots,s_{t-1})
+\]
+这种模型不直接建模三维结构，也不显式输入目标骨架，而是学习天然蛋白序列分布。若训练足够充分，模型可能捕捉到蛋白家族motif、氨基酸组成偏好、结构域片段、长度分布和远程依赖。它生成的序列可能看起来像天然蛋白，但是否稳定折叠、是否具有功能，需要后续结构预测和实验验证。
+6.2 与RFdiffusion/ProteinMPNN的区别
+ProtGPT2解决的是序列空间探索问题，RFdiffusion解决的是结构空间生成问题，ProteinMPNN解决的是给定结构的序列设计问题。三者差异可以用条件分布表示：
+\[
+\text{ProtGPT2: } p(S)
+\]
+\[
+\text{RFdiffusion: } p(X|c)
+\]
+\[
+\text{ProteinMPNN: } p(S|X)
+\]
+ProtGPT2的优势在于不需要先有结构，可以快速探索新序列；局限在于缺乏显式几何控制。它适合生成候选序列库、探索蛋白语言空间、做零样本或少样本家族扩展，但不应被直接当作功能蛋白设计器。对于AIVC，ProtGPT2更像“序列假设生成器”，需要结构预测、功能预测和实验闭环共同筛选。
+图5-11｜ProtGPT2自回归蛋白序列生成
+建议插图：输入起始token或prompt，模型逐步生成氨基酸序列；下方展示temperature、top-k、top-p影响候选多样性。可参考GPT架构和ProtGPT2论文图重绘。
+6.3 采样策略：temperature、top-k与top-p
+自回归模型每一步输出20种氨基酸的概率分布。若总是选择概率最高的氨基酸，生成序列可能保守、重复或缺乏多样性；若完全按原概率随机采样，可能产生不合理序列。因此常用temperature、top-k和top-p控制采样。
+Temperature控制分布尖锐程度，公式与ProteinMPNN类似：
+\[
+p_i=\frac{\exp(z_i/T)}{\sum_j\exp(z_j/T)}
+\]
+Top-k只从概率最高的 \(k\) 个token中采样；top-p又称nucleus sampling，只保留累计概率达到 \(p\) 的最小token集合。低temperature、低top-k通常更保守；高temperature或高top-p更探索，但失败风险增加。蛋白设计中，采样策略需要和后续结构复核结合，而不能只追求新颖。
+6.4 ProtGPT2技术栈与概念性教程
+# 安装依赖
+pip install transformers torch
+
+# 使用Hugging Face加载ProtGPT2（示意）
+from transformers import AutoTokenizer, AutoModelForCausalLM
+import torch
+
+model_name = "nferruz/ProtGPT2"
+tokenizer = AutoTokenizer.from_pretrained(model_name)
+model = AutoModelForCausalLM.from_pretrained(model_name)
+
+prompt = "<|endoftext|>"
+inputs = tokenizer(prompt, return_tensors="pt")
+
+outputs = model.generate(
+    **inputs,
+    max_length=250,
+    do_sample=True,
+    temperature=0.8,
+    top_p=0.95,
+    num_return_sequences=10,
+    pad_token_id=tokenizer.eos_token_id
+)
+
+for i, out in enumerate(outputs):
+    seq = tokenizer.decode(out, skip_special_tokens=True)
+    print(f">candidate_{i}\n{seq}")
+生成序列后，最小筛选流程应包括：去除非标准字符、长度过滤、低复杂度过滤、重复序列过滤、与训练/天然序列相似性检查、ESMFold/AF2结构预测、pLDDT评估、聚集/跨膜/信号肽等性质预测。若目标是功能蛋白，还必须进行功能motif和实验验证。ProtGPT2生成的序列不应直接进入湿实验，必须经过多层筛选。
+图5-12｜ProtGPT2序列生成后的过滤流程
+建议插图：ProtGPT2 candidates → sequence QC → novelty check → ESMFold/AF2 → developability filters → experimental shortlist。可自绘。
+7. 现代蛋白生成设计流水线：RFdiffusion → ProteinMPNN → AF复核
+7.1 最小可行流水线
+现代生成设计最常见的最小路线是：RFdiffusion生成骨架，ProteinMPNN设计序列，AlphaFold2/ESMFold/AF3复核结构，最后根据几何、置信度和任务指标筛选。这个流程的重要性在于它把三个问题分开处理：结构生成模型负责“形状是否合理”，逆折叠模型负责“序列是否能支撑该形状”，结构预测模型负责“序列是否真的回到目标结构”。
+Design objective
+    ↓
+RFdiffusion generates backbone candidates
+    ↓
+ProteinMPNN designs sequences for each backbone
+    ↓
+AF2 / ESMFold / AF3 predicts designed sequences
+    ↓
+Compare predicted structure vs intended backbone
+    ↓
+Filter by pLDDT, PAE, RMSD, motif RMSD, interface metrics
+    ↓
+Select diverse shortlist
+    ↓
+Experimental expression and functional assays
+    ↓
+Data returns to next design round
+在这个流程中，最关键的不是某个单一模型，而是“评估闭环”。RFdiffusion可能生成看似漂亮但难以序列化的骨架；ProteinMPNN可能设计出折叠好但功能位点错位的序列；AF2复核可能给出高pLDDT但界面不可靠；实验可能发现表达失败或无功能。只有多层过滤和实验反馈共同工作，设计才有可信度。
+图5-13｜最小设计流水线：生成—回填—复核—实验
+建议插图：RFdiffusion、ProteinMPNN、AF2/ESMFold、实验验证串联流程图。可作为第五章核心图。
+7.2 结构复核指标
+复核时常比较设计目标骨架 \(X_{\mathrm{target}}\) 与预测结构 \(X_{\mathrm{pred}}\)。常用RMSD：
+\[
+\mathrm{RMSD}=\sqrt{\frac{1}{N}\sum_i\|x_i^{\mathrm{pred}}-x_i^{\mathrm{target}}\|^2}
+\]
+对于motif scaffolding，整体RMSD不一定最重要，功能motif RMSD更关键：
+\[
+\mathrm{RMSD}_{\mathrm{motif}}=
+\sqrt{
+\frac{1}{|M|}
+\sum_{i\in M}
+\|x_i^{\mathrm{pred}}-x_i^{\mathrm{motif}}\|^2
+}
+\]
+其中 \(M\) 是motif残基集合。Binder design还需要看界面指标，例如界面PAE、ipTM、接触数、形状互补、热点残基接触是否保留。对所有任务，都需要看pLDDT、PAE和多模型一致性。单一指标不足以判断设计成功。
+7.3 多样性与去冗余
+生成模型可能产生大量相似候选。如果只选择评分最高的前几个，可能得到高度冗余的序列或结构，一旦共同失败，整轮实验收益很低。因此需要在筛选中保留多样性。常用方法包括按结构聚类、按序列identity聚类、按界面类型分组、按二级结构拓扑分组，再从每组选择代表候选。
+多样性与高分之间存在张力。高分候选更保守，成功概率可能更高；多样候选探索更广，但失败概率也更高。AIVC闭环中可以用主动学习策略平衡exploit和explore：一部分实验名额给高置信候选，一部分给多样探索候选，实验结果再反哺模型。
+图5-14｜候选筛选：分数、结构多样性与实验名额之间的平衡
+建议插图：二维散点图，横轴设计分数，纵轴多样性或novelty；选择点覆盖高分区域和探索区域。可自绘。
+8. 生成设计的评估体系：好看不等于好用
+8.1 结构合理性
+第一层评估是结构合理性，包括主链几何、二级结构连续性、疏水核心、表面极性分布、Ramachandran合理性、冲突原子、空洞和不自然拉伸。AI生成结构可能在视觉上像蛋白，但局部几何存在问题；也可能整体拓扑合理，但某些loop或界面不稳定。结构合理性通常需要结合AF复核、Rosetta relax、MolProbity、能量评分和人工检查。
+8.2 可折叠性
+可折叠性指设计序列是否倾向于折叠到目标结构。常用判断方式是：用AlphaFold2/ESMFold预测设计序列，比较预测结构与设计骨架是否一致。如果预测结构与目标骨架RMSD低、pLDDT高、PAE合理，说明序列可能支持该骨架。但这仍不是绝对证明，因为结构预测模型可能对某些设计分布过于乐观。
+8.3 功能一致性
+功能一致性是最难的部分。motif scaffolding要求功能残基几何保持；binder design要求界面与靶点形成合理接触；酶设计要求底物定位、过渡态稳定和催化残基取向；细胞状态设计要求分子进入细胞网络后产生预期效应。结构合理只是必要条件，不是充分条件。
+8.4 可开发性与实验可行性
+可开发性包括表达量、溶解性、聚集倾向、热稳定性、蛋白酶敏感性、免疫原性、跨膜区域、二硫键、糖基化需求、纯化便利性等。很多计算设计失败不是因为结构模型完全错，而是因为湿实验中表达不了、纯化不了、容易沉淀或功能读出不稳定。对于AIVC白皮书，必须把实验可行性放进评估体系，否则生成设计会显得过于理想化。
+评估层级
+核心问题
+常用指标/方法
+常见误区
+结构合理性
+像不像一个物理可行蛋白？
+pLDDT、RMSD、Ramachandran、clash、Rosetta energy
+只看整体外观
+可折叠性
+序列能否折回目标骨架？
+AF2/ESMFold复核、目标骨架RMSD、PAE
+把高pLDDT等同于实验折叠成功
+功能一致性
+目标motif/界面/活性位点是否成立？
+motif RMSD、interface PAE、hotspot contacts、实验活性
+忽视功能残基几何
+特异性
+是否只结合目标而不乱结合？
+negative design、竞争靶点预测、突变验证
+只优化正向结合
+可开发性
+能否表达、纯化、稳定保存？
+solubility、aggregation、Tm、expression assay
+把计算候选当成可直接实验成功
+安全性
+是否存在双重用途风险？
+biosecurity review、序列筛查、功能边界
+忽视生成模型的潜在风险
+图5-15｜蛋白生成设计评估金字塔
+建议插图：底层结构合理性，中层可折叠性和功能一致性，上层实验可行性和安全性。可自绘。
+9. 典型应用场景：从骨架到细胞状态
+9.1 De novo backbone generation
+De novo backbone generation旨在生成没有直接天然模板的新骨架。它适合构建结构库、探索新fold或作为后续功能模块植入的支架。关键评估包括结构多样性、可折叠性、二级结构组成、核心 packing 和序列可设计性。它更像设计材料库，而不是直接设计功能蛋白。
+9.2 Motif scaffolding
+Motif scaffolding适合已知少量功能残基几何的任务，例如固定结合motif、金属结合几何或催化残基布局。核心指标是motif是否被保留以及支架是否稳定。它是把“局部功能知识”扩展为“完整蛋白结构”的典型方法。
+9.3 Binder design
+Binder design面向靶点表面生成结合蛋白，常用于候选结合剂、研究工具蛋白或潜在治疗分子前期探索。它的难点在于界面既要有足够接触，又要特异；既要自身稳定，又要结合后构象合理。实验验证通常是关键瓶颈。
+9.4 Enzyme scaffold与功能设计
+酶设计比简单binder更难，因为催化不仅要求结合底物，还要求过渡态稳定、催化残基精确取向、动态构象配合和水/离子环境正确。RFdiffusion可以帮助生成承载motif的支架，但真正酶活通常需要额外的物理建模、定向进化和大量实验筛选。
+9.5 面向AIVC的cell-state-oriented design
+AIVC更进一步：目标不只是分子层面的结合或折叠，而是细胞状态层面的变化。例如，希望设计一个蛋白扰动模块，使某类细胞从疾病状态向健康状态移动，或特异调节某条信号通路。形式上可以写为：
+\[
+S^\*,X^\*=\arg\max_{S,X}
+U\left(
+g_\phi(x_{\mathrm{cell}}, S, X)
+\right)
+\]
+其中 \(g_\phi\) 是细胞状态预测模型，\(U\) 是对目标细胞状态的效用函数。这个公式体现了未来AIVC的方向：分子生成不再只优化局部结构分数，而是与细胞状态模型联动，优化系统级效应。当前技术距离完全实现这一愿景仍有距离，但这正是AIVC白皮书需要强调的长期路线。
+图5-16｜从分子设计到细胞状态设计
+建议插图：设计蛋白 → 作用于靶点/通路 → 改变单细胞状态空间中的轨迹 → 通过Perturb-seq/蛋白组验证。可自绘为AIVC特色综合图。
+10. 工程实践：如何组织一次可复现的设计项目
+10.1 目录结构
+一个严肃的生成设计项目必须可复现。建议目录结构如下：
+project/
+├── README.md
+├── configs/
+│   ├── rfdiffusion.yaml
+│   ├── proteinmpnn.yaml
+│   └── filters.yaml
+├── inputs/
+│   ├── target.pdb
+│   ├── motif.pdb
+│   └── notes.md
+├── rfdiffusion_outputs/
+│   ├── backbones/
+│   └── logs/
+├── proteinmpnn_outputs/
+│   ├── sequences.fasta
+│   └── scores.csv
+├── structure_validation/
+│   ├── af2/
+│   ├── esmfold/
+│   └── pae_plddt/
+├── analysis/
+│   ├── metrics.csv
+│   ├── clustering.ipynb
+│   └── shortlist.csv
+├── figures/
+└── reports/
+    └── design_report.html
+最重要的是保存参数，而不是只保存最后结构。RFdiffusion的contig、噪声步数、随机种子、模型版本；ProteinMPNN的sampling temperature、fixed residues、designed chains；AF复核的模型版本、数据库、模板日期和recycle次数；这些都决定结果是否可复现。
+10.2 候选表格
+建议每个候选都整理为一行，包含生成来源、序列、骨架、复核结构、关键指标和实验决策：
+字段
+含义
+design_id
+唯一候选编号
+rfdiffusion_seed
+结构生成随机种子
+backbone_path
+RFdiffusion输出骨架
+mpnn_temp
+ProteinMPNN采样温度
+sequence
+设计序列
+mean_plddt
+复核平均pLDDT
+pae_summary
+结构域/界面PAE摘要
+backbone_rmsd
+复核结构与目标骨架RMSD
+motif_rmsd
+motif保留程度
+interface_score
+界面相关指标
+novelty
+与已知序列/结构相似性
+decision
+保留、淘汰或待人工检查
+图5-17｜可复现设计项目的数据流与文件结构
+建议插图：输入、配置、生成输出、序列输出、复核输出、指标表、报告之间的关系。可自绘为工程架构图。
+11. 常见误区与失败模式
+误区
+表面现象
+本质问题
+建议
+只看生成结构漂亮
+骨架像蛋白
+没有序列、没有复核、没有功能证据
+必须ProteinMPNN + AF复核 + 指标筛选
+只看pLDDT
+单体高置信
+界面、motif或结构域相对位置可能错
+同时看PAE、motif RMSD、interface指标
+盲目提高采样温度
+序列很新颖
+结构和功能失败率上升
+分温度采样并保留多层过滤
+把ProtGPT2当功能设计器
+生成很多序列
+缺乏显式结构和功能约束
+用于探索，必须结构和实验复核
+忽略表达与溶解性
+计算分数很好
+湿实验无法获得蛋白
+加入developability过滤与小规模表达测试
+只优化正向结合
+目标结合可能强
+非特异结合风险高
+加入negative design和竞争靶点评估
+没有记录参数
+结果无法复现
+工程管理失败
+保存配置、版本、seed、日志和指标表
+核心原则：
+生成模型提出的是候选，不是结论。一个候选必须依次通过结构、序列、功能、实验和安全层面的审查，才有资格被称为设计结果。
+12. AIVC中的闭环主动学习
+真正的AIVC设计系统不应是一次性生成候选，而应是闭环主动学习系统。第一轮模型根据已有结构和功能数据生成候选；实验平台测试表达、稳定性、结合或细胞效应；实验结果回流数据库；模型更新对成功和失败区域的理解；下一轮生成更有针对性的候选。这个过程类似定向进化，但搜索策略由AI模型指导。
+可以用贝叶斯优化或主动学习形式描述：
+\[
+x_{t+1}=\arg\max_x a(x;\mathcal{D}_t)
+\]
+其中 \(x\) 是候选分子或设计方案，\(\mathcal{D}_t\) 是到第 \(t\) 轮为止的实验数据，\(a(x)\) 是采集函数，用于平衡高预期收益和高不确定区域探索。对于AIVC，采集函数不应只看单一分子分数，还应考虑细胞状态变化、实验成本、安全风险和信息增益。
+\[
+a(x)=\lambda_1 \mathbb{E}[U(x)] + \lambda_2 \mathrm{Uncertainty}(x) - \lambda_3 \mathrm{Cost}(x) - \lambda_4 \mathrm{Risk}(x)
+\]
+这个公式表达了闭环设计的核心：不仅要选择“可能最好”的候选，也要选择“最能让模型学到东西”的候选。若所有实验都只测试相似高分样本，模型很难改进；若所有实验都探索未知区域，成功率又可能太低。AIVC的优势在于把结构生成、细胞状态预测和实验设计统一到一个主动学习框架中。
+图5-18｜AIVC闭环主动学习：生成、实验、回流、再生成
+建议插图：模型生成候选 → 实验测试 → 数据库更新 → 模型微调/重排序 → 下一轮候选。标注exploration与exploitation。可自绘。
+13. 个人网站项目建议：如何展示你真正掌握生成设计
+如果你要把本章变成个人网站上的知识资产，建议做一个“最小可复现蛋白设计案例”。不要做危险目标，不要宣称实验成功；选择一个公开、良性、教学型结构片段或toy target，展示完整计算流程和你对边界的理解。优秀展示的重点不是炫技，而是说明你知道每一步解决什么问题、产生什么风险、如何验证。
+个人项目页面建议结构：
+1. 设计目标
+   - 任务类型：de novo / motif scaffold / toy binder
+   - 为什么选择这个目标
+2. 输入与约束
+   - PDB来源
+   - motif或target定义
+   - contig设置说明
+3. RFdiffusion生成骨架
+   - 参数
+   - 输出结构示例
+   - 初步过滤
+4. ProteinMPNN设计序列
+   - 采样温度
+   - 每个骨架生成多少序列
+   - fixed positions说明
+5. 结构复核
+   - AF2/ESMFold结果
+   - pLDDT、PAE、RMSD、motif RMSD
+6. 候选筛选
+   - 评分表
+   - 多样性聚类
+   - shortlist
+7. 局限与下一步
+   - 未做实验
+   - 可能失败原因
+   - 如何湿实验验证
+8. 代码与可复现性
+   - GitHub链接
+   - 参数文件
+   - 环境说明
+对于向导师展示，这种页面比单纯贴“我用了RFdiffusion”更有价值。它体现的是研究能力：任务抽象、模型选择、参数解释、结果判断、边界意识和实验思维。
+图5-19｜个人网站展示页模板：从任务到候选短名单
+建议插图：网页布局线框图。左侧目录，中间流程，右侧指标卡片，下方候选表格和局限说明。可自绘。
+14. 本章小结
+本章从结构预测自然过渡到分子生成与设计，建立了现代AI蛋白设计的基本框架。核心逻辑不是“模型越新越好”，而是把设计问题拆解为结构空间生成、结构到序列设计、序列空间探索和多层评估闭环。RFdiffusion负责在三维结构空间中生成蛋白骨架，尤其适合de novo backbone、motif scaffolding、binder design、partial diffusion和对称设计；ProteinMPNN负责给定骨架设计可折叠序列，是RFdiffusion之后最常用的序列回填模块；ProtGPT2代表自回归蛋白语言模型路线，适合在序列空间中探索新颖候选，但缺乏显式几何控制，必须依赖结构复核和实验验证。
+本章最重要的实践结论是：蛋白生成设计必须被看作闭环工程，而不是单次模型推理。一个合理候选至少要经历任务约束定义、骨架生成、序列设计、结构复核、功能位点检查、多样性筛选、可开发性评估和实验验证。pLDDT、PAE、RMSD、motif RMSD、interface metrics等指标分别回答不同问题，任何单一分数都不足以定义成功。计算模型可以显著提高候选生成效率，但不能替代表达、纯化、结合、活性、细胞效应和安全审查。
+对AIVC而言，第五章的意义在于把虚拟细胞从预测系统推进到创造系统。未来的AIVC不仅能预测某个扰动会如何改变细胞状态，还可能根据目标细胞状态反向设计分子干预方案。这个愿景需要结构预测、分子生成、组学读出、细胞状态模型和自动化实验平台共同组成闭环。换句话说，分子生成与设计是AIVC从“理解生命”走向“干预生命”的关键接口。
+全书前五章闭环：
+第一章建立AIVC世界观，第二章提供算法底板，第三章解释现实数据如何进入模型，第四章讲清结构预测，第五章把结构预测能力转化为生成设计能力。至此，白皮书完成了从“数据—模型—结构—设计—实验闭环”的第一轮主线。
+15. 思考题
+为什么RFdiffusion、ProteinMPNN和ProtGPT2不是互相替代关系，而是互补关系？
+蛋白设计中的序列空间、结构空间和功能空间分别是什么？为什么设计问题通常是反问题？
+扩散模型为什么适合生成蛋白骨架？它相比一次性生成有什么优势？
+Motif scaffolding和binder design的条件分别是什么？它们的主要失败模式有哪些？
+ProteinMPNN为什么可以被称为逆折叠模型？message passing在其中发挥什么作用？
+采样温度如何影响ProteinMPNN和ProtGPT2输出候选的保守性与多样性？
+为什么ProtGPT2生成的序列不能直接视为功能蛋白？需要哪些后续过滤？
+设计候选的pLDDT很高是否足够？还需要哪些指标？
+如何设计一个可复现的RFdiffusion → ProteinMPNN → AF复核个人项目？
+如果AIVC要根据目标细胞状态反向设计分子干预方案，还缺哪些数据和模型能力？
+16. 延伸阅读
+Watson et al. De novo design of protein structure and function with RFdiffusion.
+Nature
+, 2023.
+Dauparas et al. Robust deep learning-based protein sequence design using ProteinMPNN.
+Science
+, 2022.
+Ferruz et al. ProtGPT2 is a deep unsupervised language model for protein design.
+Nature Communications
+, 2022.
+Ho et al. Denoising Diffusion Probabilistic Models.
+NeurIPS
+, 2020.
+Baek et al. Accurate prediction of protein structures and interactions using a three-track neural network.
+Science
+, 2021.
+Jumper et al. Highly accurate protein structure prediction with AlphaFold.
+Nature
+, 2021.
+Lin et al. Evolutionary-scale prediction of atomic-level protein structure with a language model.
+Science
+, 2023.
+RosettaCommons/RFdiffusion official GitHub repository and examples.
+dauparas/ProteinMPNN official GitHub repository and examples.
+Hugging Face model page and original resources for ProtGPT2.
+17. 致谢
+本章内容建立在蛋白质结构预测、生成式模型、蛋白序列设计和开源生物设计工具社区的大量公开成果之上。特别感谢RFdiffusion、ProteinMPNN、ProtGPT2、RoseTTAFold、AlphaFold、ESMFold、ColabFold、Rosetta、Hugging Face和蛋白设计社区提供的论文、代码、教程和开放模型资源。本文仅用于个人学习、科研训练和公开知识资产建设；若后续在个人网站中加入论文图、官方架构图、软件命令截图或模型输出示例，建议优先采用“重绘 + 明确来源标注”的方式，以兼顾可读性、可维护性与版权规范。
+```
