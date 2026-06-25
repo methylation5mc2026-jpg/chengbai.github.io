@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="620" viewBox="0 0 1100 620" role="img" aria-labelledby="title desc">
+<defs>
+<marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto"><path d="M2,2 L10,6 L2,10 Z" fill="#64748b"/></marker>
+<linearGradient id="heat" x1="0" x2="1"><stop offset="0" stop-color="#dbeafe"/><stop offset="0.5" stop-color="#34d399"/><stop offset="1" stop-color="#fb7185"/></linearGradient>
+</defs>
+<title id="title">图1-1｜AIVC总览图：从多模态生命数据到虚拟实验闭环</title>
+<desc id="desc">自绘Mermaid或SVG。左侧为序列、结构、蛋白组、单细胞、空间组学、扰动实验；中间为表示学习与基础模型；右侧为结构预测、细胞状态预测、分子生成、虚拟实验；底部为实验验证与数据回流。</desc>
+<rect width="1100" height="620" fill="#f8fafc"/>
+<rect x="44" y="44" width="1012" height="532" rx="10" fill="#ffffff" stroke="#d1d5db" stroke-width="2"/>
+<text x="550" y="92" text-anchor="middle" font-family="Inter, 'Microsoft YaHei', Arial, sans-serif" font-size="28" font-weight="700" fill="#111827">图1-1｜AIVC总览图：从多模态生命数据到虚拟实验闭环</text>
+<line x1="193" y1="302" x2="239.5" y2="338" stroke="#64748b" stroke-width="3" marker-end="url(#arrow)"/>
+<rect x="23" y="248" width="164" height="108" rx="8" fill="#ffffff" stroke="#2563eb" stroke-width="3"/>
+<text x="105" y="310" text-anchor="middle" font-family="Inter, 'Microsoft YaHei', Arial, sans-serif" font-size="20" font-weight="600" fill="#1f2937">AIVC总览图</text>
+<line x1="415.5" y1="338" x2="462" y2="302" stroke="#64748b" stroke-width="3" marker-end="url(#arrow)"/>
+<rect x="245.5" y="284" width="164" height="108" rx="8" fill="#ffffff" stroke="#0f766e" stroke-width="3"/>
+<text x="327.5" y="332" text-anchor="middle" font-family="Inter, 'Microsoft YaHei', Arial, sans-serif" font-size="20" font-weight="600" fill="#1f2937">从多模态生命数据到虚拟实验闭环</text>
+<text x="327.5" y="357" text-anchor="middle" font-family="Inter, 'Microsoft YaHei', Arial, sans-serif" font-size="20" font-weight="600" fill="#1f2937">自绘Mermaid或SVG</text>
+<line x1="638" y1="302" x2="684.5" y2="338" stroke="#64748b" stroke-width="3" marker-end="url(#arrow)"/>
+<rect x="468" y="248" width="164" height="108" rx="8" fill="#ffffff" stroke="#f59e0b" stroke-width="3"/>
+<text x="550" y="310" text-anchor="middle" font-family="Inter, 'Microsoft YaHei', Arial, sans-serif" font-size="20" font-weight="600" fill="#1f2937">为序列</text>
+<line x1="860.5" y1="338" x2="907" y2="302" stroke="#64748b" stroke-width="3" marker-end="url(#arrow)"/>
+<rect x="690.5" y="284" width="164" height="108" rx="8" fill="#ffffff" stroke="#dc2626" stroke-width="3"/>
+<text x="772.5" y="346" text-anchor="middle" font-family="Inter, 'Microsoft YaHei', Arial, sans-serif" font-size="20" font-weight="600" fill="#1f2937">结构</text>
+
+<rect x="913" y="248" width="164" height="108" rx="8" fill="#ffffff" stroke="#7c3aed" stroke-width="3"/>
+<text x="995" y="310" text-anchor="middle" font-family="Inter, 'Microsoft YaHei', Arial, sans-serif" font-size="20" font-weight="600" fill="#1f2937">蛋白组</text>
+<text x="550" y="542" text-anchor="middle" font-family="Inter, 'Microsoft YaHei', Arial, sans-serif" font-size="18" fill="#64748b">自绘Mermaid或SVG。左侧为序列、结构、蛋白组、单细胞、空间组学、扰动实验；中间为表示学习与基础模型；右侧为结构预测、细胞状态预测、分子生</text>
+</svg>

@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="620" viewBox="0 0 1100 620" role="img" aria-labelledby="title desc">
+<defs>
+<marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto"><path d="M2,2 L10,6 L2,10 Z" fill="#64748b"/></marker>
+<linearGradient id="heat" x1="0" x2="1"><stop offset="0" stop-color="#dbeafe"/><stop offset="0.5" stop-color="#34d399"/><stop offset="1" stop-color="#fb7185"/></linearGradient>
+</defs>
+<title id="title">图5-14｜候选筛选：分数、结构多样性与实验名额之间的平衡</title>
+<desc id="desc">二维散点图，横轴设计分数，纵轴多样性或novelty；选择点覆盖高分区域和探索区域。</desc>
+<rect width="1100" height="620" fill="#f8fafc"/>
+<rect x="44" y="44" width="1012" height="532" rx="10" fill="#ffffff" stroke="#d1d5db" stroke-width="2"/>
+<text x="550" y="92" text-anchor="middle" font-family="Inter, 'Microsoft YaHei', Arial, sans-serif" font-size="28" font-weight="700" fill="#111827">图5-14｜候选筛选：分数、结构多样性与实验名额之间的平衡</text>
+<line x1="180" y1="440" x2="820" y2="440" stroke="#334155" stroke-width="3"/><line x1="180" y1="440" x2="180" y2="160" stroke="#334155" stroke-width="3"/>
+<text x="500" y="488" text-anchor="middle" font-family="Inter, 'Microsoft YaHei', Arial, sans-serif" font-size="22" fill="#334155">设计分数 / 表示维度</text>
+<text x="115" y="300" text-anchor="middle" transform="rotate(-90 115 300)" font-family="Inter, 'Microsoft YaHei', Arial, sans-serif" font-size="22" fill="#334155">多样性 / 风险</text>
+<circle cx="230" cy="420" r="6" fill="#2563eb" opacity="0.82"/>
+<circle cx="303" cy="373" r="7" fill="#0f766e" opacity="0.82"/>
+<circle cx="376" cy="326" r="8" fill="#f59e0b" opacity="0.82"/>
+<circle cx="449" cy="279" r="9" fill="#2563eb" opacity="0.82"/>
+<circle cx="522" cy="232" r="6" fill="#0f766e" opacity="0.82"/>
+<circle cx="595" cy="415" r="7" fill="#f59e0b" opacity="0.82"/>
+<circle cx="668" cy="368" r="8" fill="#2563eb" opacity="0.82"/>
+<circle cx="741" cy="321" r="9" fill="#0f766e" opacity="0.82"/>
+<circle cx="254" cy="274" r="6" fill="#f59e0b" opacity="0.82"/>
+<circle cx="327" cy="227" r="7" fill="#2563eb" opacity="0.82"/>
+<circle cx="400" cy="410" r="8" fill="#0f766e" opacity="0.82"/>
+<circle cx="473" cy="363" r="9" fill="#f59e0b" opacity="0.82"/>
+<circle cx="546" cy="316" r="6" fill="#2563eb" opacity="0.82"/>
+<circle cx="619" cy="269" r="7" fill="#0f766e" opacity="0.82"/>
+<circle cx="692" cy="222" r="8" fill="#f59e0b" opacity="0.82"/>
+<circle cx="765" cy="405" r="9" fill="#2563eb" opacity="0.82"/>
+<circle cx="278" cy="358" r="6" fill="#0f766e" opacity="0.82"/>
+<circle cx="351" cy="311" r="7" fill="#f59e0b" opacity="0.82"/>
+<circle cx="424" cy="264" r="8" fill="#2563eb" opacity="0.82"/>
+<circle cx="497" cy="217" r="9" fill="#0f766e" opacity="0.82"/>
+<circle cx="570" cy="400" r="6" fill="#f59e0b" opacity="0.82"/>
+<circle cx="643" cy="353" r="7" fill="#2563eb" opacity="0.82"/>
+<circle cx="716" cy="306" r="8" fill="#0f766e" opacity="0.82"/>
+<circle cx="789" cy="259" r="9" fill="#f59e0b" opacity="0.82"/>
+<circle cx="302" cy="212" r="6" fill="#2563eb" opacity="0.82"/>
+<circle cx="375" cy="395" r="7" fill="#0f766e" opacity="0.82"/>
+<circle cx="448" cy="348" r="8" fill="#f59e0b" opacity="0.82"/>
+<circle cx="521" cy="301" r="9" fill="#2563eb" opacity="0.82"/>
+<circle cx="594" cy="254" r="6" fill="#0f766e" opacity="0.82"/>
+<circle cx="667" cy="207" r="7" fill="#f59e0b" opacity="0.82"/>
+<circle cx="740" cy="390" r="8" fill="#2563eb" opacity="0.82"/>
+<circle cx="253" cy="343" r="9" fill="#0f766e" opacity="0.82"/>
+<circle cx="326" cy="296" r="6" fill="#f59e0b" opacity="0.82"/>
+<circle cx="399" cy="249" r="7" fill="#2563eb" opacity="0.82"/>
+<text x="550" y="542" text-anchor="middle" font-family="Inter, 'Microsoft YaHei', Arial, sans-serif" font-size="18" fill="#64748b">二维散点图，横轴设计分数，纵轴多样性或novelty；选择点覆盖高分区域和探索区域。</text>
+</svg>

@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="620" viewBox="0 0 1100 620" role="img" aria-labelledby="title desc">
+<defs>
+<marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto"><path d="M2,2 L10,6 L2,10 Z" fill="#64748b"/></marker>
+<linearGradient id="heat" x1="0" x2="1"><stop offset="0" stop-color="#dbeafe"/><stop offset="0.5" stop-color="#34d399"/><stop offset="1" stop-color="#fb7185"/></linearGradient>
+</defs>
+<title id="title">图4-13｜结构预测工具选择决策树</title>
+<desc id="desc">问题类型 → 单体/复合体/核酸/配体/高通量/设计候选 → 推荐模型。</desc>
+<rect width="1100" height="620" fill="#f8fafc"/>
+<rect x="44" y="44" width="1012" height="532" rx="10" fill="#ffffff" stroke="#d1d5db" stroke-width="2"/>
+<text x="550" y="92" text-anchor="middle" font-family="Inter, 'Microsoft YaHei', Arial, sans-serif" font-size="28" font-weight="700" fill="#111827">图4-13｜结构预测工具选择决策树</text>
+<rect x="430" y="165" width="240" height="86" rx="8" fill="#ffffff" stroke="#2563eb" stroke-width="3"/>
+<text x="550" y="205" text-anchor="middle" font-family="Inter, 'Microsoft YaHei', Arial, sans-serif" font-size="22" font-weight="600" fill="#253041">结构预测工具选择决策树</text>
+<text x="550" y="231" text-anchor="middle" font-family="Inter, 'Microsoft YaHei', Arial, sans-serif" font-size="22" font-weight="600" fill="#253041">问题类型</text>
+<line x1="550" y1="252" x2="217" y2="355" stroke="#64748b" stroke-width="3" marker-end="url(#arrow)"/>
+<rect x="125" y="355" width="184" height="92" rx="8" fill="#f8fafc" stroke="#0f766e" stroke-width="2"/>
+<text x="217" y="397" text-anchor="middle" font-family="Inter, 'Microsoft YaHei', Arial, sans-serif" font-size="20" font-weight="600" fill="#253041">单体</text>
+<line x1="550" y1="252" x2="437" y2="355" stroke="#64748b" stroke-width="3" marker-end="url(#arrow)"/>
+<rect x="345" y="355" width="184" height="92" rx="8" fill="#f8fafc" stroke="#0f766e" stroke-width="2"/>
+<text x="437" y="397" text-anchor="middle" font-family="Inter, 'Microsoft YaHei', Arial, sans-serif" font-size="20" font-weight="600" fill="#253041">复合体</text>
+<line x1="550" y1="252" x2="657" y2="355" stroke="#64748b" stroke-width="3" marker-end="url(#arrow)"/>
+<rect x="565" y="355" width="184" height="92" rx="8" fill="#f8fafc" stroke="#0f766e" stroke-width="2"/>
+<text x="657" y="397" text-anchor="middle" font-family="Inter, 'Microsoft YaHei', Arial, sans-serif" font-size="20" font-weight="600" fill="#253041">核酸</text>
+<line x1="550" y1="252" x2="877" y2="355" stroke="#64748b" stroke-width="3" marker-end="url(#arrow)"/>
+<rect x="785" y="355" width="184" height="92" rx="8" fill="#f8fafc" stroke="#0f766e" stroke-width="2"/>
+<text x="877" y="397" text-anchor="middle" font-family="Inter, 'Microsoft YaHei', Arial, sans-serif" font-size="20" font-weight="600" fill="#253041">配体</text>
+<text x="550" y="542" text-anchor="middle" font-family="Inter, 'Microsoft YaHei', Arial, sans-serif" font-size="18" fill="#64748b">问题类型 → 单体/复合体/核酸/配体/高通量/设计候选 → 推荐模型。</text>
+</svg>

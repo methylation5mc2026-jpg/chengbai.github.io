@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="620" viewBox="0 0 1100 620" role="img" aria-labelledby="title desc">
+<defs>
+<marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto"><path d="M2,2 L10,6 L2,10 Z" fill="#64748b"/></marker>
+<linearGradient id="heat" x1="0" x2="1"><stop offset="0" stop-color="#dbeafe"/><stop offset="0.5" stop-color="#34d399"/><stop offset="1" stop-color="#fb7185"/></linearGradient>
+</defs>
+<title id="title">图5-15｜蛋白生成设计评估金字塔</title>
+<desc id="desc">底层结构合理性，中层可折叠性和功能一致性，上层实验可行性和安全性。</desc>
+<rect width="1100" height="620" fill="#f8fafc"/>
+<rect x="44" y="44" width="1012" height="532" rx="10" fill="#ffffff" stroke="#d1d5db" stroke-width="2"/>
+<text x="550" y="92" text-anchor="middle" font-family="Inter, 'Microsoft YaHei', Arial, sans-serif" font-size="28" font-weight="700" fill="#111827">图5-15｜蛋白生成设计评估金字塔</text>
+<polygon points="260,190 840,190 795,248 305,248" fill="#fee2e2" stroke="#334155" stroke-width="2"/>
+<text x="550" y="228" text-anchor="middle" font-family="Inter, 'Microsoft YaHei', Arial, sans-serif" font-size="22" font-weight="600" fill="#253041">实验可行性与安全</text>
+<polygon points="330,262 770,262 725,320 375,320" fill="#fef3c7" stroke="#334155" stroke-width="2"/>
+<text x="550" y="300" text-anchor="middle" font-family="Inter, 'Microsoft YaHei', Arial, sans-serif" font-size="22" font-weight="600" fill="#253041">功能一致性</text>
+<polygon points="400,334 700,334 655,392 445,392" fill="#ccfbf1" stroke="#334155" stroke-width="2"/>
+<text x="550" y="372" text-anchor="middle" font-family="Inter, 'Microsoft YaHei', Arial, sans-serif" font-size="22" font-weight="600" fill="#253041">可折叠性</text>
+<polygon points="470,406 630,406 585,464 515,464" fill="#dbeafe" stroke="#334155" stroke-width="2"/>
+<text x="550" y="444" text-anchor="middle" font-family="Inter, 'Microsoft YaHei', Arial, sans-serif" font-size="22" font-weight="600" fill="#253041">结构合理性</text>
+<text x="550" y="542" text-anchor="middle" font-family="Inter, 'Microsoft YaHei', Arial, sans-serif" font-size="18" fill="#64748b">底层结构合理性，中层可折叠性和功能一致性，上层实验可行性和安全性。</text>
+</svg>

@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="620" viewBox="0 0 1100 620" role="img" aria-labelledby="title desc">
+<defs>
+<marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto"><path d="M2,2 L10,6 L2,10 Z" fill="#64748b"/></marker>
+<linearGradient id="heat" x1="0" x2="1"><stop offset="0" stop-color="#dbeafe"/><stop offset="0.5" stop-color="#34d399"/><stop offset="1" stop-color="#fb7185"/></linearGradient>
+</defs>
+<title id="title">图2-6｜SGD与Adam的路径对比</title>
+<desc id="desc">同一损失曲面上，SGD路径震荡更明显，Adam路径更平滑。</desc>
+<rect width="1100" height="620" fill="#f8fafc"/>
+<rect x="44" y="44" width="1012" height="532" rx="10" fill="#ffffff" stroke="#d1d5db" stroke-width="2"/>
+<text x="550" y="92" text-anchor="middle" font-family="Inter, 'Microsoft YaHei', Arial, sans-serif" font-size="28" font-weight="700" fill="#111827">图2-6｜SGD与Adam的路径对比</text>
+<line x1="193" y1="302" x2="313.6666666666667" y2="338" stroke="#64748b" stroke-width="3" marker-end="url(#arrow)"/>
+<rect x="23" y="248" width="164" height="108" rx="8" fill="#ffffff" stroke="#2563eb" stroke-width="3"/>
+<text x="105" y="310" text-anchor="middle" font-family="Inter, 'Microsoft YaHei', Arial, sans-serif" font-size="20" font-weight="600" fill="#1f2937">SGD</text>
+<line x1="489.6666666666667" y1="338" x2="610.3333333333334" y2="302" stroke="#64748b" stroke-width="3" marker-end="url(#arrow)"/>
+<rect x="319.6666666666667" y="284" width="164" height="108" rx="8" fill="#ffffff" stroke="#0f766e" stroke-width="3"/>
+<text x="401.6666666666667" y="332" text-anchor="middle" font-family="Inter, 'Microsoft YaHei', Arial, sans-serif" font-size="20" font-weight="600" fill="#1f2937">Adam的路径对比</text>
+<text x="401.6666666666667" y="357" text-anchor="middle" font-family="Inter, 'Microsoft YaHei', Arial, sans-serif" font-size="20" font-weight="600" fill="#1f2937">同一损失曲面上</text>
+<line x1="786.3333333333334" y1="302" x2="907" y2="338" stroke="#64748b" stroke-width="3" marker-end="url(#arrow)"/>
+<rect x="616.3333333333334" y="248" width="164" height="108" rx="8" fill="#ffffff" stroke="#f59e0b" stroke-width="3"/>
+<text x="698.3333333333334" y="310" text-anchor="middle" font-family="Inter, 'Microsoft YaHei', Arial, sans-serif" font-size="20" font-weight="600" fill="#1f2937">SGD路径震荡更明显</text>
+
+<rect x="913" y="284" width="164" height="108" rx="8" fill="#ffffff" stroke="#dc2626" stroke-width="3"/>
+<text x="995" y="346" text-anchor="middle" font-family="Inter, 'Microsoft YaHei', Arial, sans-serif" font-size="20" font-weight="600" fill="#1f2937">Adam路径更平滑</text>
+<text x="550" y="542" text-anchor="middle" font-family="Inter, 'Microsoft YaHei', Arial, sans-serif" font-size="18" fill="#64748b">同一损失曲面上，SGD路径震荡更明显，Adam路径更平滑。</text>
+</svg>

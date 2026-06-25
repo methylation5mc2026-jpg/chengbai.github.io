@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="620" viewBox="0 0 1100 620" role="img" aria-labelledby="title desc">
+<defs>
+<marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto"><path d="M2,2 L10,6 L2,10 Z" fill="#64748b"/></marker>
+<linearGradient id="heat" x1="0" x2="1"><stop offset="0" stop-color="#dbeafe"/><stop offset="0.5" stop-color="#34d399"/><stop offset="1" stop-color="#fb7185"/></linearGradient>
+</defs>
+<title id="title">图5-17｜可复现设计项目的数据流与文件结构</title>
+<desc id="desc">输入、配置、生成输出、序列输出、复核输出、指标表、报告之间的关系。</desc>
+<rect width="1100" height="620" fill="#f8fafc"/>
+<rect x="44" y="44" width="1012" height="532" rx="10" fill="#ffffff" stroke="#d1d5db" stroke-width="2"/>
+<text x="550" y="92" text-anchor="middle" font-family="Inter, 'Microsoft YaHei', Arial, sans-serif" font-size="28" font-weight="700" fill="#111827">图5-17｜可复现设计项目的数据流与文件结构</text>
+<rect x="115" y="165" width="870" height="330" rx="8" fill="#ffffff" stroke="#334155" stroke-width="3"/>
+<rect x="145" y="205" width="250" height="220" rx="8" fill="#dbeafe" stroke="#2563eb" stroke-width="2"/>
+<rect x="425" y="205" width="250" height="100" rx="8" fill="#ccfbf1" stroke="#0f766e" stroke-width="2"/>
+<rect x="425" y="325" width="250" height="100" rx="8" fill="#fef3c7" stroke="#d97706" stroke-width="2"/>
+<rect x="705" y="205" width="250" height="220" rx="8" fill="#fee2e2" stroke="#dc2626" stroke-width="2"/>
+<text x="270" y="320" text-anchor="middle" font-family="Inter, 'Microsoft YaHei', Arial, sans-serif" font-size="24" font-weight="600" fill="#253041">结构图</text>
+<text x="550" y="250" text-anchor="middle" font-family="Inter, 'Microsoft YaHei', Arial, sans-serif" font-size="22" font-weight="600" fill="#253041">置信度</text>
+<text x="550" y="280" text-anchor="middle" font-family="Inter, 'Microsoft YaHei', Arial, sans-serif" font-size="22" font-weight="600" fill="#253041">指标</text>
+<text x="550" y="370" text-anchor="middle" font-family="Inter, 'Microsoft YaHei', Arial, sans-serif" font-size="22" font-weight="600" fill="#253041">参数</text>
+<text x="550" y="400" text-anchor="middle" font-family="Inter, 'Microsoft YaHei', Arial, sans-serif" font-size="22" font-weight="600" fill="#253041">局限</text>
+<text x="830" y="315" text-anchor="middle" font-family="Inter, 'Microsoft YaHei', Arial, sans-serif" font-size="22" font-weight="600" fill="#253041">结论</text>
+<text x="830" y="347" text-anchor="middle" font-family="Inter, 'Microsoft YaHei', Arial, sans-serif" font-size="22" font-weight="600" fill="#253041">下一步</text>
+<text x="550" y="542" text-anchor="middle" font-family="Inter, 'Microsoft YaHei', Arial, sans-serif" font-size="18" fill="#64748b">输入、配置、生成输出、序列输出、复核输出、指标表、报告之间的关系。</text>
+</svg>
