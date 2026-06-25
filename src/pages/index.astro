@@ -115,8 +115,48 @@ const honors = [
     <aside class="lg:sticky lg:top-24 lg:h-fit">
       <section class="paper overflow-hidden">
         <div class="border-b border-ink-200 bg-white p-6 dark:border-white/10 dark:bg-white/[0.03]">
-          <div class="mx-auto flex h-36 w-36 items-center justify-center rounded-full border border-ink-200 bg-ink-100 font-serif text-5xl text-ink-700 dark:border-white/10 dark:bg-white/10 dark:text-ink-100">
-            CB
+          <div class="mx-auto w-44" data-profile-photo-root>
+            <label
+              class="group relative mx-auto flex h-36 w-36 cursor-pointer items-center justify-center overflow-hidden rounded-full border border-ink-200 bg-ink-100 font-serif text-5xl text-ink-700 transition hover:border-accent-500 dark:border-white/10 dark:bg-white/10 dark:text-ink-100"
+              for="profile-photo-input"
+              aria-label="Upload a local profile photo"
+            >
+              <img
+                class="hidden h-full w-full object-cover"
+                data-profile-photo-preview
+                alt="Cheng Bai profile photo preview"
+              />
+              <span data-profile-photo-initials>CB</span>
+              <span class="absolute inset-x-4 bottom-3 rounded-full border border-white/70 bg-ink-900/70 px-3 py-1 text-center font-sans text-[11px] font-medium text-white opacity-0 shadow-sm backdrop-blur transition group-hover:opacity-100">
+                上传照片
+              </span>
+              <input
+                id="profile-photo-input"
+                class="sr-only"
+                data-profile-photo-input
+                type="file"
+                accept="image/png,image/jpeg,image/webp"
+              />
+            </label>
+            <div class="mt-3 flex items-center justify-center gap-2">
+              <button
+                class="tag-chip bg-white/70 transition hover:border-accent-500 hover:text-accent-600 dark:bg-white/[0.04] dark:hover:text-accent-400"
+                data-profile-photo-trigger
+                type="button"
+              >
+                上传照片
+              </button>
+              <button
+                class="tag-chip hidden bg-white/70 transition hover:border-accent-500 hover:text-accent-600 dark:bg-white/[0.04] dark:hover:text-accent-400"
+                data-profile-photo-reset
+                type="button"
+              >
+                恢复默认
+              </button>
+            </div>
+            <p class="mt-2 text-center text-xs leading-5 text-ink-500 dark:text-ink-400" data-profile-photo-status>
+              仅保存在当前浏览器
+            </p>
           </div>
           <h1 class="mt-5 text-center font-serif text-3xl tracking-normal">白城</h1>
           <p class="mt-2 text-center font-mono text-xs uppercase tracking-[0.16em] text-ink-500 dark:text-ink-400">Cheng Bai</p>
@@ -281,4 +321,129 @@ const honors = [
       </section>
     </div>
   </div>
+
+  <script>
+    const root = document.querySelector("[data-profile-photo-root]");
+
+    if (root) {
+      const storageKey = "chengbai.profilePhoto";
+      const input = root.querySelector<HTMLInputElement>("[data-profile-photo-input]");
+      const trigger = root.querySelector<HTMLButtonElement>("[data-profile-photo-trigger]");
+      const reset = root.querySelector<HTMLButtonElement>("[data-profile-photo-reset]");
+      const preview = root.querySelector<HTMLImageElement>("[data-profile-photo-preview]");
+      const initials = root.querySelector<HTMLElement>("[data-profile-photo-initials]");
+      const status = root.querySelector<HTMLElement>("[data-profile-photo-status]");
+
+      const setStatus = (message: string) => {
+        if (status) status.textContent = message;
+      };
+
+      const storage = {
+        get() {
+          try {
+            return localStorage.getItem(storageKey);
+          } catch {
+            return null;
+          }
+        },
+        set(value: string) {
+          try {
+            localStorage.setItem(storageKey, value);
+            return true;
+          } catch {
+            return false;
+          }
+        },
+        remove() {
+          try {
+            localStorage.removeItem(storageKey);
+          } catch {
+            // Ignore storage errors; reset still updates the visible preview.
+          }
+        }
+      };
+
+      const showPhoto = (dataUrl: string) => {
+        if (!preview || !initials || !reset) return;
+        preview.src = dataUrl;
+        preview.classList.remove("hidden");
+        initials.classList.add("hidden");
+        reset.classList.remove("hidden");
+        setStatus("照片已在本机保存");
+      };
+
+      const clearPhoto = () => {
+        if (!preview || !initials || !reset || !input) return;
+        storage.remove();
+        preview.removeAttribute("src");
+        preview.classList.add("hidden");
+        initials.classList.remove("hidden");
+        reset.classList.add("hidden");
+        input.value = "";
+        setStatus("仅保存在当前浏览器");
+      };
+
+      const loadImage = (source: string) =>
+        new Promise<HTMLImageElement>((resolve, reject) => {
+          const image = new Image();
+          image.onload = () => resolve(image);
+          image.onerror = reject;
+          image.src = source;
+        });
+
+      const readAsDataUrl = (file: File) =>
+        new Promise<string>((resolve, reject) => {
+          const reader = new FileReader();
+          reader.onload = () => resolve(String(reader.result));
+          reader.onerror = reject;
+          reader.readAsDataURL(file);
+        });
+
+      const preparePhoto = async (file: File) => {
+        const source = await readAsDataUrl(file);
+        const image = await loadImage(source);
+        const maxSide = 720;
+        const scale = Math.min(1, maxSide / Math.max(image.width, image.height));
+        const width = Math.max(1, Math.round(image.width * scale));
+        const height = Math.max(1, Math.round(image.height * scale));
+        const canvas = document.createElement("canvas");
+        canvas.width = width;
+        canvas.height = height;
+        const context = canvas.getContext("2d");
+        if (!context) return source;
+        context.drawImage(image, 0, 0, width, height);
+        return canvas.toDataURL(file.type === "image/png" ? "image/png" : "image/jpeg", 0.9);
+      };
+
+      trigger?.addEventListener("click", () => input?.click());
+      reset?.addEventListener("click", clearPhoto);
+
+      input?.addEventListener("change", async () => {
+        const file = input.files?.[0];
+        if (!file) return;
+        if (!file.type.startsWith("image/")) {
+          setStatus("请选择图片文件");
+          input.value = "";
+          return;
+        }
+
+        try {
+          setStatus("正在处理照片...");
+          const dataUrl = await preparePhoto(file);
+          showPhoto(dataUrl);
+          if (!storage.set(dataUrl)) {
+            setStatus("照片已预览，浏览器未允许保存");
+          }
+        } catch {
+          setStatus("照片读取失败，请换一张图片");
+          input.value = "";
+        }
+      });
+
+      const storedPhoto = storage.get();
+      if (storedPhoto) {
+        showPhoto(storedPhoto);
+      }
+    }
+  </script>
 </BaseLayout>
