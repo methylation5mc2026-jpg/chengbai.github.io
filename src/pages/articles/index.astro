@@ -7,7 +7,7 @@ const articles = await getArticles();
 const grouped = groupArticlesByYear(articles);
 const years = Object.keys(grouped).sort((a, b) => Number(b) - Number(a));
 ---
-<BaseLayout title="Articles | Cheng Bai">
+<BaseLayout title="Articles | Zeheng Shen">
   <SectionHeading title="Articles" />
   <div class="space-y-10">
     {years.map((year) => (

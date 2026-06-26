@@ -13,7 +13,7 @@ export async function GET(context) {
       link: `/articles/${cleanSlug(article.id)}/`
     })),
     ...daily.map((entry) => ({
-      title: `日报：${entry.data.title}`,
+      title: `Daily: ${entry.data.title}`,
       description: entry.data.description,
       pubDate: entry.data.pubDate,
       link: `/daily/${cleanSlug(entry.id)}/`
@@ -25,6 +25,6 @@ export async function GET(context) {
     description: `${siteConfig.name} personal homepage RSS`,
     site: context.site,
     items,
-    customData: `<language>zh-cn</language>`
+    customData: `<language>en</language>`
   });
 }

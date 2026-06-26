@@ -7,7 +7,7 @@ const { headings } = Astro.props;
 ---
 {headings.length > 0 && (
   <aside class="paper p-5">
-    <p class="mb-4 text-sm font-medium text-ink-900 dark:text-white">目录</p>
+    <p class="mb-4 text-sm font-medium text-ink-900 dark:text-white">Contents</p>
     <nav>
       {headings
         .filter((item) => item.depth <= 3)

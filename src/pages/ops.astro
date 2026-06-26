@@ -3,45 +3,45 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 
 const checks = [
   {
-    title: "本地健康检查",
+    title: "Local Health Check",
     command: "npm run ops:health",
-    text: "检查 /healthz、首页、书架、AIVC 书籍页和搜索页是否可访问，并确认关键安全响应头存在。"
+    text: "Checks health endpoints, the homepage, book routes, the AIVC book page, search, and security headers."
   },
   {
-    title: "本地常驻预览",
+    title: "Local Persistent Preview",
     command: "npm run preview:keepalive",
-    text: "启动静态服务并持续探活，服务异常时自动重启。"
+    text: "Starts a static preview service and restarts it when needed."
   },
   {
-    title: "开机自启动",
+    title: "Startup Preview",
     command: "npm run startup:install",
-    text: "把本地守护进程安装到当前 Windows 用户 Startup 目录，登录后自动恢复网站预览。"
+    text: "Installs the local preview process for the current Windows user."
   },
   {
-    title: "生产构建",
+    title: "Production Build",
     command: "npm run build",
-    text: "生成静态站点、RSS、Sitemap 和 Pagefind 搜索索引。"
+    text: "Generates the static site, RSS, Sitemap, and Pagefind search index."
   }
 ];
 
 const securityItems = [
-  "Content-Security-Policy 限制脚本、样式、图片、字体和 frame 嵌入来源。",
-  "X-Content-Type-Options: nosniff 防止浏览器 MIME 嗅探。",
-  "X-Frame-Options: DENY 与 frame-ancestors 防止页面被恶意嵌入。",
-  "Referrer-Policy 降低跨站跳转时泄漏路径信息的概率。",
-  "Permissions-Policy 禁用摄像头、麦克风、地理位置、支付、USB 等不需要的浏览器权限。",
-  "_headers 适配 Cloudflare Pages，vercel.json 适配 Vercel。"
+  "Content-Security-Policy limits script, style, image, font, and frame sources.",
+  "X-Content-Type-Options: nosniff reduces MIME sniffing risk.",
+  "X-Frame-Options: DENY and frame-ancestors reduce framing risk.",
+  "Referrer-Policy limits cross-site referrer leakage.",
+  "Permissions-Policy disables browser permissions that the static site does not need.",
+  "_headers supports Cloudflare Pages, and vercel.json supports Vercel."
 ];
 ---
-<BaseLayout title="Ops | Cheng Bai" description="Security, operations, health checks, and deployment notes for this static personal site.">
+<BaseLayout title="Ops | Zeheng Shen" description="Security, operations, health checks, and deployment notes for this static personal site.">
   <div class="space-y-12">
     <section class="grid gap-8 border-b border-ink-200 pb-10 dark:border-white/10 lg:grid-cols-[1fr_0.6fr]">
       <div>
         <p class="eyebrow">Security & Operations</p>
-        <h1 class="mt-4 max-w-4xl font-serif text-5xl leading-tight tracking-normal md:text-7xl">让个人网站能长期安全地跑下去。</h1>
+        <h1 class="mt-4 max-w-4xl font-serif text-5xl leading-tight tracking-normal md:text-7xl">Static Site Operations</h1>
       </div>
       <p class="text-sm leading-8 text-ink-600 dark:text-ink-300">
-        这个站点是纯静态架构，没有登录、数据库和复杂后端，攻击面本来就小。运维重点是：稳定构建、稳定预览、清晰缓存、基础安全头、可检查的健康状态，以及部署平台的一致配置。
+        This site is a static Astro site with a small operational surface: build, preview, cache behavior, security headers, health checks, and deployment consistency.
       </p>
     </section>
 
@@ -58,7 +58,7 @@ const securityItems = [
     <section class="grid gap-8 lg:grid-cols-[360px_minmax(0,1fr)]">
       <div>
         <p class="eyebrow">Security Baseline</p>
-        <h2 class="mt-3 font-serif text-4xl tracking-normal">当前安全基线</h2>
+        <h2 class="mt-3 font-serif text-4xl tracking-normal">Current Security Baseline</h2>
       </div>
       <div class="grid gap-3">
         {securityItems.map((item, index) => (

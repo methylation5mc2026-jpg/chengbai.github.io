@@ -1,6 +1,6 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
-import { cleanSlug, formatDate, getBookChapters, getBooks, getChapterDisplayNumber, getLeafSlug } from "../../lib/content";
+import { cleanSlug, getBookChapters, getBooks, getChapterDisplayNumber, getLeafSlug } from "../../lib/content";
 
 export async function getStaticPaths() {
   const entries = await getBooks();
@@ -11,53 +11,29 @@ export async function getStaticPaths() {
 }
 
 const { entry } = Astro.props;
-const { Content } = await entry.render();
 const slug = cleanSlug(entry.id);
 const chapters = await getBookChapters(entry.id);
-const firstChapter = chapters[0];
-const firstReadUrl = firstChapter ? `/books/${slug}/${getLeafSlug(firstChapter.id)}/` : null;
 ---
 <BaseLayout title={`${entry.data.title} | Books`} description={entry.data.description}>
-  <div class="space-y-12">
+  <div class="space-y-10">
     <section class="border-b border-ink-200 pb-10 dark:border-white/10">
-      <p class="eyebrow">Books</p>
-      <h1 class="mt-4 max-w-4xl font-serif text-5xl leading-tight tracking-normal md:text-7xl">{entry.data.title}</h1>
+      <h1 class="max-w-4xl font-serif text-5xl leading-tight tracking-normal md:text-7xl">{entry.data.title}</h1>
       <p class="mt-6 max-w-3xl text-base leading-8 text-ink-600 dark:text-ink-300">{entry.data.description}</p>
-      <div class="mt-6 flex flex-wrap gap-2">
-        {entry.data.tags.map((tag: string) => <span class="tag-chip">#{tag}</span>)}
-      </div>
       <div class="mt-8 flex flex-wrap gap-3">
-        {firstReadUrl && <a href={firstReadUrl} class="asset-button">Read</a>}
-        <a href="/books" class="asset-button">Back to Books</a>
+        <a href="/books/" class="asset-button">Books</a>
       </div>
-      <p class="mt-6 text-sm text-ink-500 dark:text-ink-400">Updated {formatDate(entry.data.updatedDate)}</p>
     </section>
 
-    <section class="grid gap-10 lg:grid-cols-[minmax(0,1fr)_360px]">
-      <div class="prose-shell">
-        <Content />
+    <section>
+      <h2 class="font-serif text-3xl tracking-normal">Contents</h2>
+      <div class="mt-6 grid gap-3">
+        {chapters.map((chapter, index) => (
+          <a href={`/books/${slug}/${getLeafSlug(chapter.id)}/`} class="grid gap-3 border-b border-ink-200 pb-4 transition hover:text-accent-600 dark:border-white/10 dark:hover:text-accent-400 md:grid-cols-[56px_minmax(0,1fr)]">
+            <span class="font-mono text-sm text-ink-500 dark:text-ink-400">{getChapterDisplayNumber(chapter, index)}</span>
+            <span class="font-serif text-xl">{chapter.data.title}</span>
+          </a>
+        ))}
       </div>
-
-      <aside class="h-fit border-t border-ink-200 pt-6 dark:border-white/10 lg:sticky lg:top-24">
-        <h2 class="font-serif text-3xl">Contents</h2>
-        <div class="mt-6 grid gap-3">
-          {chapters.length > 0 ? (
-            chapters.map((chapter, index) => (
-              <a href={`/books/${slug}/${getLeafSlug(chapter.id)}/`} class="chapter-card group">
-                <span class="font-mono text-sm text-ink-500 dark:text-ink-400">{getChapterDisplayNumber(chapter, index)}</span>
-                <span>
-                  <span class="block font-serif text-xl transition group-hover:text-accent-600 dark:group-hover:text-accent-400">{chapter.data.title}</span>
-                  <span class="mt-3 block font-mono text-xs uppercase tracking-[0.18em] text-ink-500 dark:text-ink-400">Read</span>
-                </span>
-              </a>
-            ))
-          ) : (
-            <div class="border-y border-ink-200 py-5 text-sm leading-7 text-ink-600 dark:border-white/10 dark:text-ink-300">
-              No chapters are public yet.
-            </div>
-          )}
-        </div>
-      </aside>
     </section>
   </div>
 </BaseLayout>

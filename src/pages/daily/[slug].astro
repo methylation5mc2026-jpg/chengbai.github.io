@@ -21,7 +21,7 @@ const nextEntry = entries[currentIndex - 1];
 const stats = readingTime(entry.body);
 const { Content, headings } = await entry.render();
 ---
-<BaseLayout title={`${entry.data.title} | 日报`} description={entry.data.description}>
+<BaseLayout title={`${entry.data.title} | Daily`} description={entry.data.description}>
   <div class="grid gap-10 lg:grid-cols-[minmax(0,1fr)_280px]">
     <article class="reader-body space-y-8">
       <header class="border-y border-ink-200 py-8 dark:border-white/10 md:py-10">
@@ -29,8 +29,8 @@ const { Content, headings } = await entry.render();
           <p class="eyebrow">Daily Principles</p>
           <div class="flex flex-wrap gap-3 text-sm text-ink-500 dark:text-ink-400">
             <time datetime={entry.data.pubDate.toISOString()}>{formatDate(entry.data.pubDate)}</time>
-            <span>{Math.max(1, Math.round(stats.minutes))} 分钟阅读</span>
-            {entry.data.updatedDate && <span>更新于 {formatDate(entry.data.updatedDate)}</span>}
+            <span>{Math.max(1, Math.round(stats.minutes))} min read</span>
+            {entry.data.updatedDate && <span>Updated {formatDate(entry.data.updatedDate)}</span>}
           </div>
           <h1 class="max-w-4xl font-serif text-4xl leading-tight tracking-normal md:text-6xl">{entry.data.title}</h1>
           <p class="max-w-3xl text-base leading-8 text-ink-600 dark:text-ink-300">{entry.data.description}</p>
@@ -56,7 +56,7 @@ const { Content, headings } = await entry.render();
 
     <aside class="space-y-6 lg:sticky lg:top-24 lg:h-fit">
       <TOC headings={headings} />
-      <a href="/daily" class="asset-button w-full justify-center">返回日报</a>
+      <a href="/daily" class="asset-button w-full justify-center">Back to daily notes</a>
     </aside>
   </div>
 </BaseLayout>

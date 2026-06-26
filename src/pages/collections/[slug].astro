@@ -18,10 +18,10 @@ const relatedArticles = (await getCollection("articles", ({ data }) => data.coll
   (a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime()
 );
 ---
-<BaseLayout title={`${entry.data.title} | 专题`}>
+<BaseLayout title={`${entry.data.title} | Topics`}>
   <div class="space-y-8">
     <section class="paper px-6 py-8 md:px-10 md:py-10">
-      <p class="eyebrow mb-3">专题</p>
+      <p class="eyebrow mb-3">Topic</p>
       <h1 class="font-serif text-4xl tracking-tight">{entry.data.title}</h1>
       <p class="mt-4 max-w-3xl text-base leading-8 text-ink-600 dark:text-ink-300">{entry.data.description}</p>
     </section>
@@ -31,7 +31,7 @@ const relatedArticles = (await getCollection("articles", ({ data }) => data.coll
       </div>
     </section>
     <section>
-      <h2 class="mb-5 font-serif text-2xl">相关文章</h2>
+      <h2 class="mb-5 font-serif text-2xl">Related Articles</h2>
       <div class="grid gap-5 lg:grid-cols-2">
         {relatedArticles.map((article) => <ArticleCard article={article} />)}
       </div>

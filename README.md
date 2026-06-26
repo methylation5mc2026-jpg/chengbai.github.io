@@ -1,6 +1,6 @@
-# Cheng Bai Personal Website
+# Zeheng Shen Personal Website
 
-Personal website of Cheng Bai.
+Personal website of Zeheng Shen.
 
 Built with Astro, Tailwind CSS, MDX, Pagefind, RSS, and Sitemap.
 
