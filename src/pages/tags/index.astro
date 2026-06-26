@@ -8,25 +8,17 @@ const tags = Object.entries(grouped)
   .map(([tag, items]) => ({ tag, items }))
   .sort((a, b) => b.items.length - a.items.length || a.tag.localeCompare(b.tag));
 ---
-<BaseLayout title="Tags | Cheng Bai" description="Browse articles, notes, and chapters by tag.">
+<BaseLayout title="Tags | Cheng Bai" description="Tags.">
   <div class="space-y-10">
     <section class="border-b border-ink-200 pb-10 dark:border-white/10">
-      <p class="eyebrow">Tags</p>
-      <h1 class="mt-4 max-w-4xl font-serif text-5xl leading-tight tracking-normal md:text-7xl">从标签进入知识网络。</h1>
-      <p class="mt-6 max-w-3xl text-base leading-8 text-ink-600 dark:text-ink-300">
-        Tags connect articles, notes, and chapters across the site. They are meant to make the archive easier to inspect.
-      </p>
+      <h1 class="font-serif text-5xl leading-tight tracking-normal md:text-7xl">Tags</h1>
     </section>
 
     <section class="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-      {tags.map(({ tag, items }) => (
+      {tags.map(({ tag }) => (
         <a href={`/tags/${tagToSlug(tag)}/`} class="route-card group">
-          <p class="font-mono text-xs uppercase tracking-[0.18em] text-ink-500 dark:text-ink-400">{items.length} items</p>
-          <h2 class="mt-3 font-serif text-3xl tracking-normal">#{tag}</h2>
-          <p class="mt-3 text-sm leading-7 text-ink-600 dark:text-ink-300">
-            包含 {items.filter((item) => item.kind === "Article").length} 篇文章、{items.filter((item) => item.kind === "Book").length} 本书、{items.filter((item) => item.kind === "Chapter").length} 个章节。
-          </p>
-          <span class="mt-5 inline-block font-mono text-xs uppercase tracking-[0.18em] text-accent-600 transition group-hover:translate-x-1 dark:text-accent-400">Open →</span>
+          <h2 class="font-serif text-3xl tracking-normal">#{tag}</h2>
+          <span class="mt-5 inline-block font-mono text-xs uppercase tracking-[0.18em] text-accent-600 transition group-hover:translate-x-1 dark:text-accent-400">Open</span>
         </a>
       ))}
     </section>

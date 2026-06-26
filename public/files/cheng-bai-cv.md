@@ -8,17 +8,17 @@ Website: https://methylation5mc2026-jpg.github.io/chengbai.github.io/
 
 High school student with biology olympiad training and an interest in AI for Biology, computational biology, bioinformatics, proteomics, and AI Virtual Cell.
 
-## Selected Honors
+## Honors
 
 - National Biology Olympiad / CHSBO 2025 Provincial First Prize, Shanghai, Rank 7.
 - National Biology Olympiad / CHSBO 2026 Provincial First Prize, Shanghai, Rank 19.
 - CNBO 2025 Bronze Medal.
 - SAIS AI4S Agent CNS Challenge 2026, Rank 34 nationally, advanced to the next round, Team Lead.
 
-## Selected Projects
+## Projects
 
-- EvoPrior-AIVC exploratory project: reproducible single-cell perturbation-response benchmark package with internal GEARS-compatible Norman metrics. Current internal result: MAE 0.430778, MSE 3.668870. Not official GEARS, not leaderboard-comparable, and not a SOTA claim.
-- AIVC Learning Notes: chapter-based personal notes on AI Virtual Cell, proteomics, multi-omics data, model evaluation, and related paper reading.
+- EvoPrior-AIVC exploratory project: reproducible single-cell perturbation-response benchmark package. Internal Norman metric: MAE 0.430778, MSE 3.668870.
+- AIVC Learning Notes: chapter-based notes on AI Virtual Cell, proteomics, multi-omics data, model evaluation, and related paper reading.
 - SAIS AI4S Agent CNS Challenge 2026: team lead for a targeted molecule R&D and synthesis planning agent competition project.
 
 ## Current Skills

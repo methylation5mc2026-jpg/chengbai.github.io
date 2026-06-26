@@ -7,10 +7,10 @@ export const bookPlans: Record<
   "aivc-whitepaper": {
     status: "Learning notes",
     goal: 12,
-    next: "Continue revising chapter structure, figures, citations, and paper-reading notes.",
-    audience: "Readers interested in AI Virtual Cell, AI for Biology, omics data, and model evaluation.",
-    cadence: "Best read chapter by chapter; new notes will be added gradually.",
-    promise: "A personal learning route for understanding AI Virtual Cell and related AI for Biology methods."
+    next: "Ongoing.",
+    audience: "AI Virtual Cell, AI for Biology, omics data, and model evaluation.",
+    cadence: "Chapter by chapter.",
+    promise: "Personal notes on AI Virtual Cell."
   },
   "founders-playbook": {
     status: "中英对照手册",

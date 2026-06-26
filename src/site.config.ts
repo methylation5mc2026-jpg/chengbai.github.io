@@ -16,8 +16,9 @@ export const siteConfig = {
     { href: "/#education", label: "Education" },
     { href: "/#projects", label: "Projects" },
     { href: "/#honors", label: "Honors" },
-    { href: "/#writing", label: "Writing" },
-    { href: "/#notes", label: "Notes" },
+    { href: "/#skills", label: "Skills" },
+    { href: "/articles/", label: "Articles" },
+    { href: "/books/", label: "Books" },
     { href: "/#contact", label: "Contact" }
   ]
 };

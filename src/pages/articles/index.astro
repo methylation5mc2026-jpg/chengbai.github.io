@@ -1,14 +1,15 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
-import SectionHeading from "../../components/SectionHeading.astro";
 import { cleanSlug, formatDate, getArticles, groupArticlesByYear } from "../../lib/content";
 
 const articles = await getArticles();
 const grouped = groupArticlesByYear(articles);
 const years = Object.keys(grouped).sort((a, b) => Number(b) - Number(a));
 ---
-<BaseLayout title="Writing | Cheng Bai">
-  <SectionHeading title="Writing" description="Original public articles migrated from WeChat, with original text, images, and main layout preserved." />
+<BaseLayout title="Articles | Cheng Bai">
+  <section class="mb-8 border-b border-ink-200 pb-8 dark:border-white/10">
+    <h1 class="font-serif text-5xl leading-tight tracking-normal md:text-7xl">Articles</h1>
+  </section>
   <div class="space-y-10">
     {years.map((year) => (
       <section>

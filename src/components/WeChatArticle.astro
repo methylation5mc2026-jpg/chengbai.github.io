@@ -2,10 +2,9 @@
 interface Props {
   slug: string;
   sourceUrl: string;
-  archiveNote?: string;
 }
 
-const { slug, sourceUrl, archiveNote } = Astro.props;
+const { slug, sourceUrl } = Astro.props;
 const htmlFiles = import.meta.glob("../data/wechat/*.html", {
   query: "?raw",
   import: "default",
@@ -19,12 +18,11 @@ if (typeof html !== "string") {
 ---
 
 <article class="wechat-original">
+  <div class="wechat-body" set:html={html} />
   <div class="wechat-source">
     <span>Originally published on WeChat / 原载于微信公众号 · 白城</span>
     <a href={sourceUrl} target="_blank" rel="noreferrer">查看原文</a>
   </div>
-  {archiveNote && <p class="wechat-archive-note">{archiveNote}</p>}
-  <div class="wechat-body" set:html={html} />
 </article>
 
 <style is:global>
@@ -39,9 +37,9 @@ if (typeof html !== "string") {
     align-items: center;
     justify-content: space-between;
     gap: 0.75rem;
-    margin-bottom: 2rem;
-    padding-bottom: 1rem;
-    border-bottom: 1px solid rgba(40, 36, 31, 0.14);
+    margin-top: 2rem;
+    padding-top: 1rem;
+    border-top: 1px solid rgba(40, 36, 31, 0.14);
     color: rgb(105, 97, 87);
     font-size: 0.82rem;
   }
@@ -56,24 +54,8 @@ if (typeof html !== "string") {
     text-decoration: none;
   }
 
-  .wechat-archive-note {
-    margin: -0.75rem 0 2rem;
-    padding: 0.9rem 1rem;
-    border-left: 3px solid rgb(151, 88, 35);
-    background: rgba(151, 88, 35, 0.08);
-    color: rgb(105, 97, 87);
-    font-size: 0.9rem;
-    line-height: 1.7;
-  }
-
   .dark .wechat-source a {
     color: rgb(246, 178, 107);
-  }
-
-  .dark .wechat-archive-note {
-    border-color: rgb(246, 178, 107);
-    background: rgba(246, 178, 107, 0.1);
-    color: rgb(210, 204, 194);
   }
 
   .wechat-body {
