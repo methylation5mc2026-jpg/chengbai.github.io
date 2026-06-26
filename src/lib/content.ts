@@ -56,11 +56,11 @@ export function formatDate(date: Date) {
 
 export function getWordCount(text: string) {
   const chineseChars = (text.match(/[\u4e00-\u9fff]/g) || []).length;
-  const latinWords = text
+  const latinWordCount = text
     .replace(/[\u4e00-\u9fff]/g, " ")
     .split(/\s+/)
     .filter(Boolean).length;
-  return chineseChars + latinWords;
+  return chineseChars + latinWordCount;
 }
 
 export function groupArticlesByYear<T extends { data: { pubDate: Date } }>(entries: T[]) {

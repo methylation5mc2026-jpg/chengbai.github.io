@@ -1,18 +1,53 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 
-const items = [
-  "Biology olympiad preparation.",
-  "Computational biology and bioinformatics foundations.",
-  "AIVC Learning Notes.",
-  "EvoPrior-AIVC."
+const nowItems = [
+  "Preparing for biology competitions while strengthening core biology knowledge and experimental reasoning.",
+  "Building foundations in computational biology, bioinformatics, and AI for Biology through reading and small projects.",
+  "Organizing AIVC learning notes around virtual cells, single-cell and spatial omics, proteomics, and model evaluation.",
+  "Improving reproducible project habits: version control, data provenance, benchmark boundaries, and clear documentation."
+];
+
+const nextActions = [
+  "Revise the AIVC learning notes with clearer evidence levels, figures, and references.",
+  "Write a concise project page for the SAIS AI4S Agent CNS Challenge experience.",
+  "Keep the EvoPrior-AIVC repository framed as an exploratory benchmark engineering project.",
+  "Keep the public CV, project records, and contact information accurate as the site evolves."
 ];
 ---
-<BaseLayout title="Now | Cheng Bai" description="Current work and study items.">
-  <section class="paper px-6 py-8 md:px-10">
-    <h1 class="font-serif text-4xl tracking-normal md:text-6xl">Now</h1>
-    <ul class="mt-6 space-y-4 text-sm leading-7 text-ink-700 dark:text-ink-200">
-      {items.map((item) => <li class="border-b border-ink-200 pb-4 dark:border-white/10">{item}</li>)}
-    </ul>
-  </section>
+<BaseLayout title="Now | Cheng Bai" description="Current status of Cheng Bai: biology competition preparation, computational biology foundations, and AI for Biology learning notes.">
+  <div class="grid gap-10 lg:grid-cols-[minmax(0,1fr)_360px]">
+    <section class="border-b border-ink-200 pb-10 dark:border-white/10 lg:border-b-0">
+      <p class="eyebrow">Now</p>
+      <h1 class="mt-4 max-w-4xl font-serif text-5xl leading-tight tracking-normal md:text-7xl">Now</h1>
+      <p class="mt-6 max-w-3xl text-base leading-8 text-ink-600 dark:text-ink-300">
+        Currently, I am preparing for biology competitions while building foundations in computational biology and AI for Biology.
+      </p>
+    </section>
+
+    <aside class="h-fit border-y border-ink-200 py-6 text-sm dark:border-white/10 lg:border-l lg:border-y-0 lg:pl-8">
+      <p class="font-mono text-xs uppercase tracking-[0.18em] text-ink-500 dark:text-ink-400">Updated</p>
+      <p class="mt-3 font-serif text-3xl">2026 / 06</p>
+      <p class="mt-4 leading-7 text-ink-600 dark:text-ink-300">This page is a short status note, not a complete project list.</p>
+    </aside>
+
+    <section class="grid gap-5 lg:col-span-2">
+      {nowItems.map((item, index) => (
+        <div class="grid gap-4 border-b border-ink-200 pb-5 dark:border-white/10 md:grid-cols-[80px_minmax(0,1fr)]">
+          <p class="font-mono text-sm text-ink-500 dark:text-ink-400">{String(index + 1).padStart(2, "0")}</p>
+          <p class="text-lg leading-8">{item}</p>
+        </div>
+      ))}
+    </section>
+
+    <section class="section-rule lg:col-span-2">
+      <p class="eyebrow">Next</p>
+      <h2 class="mt-2 font-serif text-4xl tracking-normal">Near-term Updates</h2>
+      <div class="mt-6 grid gap-4 md:grid-cols-2">
+        {nextActions.map((item) => (
+          <p class="border-y border-ink-200 py-5 text-sm leading-7 text-ink-600 dark:border-white/10 dark:text-ink-300">{item}</p>
+        ))}
+      </div>
+    </section>
+  </div>
 </BaseLayout>

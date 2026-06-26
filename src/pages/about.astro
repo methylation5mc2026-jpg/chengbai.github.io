@@ -2,32 +2,86 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import { siteConfig } from "../site.config";
 
-const links = [
-  { label: "Email", href: `mailto:${siteConfig.contactEmail}`, text: siteConfig.contactEmail },
-  { label: "GitHub", href: "https://github.com/methylation5mc2026-jpg", text: "methylation5mc2026-jpg" },
-  { label: "CV", href: siteConfig.cvHref, text: "Download" }
+const evidence = [
+  {
+    title: "Biology Olympiad Training",
+    text: "Two consecutive Shanghai provincial first prizes in the National Biology Olympiad / CHSBO."
+  },
+  {
+    title: "AI for Science Competition",
+    text: "Team Lead, SAIS AI4S Agent CNS Challenge 2026; ranked 34th nationally and advanced to the next round."
+  },
+  {
+    title: "Computational Biology Self-study",
+    text: "Foundations in bioinformatics, computational biology, machine learning, and AI for Biology."
+  }
 ];
+
+const stacks = [
+  "Biochemistry",
+  "Cell biology",
+  "Molecular biology",
+  "Bioinformatics basics",
+  "Python / R / pandas / numpy",
+  "Linux / Git / conda",
+  "sklearn / PyTorch basics",
+  "PubMed / NCBI / PDB"
+];
+
 ---
 <BaseLayout title="About | Cheng Bai" description="About Cheng Bai.">
-  <div class="grid gap-8 lg:grid-cols-[minmax(0,1fr)_320px]">
-    <section class="paper px-6 py-8 md:px-10">
-      <h1 class="font-serif text-4xl tracking-normal md:text-6xl">About</h1>
-      <div class="mt-6 max-w-3xl space-y-4 text-base leading-8 text-ink-600 dark:text-ink-300">
-        <p>
-          I am a high school student in Shanghai with a background in biology olympiad training. My interests include AI for Biology, computational biology, proteomics, bioinformatics, and AI Virtual Cell.
-        </p>
-        <p>This site collects my essays, notes, projects, and records.</p>
+  <div class="grid gap-8 lg:grid-cols-[minmax(0,1fr)_360px]">
+    <section class="space-y-8">
+      <div class="paper px-6 py-8 md:px-10">
+        <p class="eyebrow mb-3">About</p>
+        <h1 class="font-serif text-4xl tracking-normal md:text-6xl">About Cheng Bai</h1>
+        <div class="mt-5 max-w-3xl space-y-4 text-base leading-8 text-ink-600 dark:text-ink-300">
+          <p>
+            I am a high school student in Shanghai with a background in biology olympiad training. My interests include AI for Biology, computational biology, proteomics, bioinformatics, and AI Virtual Cell.
+          </p>
+          <p>
+            This site collects my essays, notes, projects, and records.
+          </p>
+        </div>
+      </div>
+
+      <div class="paper px-6 py-8 md:px-10">
+        <p class="eyebrow mb-3">Records</p>
+        <h2 class="font-serif text-3xl">Records</h2>
+        <div class="mt-6 grid gap-5">
+          {evidence.map((item, index) => (
+            <article class="grid gap-4 border-b border-ink-200 pb-5 last:border-b-0 last:pb-0 dark:border-white/10 md:grid-cols-[72px_minmax(0,1fr)]">
+              <p class="font-mono text-sm text-ink-500 dark:text-ink-400">{String(index + 1).padStart(2, "0")}</p>
+              <div>
+                <h3 class="font-serif text-2xl">{item.title}</h3>
+                <p class="mt-2 text-sm leading-7 text-ink-600 dark:text-ink-300">{item.text}</p>
+              </div>
+            </article>
+          ))}
+        </div>
       </div>
     </section>
 
-    <aside class="paper h-fit p-6">
-      <h2 class="font-serif text-2xl">Links</h2>
-      <div class="mt-4 grid gap-3 text-sm leading-7 text-ink-600 dark:text-ink-300">
-        {links.map((item) => (
-          <a class="hover:text-accent-600 dark:hover:text-accent-400" href={item.href} target={item.href.startsWith("http") ? "_blank" : undefined} rel={item.href.startsWith("http") ? "noreferrer" : undefined}>
-            {item.label}: {item.text}
-          </a>
-        ))}
+    <aside class="space-y-6">
+      <div class="paper p-6">
+        <h2 class="font-serif text-2xl">Skills and Tools</h2>
+        <div class="mt-4 flex flex-wrap gap-2">
+          {stacks.map((item) => <span class="focus-pill">{item}</span>)}
+        </div>
+      </div>
+      <div class="paper p-6">
+        <h2 class="font-serif text-2xl">Links</h2>
+        <div class="mt-4 grid gap-3 text-sm leading-7 text-ink-600 dark:text-ink-300">
+          <a class="hover:text-accent-600 dark:hover:text-accent-400" href="/books/aivc-whitepaper/">AIVC Learning Notes</a>
+          <a class="hover:text-accent-600 dark:hover:text-accent-400" href="/articles/">Articles</a>
+        </div>
+      </div>
+      <div class="paper p-6">
+        <h2 class="font-serif text-2xl">Contact</h2>
+        <div class="mt-4 grid gap-3 text-sm leading-7 text-ink-600 dark:text-ink-300">
+          <a class="hover:text-accent-600 dark:hover:text-accent-400" href={`mailto:${siteConfig.contactEmail}`}>{siteConfig.contactEmail}</a>
+          <a class="hover:text-accent-600 dark:hover:text-accent-400" href="https://github.com/methylation5mc2026-jpg" target="_blank" rel="noreferrer">GitHub</a>
+        </div>
       </div>
     </aside>
   </div>

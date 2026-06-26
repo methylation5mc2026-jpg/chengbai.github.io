@@ -1,5 +1,6 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
+import SectionHeading from "../../components/SectionHeading.astro";
 import { cleanSlug, formatDate, getArticles, groupArticlesByYear } from "../../lib/content";
 
 const articles = await getArticles();
@@ -7,9 +8,7 @@ const grouped = groupArticlesByYear(articles);
 const years = Object.keys(grouped).sort((a, b) => Number(b) - Number(a));
 ---
 <BaseLayout title="Articles | Cheng Bai">
-  <section class="mb-8 border-b border-ink-200 pb-8 dark:border-white/10">
-    <h1 class="font-serif text-5xl leading-tight tracking-normal md:text-7xl">Articles</h1>
-  </section>
+  <SectionHeading title="Articles" />
   <div class="space-y-10">
     {years.map((year) => (
       <section>
@@ -22,7 +21,7 @@ const years = Object.keys(grouped).sort((a, b) => Number(b) - Number(a));
                   <h3 class="font-serif text-2xl">
                     <a href={`/articles/${cleanSlug(article.id)}/`} class="hover:text-accent-600 dark:hover:text-accent-400">{article.data.title}</a>
                   </h3>
-                  <p class="text-sm leading-7 text-ink-600 dark:text-ink-300">{article.data.description}</p>
+                  {article.data.description && <p class="text-sm leading-7 text-ink-600 dark:text-ink-300">{article.data.description}</p>}
                   <div class="flex flex-wrap gap-2">
                     {article.data.tags.map((tag: string) => <span class="tag-chip">#{tag}</span>)}
                   </div>

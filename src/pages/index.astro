@@ -3,65 +3,33 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import { siteConfig } from "../site.config";
 
 const contactEmail = siteConfig.contactEmail;
-const cvHref = siteConfig.cvHref;
-
-const socialLinks = [
-  {
-    label: "GitHub",
-    href: "https://github.com/methylation5mc2026-jpg",
-    color: "#111111",
-    icon: "github"
-  },
-  {
-    label: "LinkedIn",
-    href: "https://www.linkedin.com/in/%E5%9F%8E-%E7%99%BD-302529419/",
-    color: "#0a66c2",
-    icon: "linkedin"
-  },
-  {
-    label: "X",
-    href: "https://x.com/cheng_bai89213",
-    color: "#111111",
-    icon: "x"
-  },
-  {
-    label: "WeChat",
-    href: "/assets/profile/wechat-qr.jpg",
-    color: "#07c160",
-    icon: "wechat"
-  }
-];
 
 const newsItems = [
   {
-    date: "2026 / 06",
-    text: "SAIS AI4S Agent CNS Challenge 2026, Team Lead, ranked 34th nationally and advanced to the next round."
+    date: "2026",
+    text: "Team Lead, SAIS AI4S Agent CNS Challenge 2026; ranked 34th nationally and advanced to the semifinal / second round."
   },
   {
     date: "2025-2026",
-    text: "Provincial First Prize in CHSBO, Shanghai, two consecutive years."
-  },
-  {
-    date: "2025",
-    text: "CNBO Bronze Medal."
+    text: "Received provincial first prizes in the National Biology Olympiad / CHSBO in Shanghai for two consecutive years."
   }
 ];
 
 const educationItems = [
   {
-    title: "High School",
+    title: "High School Student",
     meta: "Current",
-    lines: ["East China Normal University No.2 High School", "Basic Science Class"]
+    text: "Preparing for biology competitions while building foundations in computational biology and AI for Biology."
   },
   {
     title: "Biology Olympiad Training",
-    meta: "Biology",
-    lines: ["Biochemistry, molecular biology, cell biology, genetics, physiology, ecology, and experimental reasoning."]
+    meta: "Biology foundation",
+    text: "Training across biochemistry, molecular biology, cell biology, genetics, physiology, ecology, and experimental reasoning."
   },
   {
-    title: "Computing",
+    title: "Self-study in Computing",
     meta: "Ongoing",
-    lines: ["Python, data analysis, machine learning basics, bioinformatics workflows, and reproducible project documentation."]
+    text: "Learning Python, data analysis, machine learning basics, bioinformatics workflows, and reproducible project documentation."
   }
 ];
 
@@ -69,14 +37,14 @@ const projectItems = [
   {
     title: "AIVC Learning Notes",
     summary: "Personal notes on AI Virtual Cell, proteomics, multi-omics data, and model evaluation.",
-    status: "Ongoing.",
+    status: "ongoing.",
     href: "/books/aivc-whitepaper/",
     linkLabel: "Read"
   },
   {
     title: "EvoPrior-AIVC",
     summary: "An exploratory project on perturbation-response prediction with evolutionary-prior-inspired documentation.",
-    status: "Learning project; current internal result MAE 0.430778, MSE 3.668870.",
+    status: "learning project; current internal result MAE 0.430778, MSE 3.668870.",
     href: "https://github.com/methylation5mc2026-jpg/EvoPrior-AIVC",
     linkLabel: "GitHub"
   },
@@ -90,20 +58,20 @@ const projectItems = [
 ];
 
 const honors = [
-  { year: "2026", text: "CHSBO Provincial First Prize, Shanghai, Rank 19" },
-  { year: "2025", text: "CHSBO Provincial First Prize, Shanghai, Rank 7" },
-  { year: "2025", text: "CNBO Bronze Medal" },
-  { year: "2026", text: "SAIS AI4S Agent CNS Challenge, Rank 34 Nationally, Team Lead" }
+  "National Biology Olympiad / CHSBO 2025 Provincial First Prize, Shanghai, Rank 7.",
+  "National Biology Olympiad / CHSBO 2026 Provincial First Prize, Shanghai, Rank 19.",
+  "CNBO 2025 Bronze Medal.",
+  "SAIS AI4S Agent CNS Challenge 2026, Rank 34 nationally, advanced to the next round, Team Lead."
 ];
 
 const skillGroups = [
   {
     title: "Biology",
-    items: ["Biochemistry", "Molecular Biology", "Cell Biology", "Immunology"]
+    items: ["Biochemistry", "Molecular biology", "Cell biology", "Immunology"]
   },
   {
-    title: "Wet Lab",
-    items: ["Pipetting", "Dilution", "Centrifugation", "PCR", "Gel Electrophoresis", "Nanodrop", "Plate Reader"]
+    title: "Wet-lab basics",
+    items: ["Pipetting", "Dilution", "Centrifugation", "PCR", "Gel electrophoresis", "Nanodrop", "Plate reader"]
   },
   {
     title: "Programming / Data",
@@ -115,24 +83,24 @@ const skillGroups = [
   },
   {
     title: "AI / ML",
-    items: ["sklearn", "PyTorch basics", "Machine Learning basics", "Deep Learning basics"]
+    items: ["sklearn", "PyTorch basics", "Machine learning basics", "Deep learning basics"]
   },
   {
     title: "Bioinformatics / Omics",
-    items: ["NCBI", "PDB", "PubMed", "RNA-seq basics", "Proteomics basics", "Multi-omics concepts"]
+    items: ["NCBI", "PDB", "PubMed", "Basic RNA/proteomics/multi-omics concepts"]
   }
 ];
 
 const articleItems = [
   {
-    title: "生科日报：2026.2.3",
-    href: "/articles/life-science-daily-2026-02-03/",
-    text: "A biology note for general readers."
+    title: "Biology Rigor and AI Language",
+    href: "/articles/biology-rigor-ai-language/",
+    text: "Essay on biology, rigor, and AI for Biology."
   },
   {
-    title: "每天学点生物学——分子生物学冷知识",
+    title: "Molecular Biology Notes",
     href: "/articles/molecular-biology-cold-knowledge/",
-    text: "A short molecular biology article."
+    text: "Public biology note for general readers interested in molecular biology."
   }
 ];
 ---
@@ -141,65 +109,39 @@ const articleItems = [
     <aside class="lg:sticky lg:top-24 lg:h-fit">
       <section class="paper overflow-hidden">
         <div class="border-b border-ink-200 bg-white p-6 dark:border-white/10 dark:bg-white/[0.03]">
-          <div class="mx-auto w-44" data-profile-photo-root>
-            <div
-              class="mx-auto flex h-36 w-36 items-center justify-center overflow-hidden rounded-full border border-ink-200 bg-ink-100 font-serif text-5xl text-ink-700 dark:border-white/10 dark:bg-white/10 dark:text-ink-100"
-              aria-label="Profile photo"
-            >
-              <img
-                class="hidden h-full w-full object-cover"
-                data-profile-photo-preview
-                alt="Cheng Bai profile photo preview"
-              />
-              <span data-profile-photo-initials>CB</span>
-            </div>
+          <div class="mx-auto flex h-36 w-36 items-center justify-center overflow-hidden rounded-full border border-ink-200 bg-ink-100 font-serif text-5xl text-ink-700 dark:border-white/10 dark:bg-white/10 dark:text-ink-100">
+            CB
           </div>
-          <h1 class="mt-5 text-center font-serif text-3xl tracking-normal">白城</h1>
+          <h1 class="mt-5 text-center font-serif text-3xl tracking-normal">Cheng Bai</h1>
           <p class="mt-2 text-center font-mono text-xs uppercase tracking-[0.16em] text-ink-500 dark:text-ink-400">Cheng Bai</p>
           <p class="mt-4 text-center text-sm leading-7 text-ink-600 dark:text-ink-300">
-            {siteConfig.identity}
+            High School Student / Biology Olympiad / AI for Biology
           </p>
           <div class="social-media mt-5" aria-label="Social profiles">
-            {socialLinks.map((item) => (
-              <a
-                class="social-button"
-                href={item.href}
-                target="_blank"
-                rel="noreferrer"
-                style={`--social-accent:${item.color}`}
-                aria-label={item.label}
-                title={item.label}
-              >
-                <span class="social-fill" aria-hidden="true"></span>
-                <svg viewBox="0 0 24 24" aria-hidden="true" class="social-icon-svg">
-                  {item.icon === "github" && (
-                    <path d="M12 2.25c-5.39 0-9.75 4.36-9.75 9.75 0 4.31 2.79 7.96 6.66 9.25.49.09.67-.21.67-.47v-1.82c-2.71.59-3.28-1.15-3.28-1.15-.44-1.13-1.08-1.43-1.08-1.43-.89-.61.07-.6.07-.6.98.07 1.5 1.01 1.5 1.01.87 1.49 2.28 1.06 2.84.81.09-.63.34-1.06.62-1.31-2.16-.25-4.43-1.08-4.43-4.82 0-1.06.38-1.94 1.01-2.62-.1-.25-.44-1.24.1-2.58 0 0 .82-.26 2.68 1 .78-.22 1.61-.33 2.44-.33.83 0 1.66.11 2.44.33 1.86-1.26 2.68-1 2.68-1 .54 1.34.2 2.33.1 2.58.63.68 1.01 1.55 1.01 2.62 0 3.75-2.28 4.57-4.45 4.81.35.3.66.9.66 1.82v2.7c0 .26.18.57.68.47A9.75 9.75 0 0 0 21.75 12c0-5.39-4.36-9.75-9.75-9.75Z" />
-                  )}
-                  {item.icon === "linkedin" && (
-                    <path d="M5.37 8.84H2.56v9.03h2.81V8.84ZM3.97 4.37c-.9 0-1.62.73-1.62 1.62s.72 1.62 1.62 1.62c.89 0 1.62-.73 1.62-1.62S4.86 4.37 3.97 4.37Zm12.22 4.25c-1.38 0-2.31.76-2.69 1.48h-.04V8.84h-2.69v9.03h2.81v-4.47c0-1.18.22-2.32 1.68-2.32 1.44 0 1.46 1.35 1.46 2.39v4.4h2.81v-4.96c0-2.43-.52-4.29-3.34-4.29ZM9.11 8.84H6.31v9.03h2.8V8.84Z" />
-                  )}
-                  {item.icon === "x" && (
-                    <path d="M14.28 10.16 22.03 1.5h-1.84l-6.73 7.52L8.09 1.5H1.9l8.13 11.39-8.13 9.09h1.84l7.1-7.94 5.67 7.94h6.19l-8.42-11.82Zm-2.51 2.81-.82-1.13L4.39 2.83h2.82l5.29 7.26.82 1.13 6.88 9.45h-2.82l-5.61-7.7Z" />
-                  )}
-                  {item.icon === "wechat" && (
-                    <>
-                      <path d="M9.25 5.05c-4.02 0-7.28 2.68-7.28 5.98 0 1.87 1.05 3.54 2.69 4.63l-.6 2.12 2.47-1.24c.84.29 1.75.45 2.72.45.3 0 .6-.02.89-.05a5.74 5.74 0 0 1-.35-1.97c0-3.01 2.73-5.45 6.13-5.45.18 0 .37.01.55.02-.82-2.58-3.71-4.49-7.22-4.49Zm-2.49 4.9a.9.9 0 1 1 0-1.8.9.9 0 0 1 0 1.8Zm5.01 0a.9.9 0 1 1 0-1.8.9.9 0 0 1 0 1.8Z" />
-                      <path d="M16.05 10.63c-2.88 0-5.21 1.96-5.21 4.37s2.33 4.37 5.21 4.37c.7 0 1.37-.12 1.98-.33l1.9.95-.46-1.65c1.09-.81 1.78-2 1.78-3.34 0-2.41-2.33-4.37-5.2-4.37Zm-1.76 3.25a.7.7 0 1 1 0-1.4.7.7 0 0 1 0 1.4Zm3.53 0a.7.7 0 1 1 0-1.4.7.7 0 0 1 0 1.4Z" />
-                    </>
-                  )}
-                </svg>
-              </a>
-            ))}
+            <a
+              class="social-button"
+              href="https://github.com/methylation5mc2026-jpg"
+              target="_blank"
+              rel="noreferrer"
+              style="--social-accent:#111111"
+              aria-label="GitHub"
+              title="GitHub"
+            >
+              <span class="social-fill" aria-hidden="true"></span>
+              <svg viewBox="0 0 24 24" aria-hidden="true" class="social-icon-svg">
+                <path d="M12 2.25c-5.39 0-9.75 4.36-9.75 9.75 0 4.31 2.79 7.96 6.66 9.25.49.09.67-.21.67-.47v-1.82c-2.71.59-3.28-1.15-3.28-1.15-.44-1.13-1.08-1.43-1.08-1.43-.89-.61.07-.6.07-.6.98.07 1.5 1.01 1.5 1.01.87 1.49 2.28 1.06 2.84.81.09-.63.34-1.06.62-1.31-2.16-.25-4.43-1.08-4.43-4.82 0-1.06.38-1.94 1.01-2.62-.1-.25-.44-1.24.1-2.58 0 0 .82-.26 2.68 1 .78-.22 1.61-.33 2.44-.33.83 0 1.66.11 2.44.33 1.86-1.26 2.68-1 2.68-1 .54 1.34.2 2.33.1 2.58.63.68 1.01 1.55 1.01 2.62 0 3.75-2.28 4.57-4.45 4.81.35.3.66.9.66 1.82v2.7c0 .26.18.57.68.47A9.75 9.75 0 0 0 21.75 12c0-5.39-4.36-9.75-9.75-9.75Z" />
+              </svg>
+            </a>
           </div>
         </div>
 
-        <div class="p-6 text-sm">
-          <p class="font-mono text-xs uppercase tracking-[0.16em] text-ink-500 dark:text-ink-400">Contact</p>
-          <div class="mt-3 grid gap-2 text-ink-600 dark:text-ink-300">
-            <a class="hover:text-accent-600 dark:hover:text-accent-400" href={`mailto:${contactEmail}`}>{contactEmail}</a>
-            <a class="hover:text-accent-600 dark:hover:text-accent-400" href="https://github.com/methylation5mc2026-jpg" target="_blank" rel="noreferrer">GitHub</a>
-            <a class="hover:text-accent-600 dark:hover:text-accent-400" href={cvHref} download>CV</a>
-            <a class="hover:text-accent-600 dark:hover:text-accent-400" href={siteConfig.url}>Website</a>
+        <div class="space-y-4 p-6 text-sm">
+          <div>
+            <p class="font-mono text-xs uppercase tracking-[0.16em] text-ink-500 dark:text-ink-400">Contact</p>
+            <div class="mt-3 grid gap-2 text-ink-600 dark:text-ink-300">
+              <a class="hover:text-accent-600 dark:hover:text-accent-400" href={`mailto:${contactEmail}`}>{contactEmail}</a>
+              <a class="hover:text-accent-600 dark:hover:text-accent-400" href="https://github.com/methylation5mc2026-jpg" target="_blank" rel="noreferrer">GitHub</a>
+            </div>
           </div>
         </div>
       </section>
@@ -207,17 +149,20 @@ const articleItems = [
 
     <div class="space-y-12">
       <section id="about" class="section-rule scroll-mt-24 pt-0">
-        <h2 class="font-serif text-4xl tracking-normal">About</h2>
-        <div class="mt-5 space-y-4 text-base leading-8 text-ink-700 dark:text-ink-200">
+        <p class="eyebrow">About</p>
+        <div class="mt-4 space-y-5 text-base leading-8 text-ink-700 dark:text-ink-200">
           <p>
             I am a high school student in Shanghai with a background in biology olympiad training. My interests include AI for Biology, computational biology, proteomics, bioinformatics, and AI Virtual Cell.
           </p>
-          <p>This site collects my essays, notes, projects, and records.</p>
+          <p>
+            This site collects my essays, notes, projects, and records.
+          </p>
         </div>
       </section>
 
       <section id="news" class="section-rule scroll-mt-24">
-        <h2 class="font-serif text-4xl tracking-normal">News</h2>
+        <p class="eyebrow">News</p>
+        <h2 class="mt-2 font-serif text-4xl tracking-normal">Recent Updates</h2>
         <div class="mt-6 grid gap-4">
           {newsItems.map((item) => (
             <article class="grid gap-3 border-b border-ink-200 pb-4 dark:border-white/10 md:grid-cols-[120px_minmax(0,1fr)]">
@@ -229,16 +174,15 @@ const articleItems = [
       </section>
 
       <section id="education" class="section-rule scroll-mt-24">
-        <h2 class="font-serif text-4xl tracking-normal">Education</h2>
+        <p class="eyebrow">Education</p>
+        <h2 class="mt-2 font-serif text-4xl tracking-normal">Education and Training</h2>
         <div class="mt-6 grid gap-4">
           {educationItems.map((item) => (
             <article class="grid gap-4 border-b border-ink-200 pb-5 dark:border-white/10 md:grid-cols-[120px_minmax(0,1fr)]">
               <p class="font-mono text-sm text-ink-500 dark:text-ink-400">{item.meta}</p>
               <div>
                 <h3 class="font-serif text-2xl tracking-normal">{item.title}</h3>
-                <div class="mt-2 space-y-1 text-sm leading-7 text-ink-600 dark:text-ink-300">
-                  {item.lines.map((line) => <p>{line}</p>)}
-                </div>
+                <p class="mt-2 text-sm leading-7 text-ink-600 dark:text-ink-300">{item.text}</p>
               </div>
             </article>
           ))}
@@ -246,7 +190,8 @@ const articleItems = [
       </section>
 
       <section id="projects" class="section-rule scroll-mt-24">
-        <h2 class="font-serif text-4xl tracking-normal">Projects</h2>
+        <p class="eyebrow">Projects</p>
+        <h2 class="mt-2 font-serif text-4xl tracking-normal">Projects</h2>
         <div class="mt-6 grid gap-5">
           {projectItems.map((project) => (
             <article class="paper p-5">
@@ -254,7 +199,9 @@ const articleItems = [
                 <div>
                   <h3 class="font-serif text-3xl tracking-normal">{project.title}</h3>
                   <p class="mt-3 text-sm leading-7 text-ink-600 dark:text-ink-300">{project.summary}</p>
-                  <p class="mt-3 text-sm leading-7 text-ink-700 dark:text-ink-200">Status: {project.status}</p>
+                  <p class="mt-3 text-sm leading-7 text-ink-600 dark:text-ink-300">
+                    <span class="font-medium text-ink-900 dark:text-white">Status:</span> {project.status}
+                  </p>
                 </div>
                 <div class="flex items-start lg:justify-end">
                   <a class="asset-button" href={project.href} target={project.href.startsWith("http") ? "_blank" : undefined} rel={project.href.startsWith("http") ? "noreferrer" : undefined}>
@@ -268,31 +215,33 @@ const articleItems = [
       </section>
 
       <section id="honors" class="section-rule scroll-mt-24">
-        <h2 class="font-serif text-4xl tracking-normal">Honors</h2>
-        <div class="mt-6 grid gap-4">
+        <p class="eyebrow">Honors</p>
+        <h2 class="mt-2 font-serif text-4xl tracking-normal">Honors</h2>
+        <ul class="mt-6 space-y-4 text-sm leading-7 text-ink-700 dark:text-ink-200">
           {honors.map((item) => (
-            <article class="grid gap-3 border-b border-ink-200 pb-4 dark:border-white/10 md:grid-cols-[120px_minmax(0,1fr)]">
-              <p class="font-mono text-sm text-ink-500 dark:text-ink-400">{item.year}</p>
-              <p class="leading-7 text-ink-700 dark:text-ink-200">{item.text}</p>
-            </article>
+            <li class="border-b border-ink-200 pb-4 dark:border-white/10">{item}</li>
           ))}
-        </div>
+        </ul>
       </section>
 
       <section id="skills" class="section-rule scroll-mt-24">
-        <h2 class="font-serif text-4xl tracking-normal">Skills</h2>
+        <p class="eyebrow">Skills</p>
+        <h2 class="mt-2 font-serif text-4xl tracking-normal">Skills</h2>
         <div class="mt-6 grid gap-5 md:grid-cols-2">
           {skillGroups.map((group) => (
             <section class="border-b border-ink-200 pb-5 dark:border-white/10">
               <h3 class="font-serif text-2xl tracking-normal">{group.title}</h3>
-              <p class="mt-3 text-sm leading-7 text-ink-600 dark:text-ink-300">{group.items.join(" · ")}</p>
+              <div class="mt-3 flex flex-wrap gap-2">
+                {group.items.map((item) => <span class="focus-pill">{item}</span>)}
+              </div>
             </section>
           ))}
         </div>
       </section>
 
       <section id="articles" class="section-rule scroll-mt-24">
-        <h2 class="font-serif text-4xl tracking-normal">Articles</h2>
+        <p class="eyebrow">Articles</p>
+        <h2 class="mt-2 font-serif text-4xl tracking-normal">Articles</h2>
         <div class="mt-6 grid gap-4 md:grid-cols-2">
           {articleItems.map((item) => (
             <a class="route-card group" href={item.href}>
@@ -302,22 +251,26 @@ const articleItems = [
             </a>
           ))}
         </div>
-        <a class="mt-5 inline-block text-sm text-accent-600 hover:text-accent-500 dark:text-accent-400" href="/articles/">All articles</a>
+        <a class="mt-5 inline-block text-sm text-accent-600 hover:text-accent-500 dark:text-accent-400" href="/articles/">View articles</a>
       </section>
 
       <section id="books" class="section-rule scroll-mt-24">
-        <h2 class="font-serif text-4xl tracking-normal">Books</h2>
-        <a class="route-card group mt-6 block" href="/books/aivc-whitepaper/">
-          <h3 class="font-serif text-2xl tracking-normal">AIVC Learning Notes</h3>
-          <p class="mt-3 text-sm leading-7 text-ink-600 dark:text-ink-300">
-            Personal notes on AI Virtual Cell, proteomics, multi-omics data, and model evaluation.
-          </p>
-          <span class="mt-4 inline-block font-mono text-xs uppercase tracking-[0.18em] text-accent-600 transition group-hover:translate-x-1 dark:text-accent-400">Read</span>
-        </a>
+        <p class="eyebrow">Books</p>
+        <h2 class="mt-2 font-serif text-4xl tracking-normal">Books</h2>
+        <div class="mt-6 grid gap-4 md:grid-cols-2">
+          <a class="route-card group" href="/books/aivc-whitepaper/">
+            <h3 class="font-serif text-2xl tracking-normal">AIVC Learning Notes</h3>
+            <p class="mt-3 text-sm leading-7 text-ink-600 dark:text-ink-300">
+              Personal notes on AI Virtual Cell, proteomics, multi-omics data, and model evaluation.
+            </p>
+            <span class="mt-4 inline-block font-mono text-xs uppercase tracking-[0.18em] text-accent-600 transition group-hover:translate-x-1 dark:text-accent-400">Read</span>
+          </a>
+        </div>
       </section>
 
       <section id="contact" class="section-rule scroll-mt-24">
-        <h2 class="font-serif text-4xl tracking-normal">Contact</h2>
+        <p class="eyebrow">Contact</p>
+        <h2 class="mt-2 font-serif text-4xl tracking-normal">Contact</h2>
         <div class="mt-5 grid gap-4 text-sm leading-7 text-ink-600 dark:text-ink-300 md:grid-cols-3">
           <a class="border-y border-ink-200 py-5 transition hover:border-accent-500 hover:text-accent-600 dark:border-white/10 dark:hover:text-accent-400" href={`mailto:${contactEmail}`}>
             <span class="block font-mono text-xs uppercase tracking-[0.18em] text-ink-500 dark:text-ink-400">Email</span>
@@ -327,35 +280,10 @@ const articleItems = [
             <span class="block font-mono text-xs uppercase tracking-[0.18em] text-ink-500 dark:text-ink-400">GitHub</span>
             <span class="mt-2 block">methylation5mc2026-jpg</span>
           </a>
-          <a class="border-y border-ink-200 py-5 transition hover:border-accent-500 hover:text-accent-600 dark:border-white/10 dark:hover:text-accent-400" href={cvHref} download>
-            <span class="block font-mono text-xs uppercase tracking-[0.18em] text-ink-500 dark:text-ink-400">CV</span>
-            <span class="mt-2 block">Download</span>
-          </a>
         </div>
       </section>
     </div>
   </div>
-
-  <script>
-    const root = document.querySelector("[data-profile-photo-root]");
-
-    if (root) {
-      const storageKey = "chengbai.profilePhoto";
-      const preview = root.querySelector<HTMLImageElement>("[data-profile-photo-preview]");
-      const initials = root.querySelector<HTMLElement>("[data-profile-photo-initials]");
-
-      try {
-        const storedPhoto = localStorage.getItem(storageKey);
-        if (storedPhoto && preview && initials) {
-          preview.src = storedPhoto;
-          preview.classList.remove("hidden");
-          initials.classList.add("hidden");
-        }
-      } catch {
-        // Keep the default initials if browser storage is unavailable.
-      }
-    }
-  </script>
 
   <style>
     .social-media {

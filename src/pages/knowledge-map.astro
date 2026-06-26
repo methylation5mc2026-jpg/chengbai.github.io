@@ -1,48 +1,120 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+import { cleanSlug, getArticles, getBooks, getTopicCollections, tagToSlug } from "../lib/content";
+import { getBookProjects } from "../lib/bookPlans";
 
-const topics = [
+const articles = await getArticles();
+const collections = await getTopicCollections();
+const books = await getBooks();
+const bookProjects = await getBookProjects(books);
+
+const collectionByTitle = new Map(collections.map((item) => [item.data.title, item]));
+const bookBySlug = new Map(bookProjects.map((item) => [item.slug, item]));
+
+const tracks = [
+  {
+    title: "AIVC / AI for Science",
+    tags: ["AIVC", "AI for Science", "Virtual Cell", "Protein Design"],
+    books: ["aivc-whitepaper"],
+    collections: ["AI for Science"]
+  },
   {
     title: "AI for Biology",
-    links: [
-      { title: "AIVC Learning Notes", href: "/books/aivc-whitepaper/" },
-      { title: "EvoPrior-AIVC", href: "https://github.com/methylation5mc2026-jpg/EvoPrior-AIVC" }
-    ]
+    tags: ["AI4Bio", "Biology", "Paper Reading"],
+    books: [],
+    collections: ["AI for Science", "Paper Reading"]
   },
   {
     title: "Bioinformatics",
-    links: [
-      { title: "AIVC Learning Notes", href: "/books/aivc-whitepaper/" }
-    ]
+    tags: ["Bioinformatics", "Roadmap", "Single-cell"],
+    books: [],
+    collections: ["Bioinformatics"]
   },
   {
     title: "Biology Olympiad",
-    links: [
-      { title: "生科日报：2026.2.3", href: "/articles/life-science-daily-2026-02-03/" },
-      { title: "每天学点生物学——分子生物学冷知识", href: "/articles/molecular-biology-cold-knowledge/" }
-    ]
+    tags: ["Bio Olympiad", "Metabolism", "Learning Notes"],
+    books: [],
+    collections: ["Bio Olympiad", "Learning Notes"]
   }
 ];
+
+const articleMatches = (track: (typeof tracks)[number]) =>
+  articles.filter((article) => {
+    const haystack = [
+      article.data.title,
+      article.data.description,
+      article.data.collection ?? "",
+      ...article.data.tags
+    ].join(" ");
+    return track.tags.some((tag) => haystack.toLowerCase().includes(tag.toLowerCase()));
+  });
 ---
-<BaseLayout title="Topics | Cheng Bai" description="Topics.">
+<BaseLayout title="Topics | Cheng Bai" description="Topics on Cheng Bai's personal homepage.">
   <div class="space-y-10">
     <section class="border-b border-ink-200 pb-10 dark:border-white/10">
-      <h1 class="font-serif text-5xl leading-tight tracking-normal md:text-7xl">Topics</h1>
+      <p class="eyebrow">Topics</p>
+      <h1 class="mt-4 max-w-4xl font-serif text-5xl leading-tight tracking-normal md:text-7xl">Topics</h1>
     </section>
 
     <section class="grid gap-6">
-      {topics.map((topic) => (
-        <article class="grid gap-4 border-b border-ink-200 pb-6 dark:border-white/10 md:grid-cols-[220px_minmax(0,1fr)]">
-          <h2 class="font-serif text-3xl tracking-normal">{topic.title}</h2>
-          <div class="grid gap-2 text-sm leading-7">
-            {topic.links.map((item) => (
-              <a class="text-ink-700 transition hover:text-accent-600 dark:text-ink-200 dark:hover:text-accent-400" href={item.href} target={item.href.startsWith("http") ? "_blank" : undefined} rel={item.href.startsWith("http") ? "noreferrer" : undefined}>
-                {item.title}
-              </a>
-            ))}
-          </div>
-        </article>
-      ))}
+      {tracks.map((track, index) => {
+        const matchedArticles = articleMatches(track);
+        const trackBooks = track.books.map((slug) => bookBySlug.get(slug)).filter(Boolean);
+        const trackCollections = track.collections.map((title) => collectionByTitle.get(title)).filter(Boolean);
+        const hasAny = trackBooks.length > 0 || trackCollections.length > 0 || matchedArticles.length > 0;
+
+        return hasAny ? (
+          <article class="grid gap-6 border-b border-ink-200 pb-8 dark:border-white/10 lg:grid-cols-[120px_minmax(0,1fr)_360px]">
+            <p class="font-mono text-sm text-ink-500 dark:text-ink-400">{String(index + 1).padStart(2, "0")}</p>
+            <div>
+              <h2 class="font-serif text-4xl tracking-normal">{track.title}</h2>
+              <div class="mt-5 flex flex-wrap gap-2">
+                {track.tags.map((tag) => (
+                  <a class="tag-chip transition hover:border-accent-500 hover:text-accent-600 dark:hover:text-accent-400" href={`/tags/${tagToSlug(tag)}/`}>#{tag}</a>
+                ))}
+              </div>
+            </div>
+            <div class="grid gap-4 text-sm">
+              {trackBooks.length > 0 && (
+                <div>
+                  <p class="font-mono text-xs uppercase tracking-[0.18em] text-ink-500 dark:text-ink-400">Books</p>
+                  <div class="mt-2 grid gap-2">
+                    {trackBooks.map((item: any) => (
+                      <a class="text-ink-700 transition hover:text-accent-600 dark:text-ink-200 dark:hover:text-accent-400" href={`/books/${item.slug}/`}>
+                        {item.book.data.title}
+                      </a>
+                    ))}
+                  </div>
+                </div>
+              )}
+              {trackCollections.length > 0 && (
+                <div>
+                  <p class="font-mono text-xs uppercase tracking-[0.18em] text-ink-500 dark:text-ink-400">Topics</p>
+                  <div class="mt-2 grid gap-2">
+                    {trackCollections.map((item: any) => (
+                      <a class="text-ink-700 transition hover:text-accent-600 dark:text-ink-200 dark:hover:text-accent-400" href={`/collections/${item.id}/`}>
+                        {item.data.title}
+                      </a>
+                    ))}
+                  </div>
+                </div>
+              )}
+              {matchedArticles.length > 0 && (
+                <div>
+                  <p class="font-mono text-xs uppercase tracking-[0.18em] text-ink-500 dark:text-ink-400">Articles</p>
+                  <div class="mt-2 grid gap-2">
+                    {matchedArticles.slice(0, 3).map((article) => (
+                      <a class="text-ink-700 transition hover:text-accent-600 dark:text-ink-200 dark:hover:text-accent-400" href={`/articles/${cleanSlug(article.id)}/`}>
+                        {article.data.title}
+                      </a>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+          </article>
+        ) : null;
+      })}
     </section>
   </div>
 </BaseLayout>

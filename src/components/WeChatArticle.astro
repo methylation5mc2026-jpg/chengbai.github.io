@@ -4,7 +4,7 @@ interface Props {
   sourceUrl: string;
 }
 
-const { slug, sourceUrl } = Astro.props;
+const { slug } = Astro.props;
 const htmlFiles = import.meta.glob("../data/wechat/*.html", {
   query: "?raw",
   import: "default",
@@ -19,10 +19,7 @@ if (typeof html !== "string") {
 
 <article class="wechat-original">
   <div class="wechat-body" set:html={html} />
-  <div class="wechat-source">
-    <span>Originally published on WeChat / 原载于微信公众号 · 白城</span>
-    <a href={sourceUrl} target="_blank" rel="noreferrer">查看原文</a>
-  </div>
+  <p class="wechat-source-note">Originally published on WeChat.</p>
 </article>
 
 <style is:global>
@@ -31,31 +28,18 @@ if (typeof html !== "string") {
     margin: 0 auto;
   }
 
-  .wechat-source {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: space-between;
-    gap: 0.75rem;
+  .wechat-source-note {
     margin-top: 2rem;
     padding-top: 1rem;
     border-top: 1px solid rgba(40, 36, 31, 0.14);
     color: rgb(105, 97, 87);
-    font-size: 0.82rem;
+    font-size: 0.78rem;
+    line-height: 1.6;
   }
 
-  .dark .wechat-source {
+  .dark .wechat-source-note {
     border-color: rgba(255, 255, 255, 0.12);
     color: rgb(190, 184, 174);
-  }
-
-  .wechat-source a {
-    color: rgb(151, 88, 35);
-    text-decoration: none;
-  }
-
-  .dark .wechat-source a {
-    color: rgb(246, 178, 107);
   }
 
   .wechat-body {

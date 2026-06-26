@@ -1,23 +1,40 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
-import { cleanSlug, getBooks } from "../../lib/content";
+import { formatDate, getBooks } from "../../lib/content";
+import { getBookProjects } from "../../lib/bookPlans";
 
 const books = await getBooks();
+const bookProjects = await getBookProjects(books);
+const visibleBookProjects = bookProjects.filter((project) => project.slug === "aivc-whitepaper");
 ---
-<BaseLayout title="Books | Cheng Bai" description="Books and notes.">
+<BaseLayout title="Books | Cheng Bai" description="Books and notes on Cheng Bai's personal homepage.">
   <div class="space-y-10">
     <section class="border-b border-ink-200 pb-10 dark:border-white/10">
-      <h1 class="font-serif text-5xl leading-tight tracking-normal md:text-7xl">Books</h1>
+      <p class="eyebrow">Books</p>
+      <h1 class="mt-4 max-w-4xl font-serif text-5xl leading-tight tracking-normal md:text-7xl">Books</h1>
     </section>
 
-    <section class="grid gap-5">
-      {books.map((book) => (
-        <article class="paper p-6">
-          <h2 class="font-serif text-4xl tracking-normal">
-            <a href={`/books/${cleanSlug(book.id)}/`} class="transition hover:text-accent-600 dark:hover:text-accent-400">{book.data.title}</a>
-          </h2>
-          <p class="mt-4 max-w-3xl text-sm leading-7 text-ink-600 dark:text-ink-300">{book.data.description}</p>
-          <a class="mt-5 inline-block font-mono text-xs uppercase tracking-[0.18em] text-accent-600 dark:text-accent-400" href={`/books/${cleanSlug(book.id)}/`}>Open</a>
+    <section class="grid gap-6">
+      {visibleBookProjects.map((project) => (
+        <article class="writing-card">
+          <div>
+            <a href={`/books/${project.slug}/`} class="block font-serif text-4xl tracking-normal transition hover:text-accent-600 dark:hover:text-accent-400">
+              {project.book.data.title}
+            </a>
+            <p class="mt-4 max-w-3xl text-sm leading-7 text-ink-600 dark:text-ink-300">{project.book.data.description}</p>
+            <div class="mt-5 flex flex-wrap gap-2">
+              {project.book.data.tags.map((tag: string) => <span class="tag-chip">#{tag}</span>)}
+            </div>
+          </div>
+          <div class="space-y-4 text-sm text-ink-500 dark:text-ink-400">
+            <div>
+              <p class="font-mono text-xs uppercase tracking-[0.18em]">Updated</p>
+              <p class="mt-2 text-ink-900 dark:text-white">{formatDate(project.book.data.updatedDate)}</p>
+            </div>
+            <a class="inline-block text-accent-600 hover:text-accent-500 dark:text-accent-400" href={project.readingUrl}>
+              Read
+            </a>
+          </div>
         </article>
       ))}
     </section>

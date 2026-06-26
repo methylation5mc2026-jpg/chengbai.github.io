@@ -2,24 +2,26 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 
 const routes = [
-  { href: "/", title: "Home" },
-  { href: "/articles/", title: "Articles" },
-  { href: "/books/", title: "Books" },
-  { href: "/search/", title: "Search" }
+  { href: "/", title: "Homepage", text: "About, Projects, Honors, Articles, Books, and Contact." },
+  { href: "/books/aivc-whitepaper/", title: "AIVC Learning Notes", text: "AI Virtual Cell notes and chapters." },
+  { href: "/articles", title: "Articles", text: "Essays and public articles." },
+  { href: "/search", title: "Search", text: "Search this site." }
 ];
 ---
 <BaseLayout title="404 | Cheng Bai" description="Page not found.">
   <div class="space-y-10">
     <section class="border-b border-ink-200 pb-10 dark:border-white/10">
       <p class="eyebrow">404</p>
-      <h1 class="mt-4 max-w-4xl font-serif text-5xl leading-tight tracking-normal md:text-7xl">Page not found.</h1>
+      <h1 class="mt-4 max-w-4xl font-serif text-5xl leading-tight tracking-normal md:text-7xl">Page Not Found</h1>
     </section>
 
     <section class="grid gap-4 md:grid-cols-2">
-      {routes.map((item) => (
+      {routes.map((item, index) => (
         <a href={item.href} class="route-card group">
-          <h2 class="font-serif text-3xl tracking-normal">{item.title}</h2>
-          <span class="mt-5 inline-block font-mono text-xs uppercase tracking-[0.18em] text-accent-600 transition group-hover:translate-x-1 dark:text-accent-400">Open</span>
+          <p class="font-mono text-xs text-ink-500 dark:text-ink-400">{String(index + 1).padStart(2, "0")}</p>
+          <h2 class="mt-3 font-serif text-3xl tracking-normal">{item.title}</h2>
+          <p class="mt-3 text-sm leading-7 text-ink-600 dark:text-ink-300">{item.text}</p>
+          <span class="mt-5 inline-block font-mono text-xs uppercase tracking-[0.18em] text-accent-600 transition group-hover:translate-x-1 dark:text-accent-400">Go</span>
         </a>
       ))}
     </section>
