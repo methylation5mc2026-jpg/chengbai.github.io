@@ -1,34 +1,9 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
-import {
-  formatDate,
-  getArticles,
-  getBooks,
-  getDailyEntries,
-  getTopicCollections,
-  getWordCount
-} from "../lib/content";
-import { getBookProjects } from "../lib/bookPlans";
 import { siteConfig } from "../site.config";
 
-const articles = await getArticles();
-const collections = await getTopicCollections();
-const books = await getBooks();
-const bookProjects = await getBookProjects(books);
-const dailyEntries = await getDailyEntries();
-
-const allTextEntries = [
-  ...articles,
-  ...dailyEntries,
-  ...bookProjects.flatMap(({ book, chapters }) => [book, ...chapters])
-];
-const totalWords = allTextEntries.reduce((sum, item) => sum + getWordCount(item.body), 0);
-const latestUpdated = [
-  ...articles.map((item) => item.data.updatedDate ?? item.data.pubDate),
-  ...dailyEntries.map((item) => item.data.updatedDate ?? item.data.pubDate),
-  ...books.map((item) => item.data.updatedDate),
-  ...bookProjects.flatMap(({ chapters }) => chapters.map((item) => item.data.pubDate))
-].sort((a, b) => b.getTime() - a.getTime())[0];
+const contactEmail = siteConfig.contactEmail;
+const cvHref = siteConfig.cvHref;
 
 const socialLinks = [
   {
@@ -59,24 +34,20 @@ const socialLinks = [
 
 const newsItems = [
   {
-    date: "Jun, 2026",
-    tag: "Website",
-    text: "Built this site on GitHub Pages as a public profile for long-form notes, project records, and reading work."
+    date: "2026 / 06",
+    text: "Published this personal homepage as a public profile for projects, notes, writing, and contact information."
   },
   {
-    date: "Jun, 2026",
-    tag: "AIVC",
-    text: "Started organizing AIVC-related notes around virtual cells, proteomics, multi-omics data, and model evaluation."
+    date: "2026 / 06",
+    text: "Organizing AIVC learning notes around virtual cells, proteomics, multi-omics data, model evaluation, and paper reading."
   },
   {
-    date: "Spring, 2026",
-    tag: "Competition",
-    text: "Led a team in the Datawhale multi-agent drug design competition and entered the second round, finishing 34th nationally."
+    date: "2026",
+    text: "Team Lead, SAIS AI4S Agent CNS Challenge 2026; ranked 34th nationally and advanced to the semifinal / second round."
   },
   {
-    date: "High school",
-    tag: "Biology",
-    text: "Built a biology olympiad foundation and received provincial first prizes in consecutive years."
+    date: "2025-2026",
+    text: "Received provincial first prizes in the National Biology Olympiad / CHSBO in Shanghai for two consecutive years."
   }
 ];
 
@@ -84,50 +55,96 @@ const educationItems = [
   {
     title: "High School Student",
     meta: "Current",
-    text: "Completing high school study while building a biology and computing foundation for future work in AI for Biology."
+    text: "Preparing for biology competitions while building foundations in computational biology and AI for Biology."
   },
   {
     title: "Biology Olympiad Training",
-    meta: "Bio foundation",
-    text: "Systematic training in biochemistry, cell biology, genetics, physiology, ecology, and experimental reasoning."
+    meta: "Biology foundation",
+    text: "Training across biochemistry, molecular biology, cell biology, genetics, physiology, ecology, and experimental reasoning."
+  },
+  {
+    title: "Self-study in Computing",
+    meta: "Ongoing",
+    text: "Learning Python, data analysis, machine learning basics, bioinformatics workflows, and reproducible project documentation."
   }
 ];
 
-const experienceItems = [
+const projectItems = [
   {
-    date: "2026",
-    title: "Team Lead, Multi-agent Drug Design Competition",
-    text: "Completed a project under time pressure, coordinated teammates, and learned to connect AI tooling with life-science problems."
+    title: "AIVC Learning Notes",
+    summary: "Structured reading notes on AI Virtual Cell, proteomics, multi-omics data, and model evaluation.",
+    did: "Converted long-form notes and paper readings into a chapter-based MDX reading experience with diagrams, references, and chapter navigation.",
+    evidence: "Read the notes",
+    href: "/books/aivc-whitepaper/",
+    status: "Personal learning notes, not a formal report or research result."
   },
   {
-    date: "2026",
-    title: "AI for Biology Self-study",
-    text: "Building foundations in Python, bioinformatics, machine learning, deep learning, reinforcement learning, AIVC, and protein-related omics."
+    title: "EvoPrior-AIVC Exploratory Project",
+    summary: "A reproducible single-cell perturbation-response benchmark package with conservative claim boundaries.",
+    did: "Built and documented a staged pipeline around public Norman/scPerturb data, internal GEARS-compatible splits, leakage checks, model cards, and benchmark notes.",
+    evidence: "GitHub repository",
+    href: "https://github.com/methylation5mc2026-jpg/EvoPrior-AIVC",
+    status: "Current internal result: MAE 0.430778, MSE 3.668870. This is not official GEARS, not leaderboard-comparable, and not a SOTA claim."
   },
   {
-    date: "Ongoing",
-    title: "Long-form Learning Archive",
-    text: "Keeping paper notes, project records, and study plans in a form that can be reviewed, corrected, and extended."
+    title: "SAIS AI4S Agent CNS Challenge 2026",
+    summary: "Targeted molecule R&D and synthesis planning agent built for a national AI for Science competition.",
+    did: "Served as team lead; coordinated agent workflow design, literature reading, tool use, project writing, and team collaboration.",
+    evidence: "Ranked 34th nationally and advanced to the semifinal / second round",
+    href: "#honors",
+    status: "Competition project and learning record, not a peer-reviewed research result."
   }
-];
-
-const researchInterests = [
-  "AI Virtual Cell",
-  "AI Proteomics",
-  "Bioinformatics",
-  "Computational Biology",
-  "Multi-omics",
-  "Protein Design"
 ];
 
 const honors = [
-  "Provincial First Prize, National Biology Olympiad for High School Students, two consecutive years.",
-  "National Rank 34 and second-round entry, Datawhale multi-agent drug design competition, 2026.",
-  "Maintains a public site with long-form notes, book projects, topic maps, search, RSS, and sitemap."
+  "National Biology Olympiad / CHSBO 2025 Provincial First Prize, Shanghai, Rank 7.",
+  "National Biology Olympiad / CHSBO 2026 Provincial First Prize, Shanghai, Rank 19.",
+  "CNBO 2025 Bronze Medal.",
+  "SAIS AI4S Agent CNS Challenge 2026, Rank 34 nationally, advanced to the next round, Team Lead."
+];
+
+const skillGroups = [
+  {
+    title: "Biology",
+    items: ["Biochemistry", "Molecular biology", "Cell biology", "Immunology"]
+  },
+  {
+    title: "Wet-lab basics",
+    items: ["Pipetting", "Dilution", "Centrifugation", "PCR", "Gel electrophoresis", "Nanodrop", "Plate reader / basic spectrophotometry"]
+  },
+  {
+    title: "Programming / Data",
+    items: ["Python", "R", "pandas", "numpy", "matplotlib", "Excel"]
+  },
+  {
+    title: "Tools",
+    items: ["Linux", "Git", "conda", "GitHub", "Zotero"]
+  },
+  {
+    title: "AI / ML",
+    items: ["sklearn", "PyTorch basics", "Machine learning basics", "Deep learning basics"]
+  },
+  {
+    title: "Bioinformatics / Omics",
+    items: ["NCBI", "PDB", "PubMed", "Basic RNA/proteomics/multi-omics concepts"]
+  }
+];
+
+const writingItems = [
+  {
+    title: "生科日报：2026.2.3",
+    href: "/articles/life-science-daily-2026-02-03/",
+    text: "A migrated WeChat article preserving the original text, images, and layout."
+  },
+  {
+    title: "每天学点生物学——分子生物学冷知识",
+    href: "/articles/molecular-biology-cold-knowledge/",
+    text: "A public biology note written for general readers interested in molecular biology."
+  }
 ];
 ---
 <BaseLayout title={siteConfig.title} description={siteConfig.description}>
-  <div class="mx-auto grid max-w-6xl gap-10 lg:grid-cols-[300px_minmax(0,1fr)]">
+  <div class="mx-auto grid max-w-6xl gap-10 lg:grid-cols-[320px_minmax(0,1fr)]">
     <aside class="lg:sticky lg:top-24 lg:h-fit">
       <section class="paper overflow-hidden">
         <div class="border-b border-ink-200 bg-white p-6 dark:border-white/10 dark:bg-white/[0.03]">
@@ -147,15 +164,15 @@ const honors = [
           <h1 class="mt-5 text-center font-serif text-3xl tracking-normal">白城</h1>
           <p class="mt-2 text-center font-mono text-xs uppercase tracking-[0.16em] text-ink-500 dark:text-ink-400">Cheng Bai</p>
           <p class="mt-4 text-center text-sm leading-7 text-ink-600 dark:text-ink-300">
-            High school student interested in AI for Biology, AIVC, bioinformatics, and computational biology.
+            High School Student · Biology Olympiad · AI for Biology
           </p>
           <div class="social-media mt-5" aria-label="Social profiles">
             {socialLinks.map((item) => (
               <a
                 class="social-button"
                 href={item.href}
-                target="_blank"
-                rel="noreferrer"
+                target={item.href.startsWith("#") ? undefined : "_blank"}
+                rel={item.href.startsWith("#") ? undefined : "noreferrer"}
                 style={`--social-accent:${item.color}`}
                 aria-label={item.label}
                 title={item.label}
@@ -185,57 +202,48 @@ const honors = [
 
         <div class="space-y-4 p-6 text-sm">
           <div>
-            <p class="font-mono text-xs uppercase tracking-[0.16em] text-ink-500 dark:text-ink-400">Current Focus</p>
-            <div class="mt-3 flex flex-wrap gap-2">
-              {researchInterests.map((item) => <span class="focus-pill">{item}</span>)}
+            <p class="font-mono text-xs uppercase tracking-[0.16em] text-ink-500 dark:text-ink-400">Contact</p>
+            <div class="mt-3 grid gap-2 text-ink-600 dark:text-ink-300">
+              <a class="hover:text-accent-600 dark:hover:text-accent-400" href={`mailto:${contactEmail}`}>{contactEmail}</a>
+              <a class="hover:text-accent-600 dark:hover:text-accent-400" href="https://github.com/methylation5mc2026-jpg" target="_blank" rel="noreferrer">GitHub overview</a>
+              <a class="hover:text-accent-600 dark:hover:text-accent-400" href={cvHref} download>Download CV</a>
+              <a class="hover:text-accent-600 dark:hover:text-accent-400" href={siteConfig.url}>Personal website</a>
             </div>
           </div>
           <div class="border-t border-ink-200 pt-4 dark:border-white/10">
-            <p class="font-mono text-xs uppercase tracking-[0.16em] text-ink-500 dark:text-ink-400">Archive</p>
-            <p class="mt-2 leading-7 text-ink-600 dark:text-ink-300">
-              {articles.length} articles · {books.length} book projects · {collections.length} topic maps · {totalWords.toLocaleString("zh-CN")}+ words
-            </p>
+            <p class="font-mono text-xs uppercase tracking-[0.16em] text-ink-500 dark:text-ink-400">Current Focus</p>
+            <div class="mt-3 flex flex-wrap gap-2">
+              {siteConfig.focus.map((item) => <span class="focus-pill">{item}</span>)}
+            </div>
           </div>
         </div>
       </section>
     </aside>
 
     <div class="space-y-12">
-      <section id="biography" class="section-rule scroll-mt-24 pt-0">
-        <p class="eyebrow">Biography</p>
+      <section id="about" class="section-rule scroll-mt-24 pt-0">
+        <p class="eyebrow">About</p>
         <div class="mt-4 space-y-5 text-base leading-8 text-ink-700 dark:text-ink-200">
           <p>
-            Hi, I am 白城, a high school student preparing for future work at the intersection of biology and computation. My current focus is AI for Biology, especially virtual-cell modeling, proteomics, bioinformatics, and protein design.
+            I am a high school student in Shanghai with sustained training in the biology olympiad system. My current academic interest is AI for Biology, especially computational biology, single-cell and multi-omics data, proteomics, and AI Virtual Cell.
           </p>
           <p>
-            This site collects work that can be inspected directly: long-form notes, reading records, project summaries, competition experience, and study plans.
+            This website collects a small number of materials that I want teachers, mentors, and peers to inspect directly: project records, reading notes, competition experience, and original writing.
           </p>
           <p>
-            I am still early in this path. The point here is not to overstate what I have done, but to show how I read, organize problems, finish work, and keep improving.
+            I am still at an early stage. I try to keep claims narrow, record limitations clearly, and treat each project as a way to build better scientific judgment.
           </p>
-        </div>
-        <div class="mt-6 flex flex-wrap gap-3">
-          <a href="/books/aivc-whitepaper/" class="asset-button">AIVC whitepaper</a>
-          <a href="/knowledge-map" class="asset-button">Knowledge map</a>
-          <a href="/search" class="asset-button">Search archive</a>
         </div>
       </section>
 
       <section id="news" class="section-rule scroll-mt-24">
-        <div class="flex items-end justify-between gap-6">
-          <div>
-            <p class="eyebrow">News</p>
-            <h2 class="mt-2 font-serif text-4xl tracking-normal">Recent updates</h2>
-          </div>
-          <p class="text-sm text-ink-500 dark:text-ink-400">Last updated: {latestUpdated ? formatDate(latestUpdated) : "N/A"}</p>
-        </div>
+        <p class="eyebrow">News</p>
+        <h2 class="mt-2 font-serif text-4xl tracking-normal">Recent Updates</h2>
         <div class="mt-6 grid gap-4">
           {newsItems.map((item) => (
             <article class="grid gap-3 border-b border-ink-200 pb-4 dark:border-white/10 md:grid-cols-[120px_minmax(0,1fr)]">
               <p class="font-mono text-sm text-ink-500 dark:text-ink-400">{item.date}</p>
-              <p class="leading-7 text-ink-700 dark:text-ink-200">
-                <span class="font-medium text-accent-600 dark:text-accent-400">[{item.tag}]</span> {item.text}
-              </p>
+              <p class="leading-7 text-ink-700 dark:text-ink-200">{item.text}</p>
             </article>
           ))}
         </div>
@@ -243,30 +251,11 @@ const honors = [
 
       <section id="education" class="section-rule scroll-mt-24">
         <p class="eyebrow">Education</p>
-        <h2 class="mt-2 font-serif text-4xl tracking-normal">Education and training</h2>
+        <h2 class="mt-2 font-serif text-4xl tracking-normal">Education and Training</h2>
         <div class="mt-6 grid gap-4">
           {educationItems.map((item) => (
-            <article class="paper grid gap-4 p-5 md:grid-cols-[84px_minmax(0,1fr)]">
-              <div class="flex h-16 w-16 items-center justify-center rounded-lg border border-ink-200 bg-ink-100 font-serif text-2xl dark:border-white/10 dark:bg-white/10">
-                {item.title.slice(0, 1)}
-              </div>
-              <div>
-                <p class="font-mono text-xs uppercase tracking-[0.16em] text-ink-500 dark:text-ink-400">{item.meta}</p>
-                <h3 class="mt-2 font-serif text-2xl tracking-normal">{item.title}</h3>
-                <p class="mt-2 text-sm leading-7 text-ink-600 dark:text-ink-300">{item.text}</p>
-              </div>
-            </article>
-          ))}
-        </div>
-      </section>
-
-      <section id="experiences" class="section-rule scroll-mt-24">
-        <p class="eyebrow">Experiences</p>
-        <h2 class="mt-2 font-serif text-4xl tracking-normal">Growth experiences</h2>
-        <div class="mt-6 grid gap-5">
-          {experienceItems.map((item) => (
-            <article class="grid gap-4 border-b border-ink-200 pb-5 dark:border-white/10 md:grid-cols-[110px_minmax(0,1fr)]">
-              <p class="font-mono text-sm text-ink-500 dark:text-ink-400">{item.date}</p>
+            <article class="grid gap-4 border-b border-ink-200 pb-5 dark:border-white/10 md:grid-cols-[120px_minmax(0,1fr)]">
+              <p class="font-mono text-sm text-ink-500 dark:text-ink-400">{item.meta}</p>
               <div>
                 <h3 class="font-serif text-2xl tracking-normal">{item.title}</h3>
                 <p class="mt-2 text-sm leading-7 text-ink-600 dark:text-ink-300">{item.text}</p>
@@ -276,27 +265,35 @@ const honors = [
         </div>
       </section>
 
-      <section id="assets" class="section-rule scroll-mt-24">
-        <p class="eyebrow">Selected Work</p>
-        <h2 class="mt-2 font-serif text-4xl tracking-normal">Long-form materials and projects</h2>
-        <p class="mt-3 max-w-3xl text-sm leading-7 text-ink-600 dark:text-ink-300">
-          The entries below are the main materials I want visitors to read first. They show my current preparation more clearly than short posts.
-        </p>
-
-        <div class="mt-6 grid gap-4 md:grid-cols-2">
-          {bookProjects.slice(0, 4).map((project) => (
-            <a href={`/books/${project.slug}/`} class="paper p-5 transition hover:-translate-y-1 hover:border-accent-500">
-              <p class="font-mono text-xs uppercase tracking-[0.16em] text-ink-500 dark:text-ink-400">{project.plan.status} · {project.progress}%</p>
-              <h3 class="mt-3 font-serif text-2xl tracking-normal">{project.book.data.title}</h3>
-              <p class="mt-2 text-sm leading-7 text-ink-600 dark:text-ink-300">{project.plan.promise}</p>
-            </a>
+      <section id="projects" class="section-rule scroll-mt-24">
+        <p class="eyebrow">Selected Projects & Notes</p>
+        <h2 class="mt-2 font-serif text-4xl tracking-normal">Work I Want Visitors to Inspect First</h2>
+        <div class="mt-6 grid gap-5">
+          {projectItems.map((project) => (
+            <article class="paper p-5">
+              <div class="grid gap-5 lg:grid-cols-[minmax(0,1fr)_240px]">
+                <div>
+                  <h3 class="font-serif text-3xl tracking-normal">{project.title}</h3>
+                  <p class="mt-3 text-sm leading-7 text-ink-600 dark:text-ink-300">{project.summary}</p>
+                  <div class="mt-4 grid gap-3 text-sm leading-7">
+                    <p><span class="font-medium text-ink-900 dark:text-white">What I did:</span> {project.did}</p>
+                    <p><span class="font-medium text-ink-900 dark:text-white">Status / limitation:</span> {project.status}</p>
+                  </div>
+                </div>
+                <div class="flex items-start lg:justify-end">
+                  <a class="asset-button" href={project.href} target={project.href.startsWith("http") ? "_blank" : undefined} rel={project.href.startsWith("http") ? "noreferrer" : undefined}>
+                    {project.evidence}
+                  </a>
+                </div>
+              </div>
+            </article>
           ))}
         </div>
       </section>
 
       <section id="honors" class="section-rule scroll-mt-24">
-        <p class="eyebrow">Honors & Awards</p>
-        <h2 class="mt-2 font-serif text-4xl tracking-normal">Selected signals</h2>
+        <p class="eyebrow">Honors</p>
+        <h2 class="mt-2 font-serif text-4xl tracking-normal">Selected Records</h2>
         <ul class="mt-6 space-y-4 text-sm leading-7 text-ink-700 dark:text-ink-200">
           {honors.map((item) => (
             <li class="border-b border-ink-200 pb-4 dark:border-white/10">{item}</li>
@@ -304,12 +301,80 @@ const honors = [
         </ul>
       </section>
 
+      <section id="skills" class="section-rule scroll-mt-24">
+        <p class="eyebrow">Technical Skills</p>
+        <h2 class="mt-2 font-serif text-4xl tracking-normal">Current Foundation</h2>
+        <p class="mt-3 max-w-3xl text-sm leading-7 text-ink-600 dark:text-ink-300">
+          These are areas I am familiar with or currently learning. They are listed as foundations, not as expert-level claims.
+        </p>
+        <div class="mt-6 grid gap-5 md:grid-cols-2">
+          {skillGroups.map((group) => (
+            <section class="border-b border-ink-200 pb-5 dark:border-white/10">
+              <h3 class="font-serif text-2xl tracking-normal">{group.title}</h3>
+              <div class="mt-3 flex flex-wrap gap-2">
+                {group.items.map((item) => <span class="focus-pill">{item}</span>)}
+              </div>
+            </section>
+          ))}
+        </div>
+      </section>
+
+      <section id="writing" class="section-rule scroll-mt-24">
+        <p class="eyebrow">Writing</p>
+        <h2 class="mt-2 font-serif text-4xl tracking-normal">Original Articles</h2>
+        <p class="mt-3 max-w-3xl text-sm leading-7 text-ink-600 dark:text-ink-300">
+          The writing archive currently preserves four migrated WeChat articles. The homepage highlights only a small subset.
+        </p>
+        <div class="mt-6 grid gap-4 md:grid-cols-2">
+          {writingItems.map((item) => (
+            <a class="route-card group" href={item.href}>
+              <h3 class="font-serif text-2xl tracking-normal">{item.title}</h3>
+              <p class="mt-3 text-sm leading-7 text-ink-600 dark:text-ink-300">{item.text}</p>
+              <span class="mt-4 inline-block font-mono text-xs uppercase tracking-[0.18em] text-accent-600 transition group-hover:translate-x-1 dark:text-accent-400">Open</span>
+            </a>
+          ))}
+        </div>
+        <a class="mt-5 inline-block text-sm text-accent-600 hover:text-accent-500 dark:text-accent-400" href="/articles/">View full writing archive</a>
+      </section>
+
+      <section id="notes" class="section-rule scroll-mt-24">
+        <p class="eyebrow">Notes</p>
+        <h2 class="mt-2 font-serif text-4xl tracking-normal">Long-form Notes</h2>
+        <div class="mt-6 grid gap-4 md:grid-cols-2">
+          <a class="route-card group" href="/books/aivc-whitepaper/">
+            <h3 class="font-serif text-2xl tracking-normal">Notes on AI Virtual Cell</h3>
+            <p class="mt-3 text-sm leading-7 text-ink-600 dark:text-ink-300">
+              Chapter-based learning notes on AI Virtual Cell, single-cell data, proteomics, and model evaluation.
+            </p>
+            <span class="mt-4 inline-block font-mono text-xs uppercase tracking-[0.18em] text-accent-600 transition group-hover:translate-x-1 dark:text-accent-400">Read notes</span>
+          </a>
+          <a class="route-card group" href="/knowledge-map/">
+            <h3 class="font-serif text-2xl tracking-normal">Knowledge Map</h3>
+            <p class="mt-3 text-sm leading-7 text-ink-600 dark:text-ink-300">
+              A compact map of the main learning directions and available notes on this site.
+            </p>
+            <span class="mt-4 inline-block font-mono text-xs uppercase tracking-[0.18em] text-accent-600 transition group-hover:translate-x-1 dark:text-accent-400">Open map</span>
+          </a>
+        </div>
+      </section>
+
       <section id="contact" class="section-rule scroll-mt-24">
         <p class="eyebrow">Contact</p>
-        <h2 class="mt-2 font-serif text-4xl tracking-normal">Open to learning and discussion</h2>
-        <p class="mt-4 max-w-3xl text-sm leading-7 text-ink-600 dark:text-ink-300">
-          For academic discussion, feedback on notes, or project-related communication, the current public contact route is GitHub: <a class="text-accent-600 hover:text-accent-500 dark:text-accent-400" href="https://github.com/methylation5mc2026-jpg">github.com/methylation5mc2026-jpg</a>.
-        </p>
+        <h2 class="mt-2 font-serif text-4xl tracking-normal">Academic Contact</h2>
+        <div class="mt-5 grid gap-4 text-sm leading-7 text-ink-600 dark:text-ink-300 md:grid-cols-3">
+          <a class="border-y border-ink-200 py-5 transition hover:border-accent-500 hover:text-accent-600 dark:border-white/10 dark:hover:text-accent-400" href={`mailto:${contactEmail}`}>
+            <span class="block font-mono text-xs uppercase tracking-[0.18em] text-ink-500 dark:text-ink-400">Email</span>
+            <span class="mt-2 block">{contactEmail}</span>
+          </a>
+          <a class="border-y border-ink-200 py-5 transition hover:border-accent-500 hover:text-accent-600 dark:border-white/10 dark:hover:text-accent-400" href="https://github.com/methylation5mc2026-jpg" target="_blank" rel="noreferrer">
+            <span class="block font-mono text-xs uppercase tracking-[0.18em] text-ink-500 dark:text-ink-400">GitHub</span>
+            <span class="mt-2 block">methylation5mc2026-jpg</span>
+          </a>
+          <a class="border-y border-ink-200 py-5 transition hover:border-accent-500 hover:text-accent-600 dark:border-white/10 dark:hover:text-accent-400" href={cvHref} download>
+            <span class="block font-mono text-xs uppercase tracking-[0.18em] text-ink-500 dark:text-ink-400">CV</span>
+            <span class="mt-2 block">Download CV</span>
+          </a>
+        </div>
       </section>
     </div>
   </div>

@@ -8,13 +8,13 @@ const tags = Object.entries(grouped)
   .map(([tag, items]) => ({ tag, items }))
   .sort((a, b) => b.items.length - a.items.length || a.tag.localeCompare(b.tag));
 ---
-<BaseLayout title="Tags | 白城 AI for Biology Knowledge Assets" description="按标签聚合白城个人知识资产网站中的文章、书籍和章节。">
+<BaseLayout title="Tags | Cheng Bai" description="Browse articles, notes, and chapters by tag.">
   <div class="space-y-10">
     <section class="border-b border-ink-200 pb-10 dark:border-white/10">
       <p class="eyebrow">Tags</p>
       <h1 class="mt-4 max-w-4xl font-serif text-5xl leading-tight tracking-normal md:text-7xl">从标签进入知识网络。</h1>
       <p class="mt-6 max-w-3xl text-base leading-8 text-ink-600 dark:text-ink-300">
-        标签不是装饰，而是把文章、书籍和章节连接起来的索引。后续内容越多，这里越像一张可检索的知识图谱。
+        Tags connect articles, notes, and chapters across the site. They are meant to make the archive easier to inspect.
       </p>
     </section>
 

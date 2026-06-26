@@ -5,8 +5,8 @@ import { cleanSlug, getTopicCollections } from "../../lib/content";
 
 const collections = await getTopicCollections();
 ---
-<BaseLayout title="专题 | 白城 AI for Biology Knowledge Assets">
-  <SectionHeading title="专题系统" description="把零散文章逐步汇聚成可复用的知识结构。" />
+<BaseLayout title="Collections | Cheng Bai">
+  <SectionHeading title="Collections" description="Topic-based groups for notes and writing on this site." />
   <div class="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
     {collections.map((item) => (
       <a href={`/collections/${cleanSlug(item.id)}/`} class="paper flex min-h-56 flex-col justify-between p-6 transition hover:border-accent-500">

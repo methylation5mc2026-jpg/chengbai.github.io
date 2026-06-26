@@ -1,22 +1,23 @@
 export const siteConfig = {
   name: "白城",
-  title: "白城 | AI for Biology Knowledge Assets",
+  title: "Cheng Bai | Personal Homepage",
   description:
-    "白城的 AI for Biology 成长期知识资产库：生物竞赛、生物信息学、计算生物学、机器学习、AI4Bio 与 AIVC。",
+    "Personal homepage of Cheng Bai, a high school student with biology olympiad training and an interest in AI for Biology and computational biology.",
   url: "https://methylation5mc2026-jpg.github.io/chengbai.github.io",
   author: "白城",
-  securityEmail: "security@example.com",
-  identity: "高中阶段开始系统建设 AI for Biology 知识资产，长期关注 AIVC、AI4Bio、计算生物学与多组学。",
-  focus: ["AI for Biology", "AIVC", "Bioinformatics", "Computational Biology", "Machine Learning", "Proteomics"],
+  securityEmail: "methylation5mc2026@gmail.com",
+  contactEmail: "methylation5mc2026@gmail.com",
+  cvHref: "/files/cheng-bai-cv.md",
+  identity: "High School Student · Biology Olympiad · AI for Biology",
+  focus: ["Biology Olympiad", "AI for Biology", "Computational Biology", "Bioinformatics", "Proteomics"],
   nav: [
-    { href: "/#biography", label: "Biography" },
+    { href: "/#about", label: "About" },
     { href: "/#news", label: "News" },
     { href: "/#education", label: "Education" },
-    { href: "/#experiences", label: "Experiences" },
-    { href: "/#assets", label: "Assets" },
+    { href: "/#projects", label: "Projects" },
     { href: "/#honors", label: "Honors" },
-    { href: "/books", label: "书架" },
-    { href: "/articles", label: "文章" },
-    { href: "/search", label: "Search" }
+    { href: "/#writing", label: "Writing" },
+    { href: "/#notes", label: "Notes" },
+    { href: "/#contact", label: "Contact" }
   ]
 };

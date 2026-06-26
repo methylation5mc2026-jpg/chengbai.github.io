@@ -1,50 +1,63 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+import { siteConfig } from "../site.config";
 
 const evidence = [
   {
-    title: "生物竞赛训练",
-    text: "高中阶段连续两年获得全国中学生生物学竞赛省一等奖，长期训练生物化学、细胞生物学、遗传学、生态学与实验设计。"
+    title: "Biology Olympiad Training",
+    text: "Two consecutive Shanghai provincial first prizes in the National Biology Olympiad / CHSBO, with training across biochemistry, cell biology, genetics, ecology, and experimental reasoning."
   },
   {
-    title: "AI for Science 项目经历",
-    text: "2026 年春季作为队长参加 Datawhale 与上智院合办的多智能体药物设计大赛，进入复赛并最终排名全国第 34 名。"
+    title: "AI for Science Competition",
+    text: "Team Lead, SAIS AI4S Agent CNS Challenge 2026; ranked 34th nationally and advanced to the semifinal / second round."
   },
   {
-    title: "自学路线",
-    text: "正在系统补齐生物信息学、计算生物学、机器学习、深度学习、强化学习与 AI for Biology 的基础能力。"
+    title: "Computational Biology Self-study",
+    text: "Currently building foundations in bioinformatics, computational biology, machine learning, deep learning, and AI for Biology through reading and project-based learning."
   }
 ];
 
 const stacks = [
-  "生物化学 / 细胞生物学 / 分子生物学",
-  "生物信息学 / 多组学 / 质控意识",
-  "Python / 数据分析 / 可复现笔记",
-  "机器学习 / 深度学习 / 强化学习基础",
-  "AI4Bio / AIVC / 计算蛋白质设计",
-  "论文阅读 / 项目复盘 / 长文写作"
+  "Biochemistry",
+  "Cell biology",
+  "Molecular biology",
+  "Bioinformatics basics",
+  "Python / R / pandas / numpy",
+  "Linux / Git / conda",
+  "sklearn / PyTorch basics",
+  "PubMed / NCBI / PDB",
+  "Paper reading",
+  "Project documentation"
 ];
 
 const boundaries = [
-  "我仍处在成长期，不把学习笔记包装成科研成果。",
-  "竞赛和项目经历更多证明成长速度与执行力，不等同于完整研究能力。",
-  "这里保留的是我愿意接受他人检查的材料：读过什么、做过什么、哪里还需要继续补。"
+  "I am still at an early learning stage and do not present study notes as research results.",
+  "Competition and project records show preparation and execution, but they are not a substitute for mature research experience.",
+  "The materials kept here are meant to be inspected: what I have read, what I have built, what the evidence supports, and what still needs work."
 ];
 ---
-<BaseLayout title="关于白城 | AI for Biology Knowledge Assets" description="白城的 AI for Biology 成长期履历、技术栈、项目经历与知识资产入口。">
+<BaseLayout title="About | Cheng Bai" description="About Cheng Bai: biology olympiad training, AI for Biology interests, projects, skills, and current boundaries.">
   <div class="grid gap-8 lg:grid-cols-[minmax(0,1fr)_360px]">
     <section class="space-y-8">
       <div class="paper px-6 py-8 md:px-10">
         <p class="eyebrow mb-3">About</p>
-        <h1 class="font-serif text-4xl tracking-normal md:text-6xl">关于白城</h1>
-        <p class="mt-5 max-w-3xl text-base leading-8 text-ink-600 dark:text-ink-300">
-          我是一名正在申请接触 AI for Biology 前沿训练机会的高中阶段学习者。我的长期方向是 AI Virtual Cell、AI 蛋白质组学、计算生物学与多组学。这个网站是我的公开知识资产库，用来记录我如何从生物竞赛训练出发，逐步补齐 CS、AI 与生命科学交叉所需的能力。
-        </p>
+        <h1 class="font-serif text-4xl tracking-normal md:text-6xl">About Cheng Bai</h1>
+        <div class="mt-5 max-w-3xl space-y-4 text-base leading-8 text-ink-600 dark:text-ink-300">
+          <p>
+            I am a high school student in Shanghai with sustained training in biology competitions. My current interest is AI for Biology, especially computational biology, single-cell and multi-omics data, proteomics, and AI Virtual Cell.
+          </p>
+          <p>
+            This site is a compact public profile for teachers, mentors, and peers who want to inspect my preparation directly. It collects selected projects, reading notes, original writing, and records of what I am currently learning.
+          </p>
+          <p>
+            I try to describe my work with clear evidence and limitations. The goal is not to sound finished, but to make my learning path easier to evaluate.
+          </p>
+        </div>
       </div>
 
       <div class="paper px-6 py-8 md:px-10">
         <p class="eyebrow mb-3">Evidence</p>
-        <h2 class="font-serif text-3xl">可以被检查的成长证据</h2>
+        <h2 class="font-serif text-3xl">Materials That Can Be Checked</h2>
         <div class="mt-6 grid gap-5">
           {evidence.map((item, index) => (
             <article class="grid gap-4 border-b border-ink-200 pb-5 last:border-b-0 last:pb-0 dark:border-white/10 md:grid-cols-[72px_minmax(0,1fr)]">
@@ -60,7 +73,7 @@ const boundaries = [
 
       <div class="paper px-6 py-8 md:px-10">
         <p class="eyebrow mb-3">Boundary</p>
-        <h2 class="font-serif text-3xl">我希望保持诚实的边界</h2>
+        <h2 class="font-serif text-3xl">How I Keep the Claims Narrow</h2>
         <div class="mt-5 grid gap-4">
           {boundaries.map((item) => (
             <p class="border-b border-ink-200 pb-4 text-sm leading-7 text-ink-600 last:border-b-0 last:pb-0 dark:border-white/10 dark:text-ink-300">
@@ -73,24 +86,29 @@ const boundaries = [
 
     <aside class="space-y-6">
       <div class="paper p-6">
-        <h2 class="font-serif text-2xl">技术栈与知识栈</h2>
+        <h2 class="font-serif text-2xl">Skills and Tools</h2>
+        <p class="mt-3 text-sm leading-7 text-ink-600 dark:text-ink-300">
+          Listed as foundations I am familiar with or currently learning, not as expert-level claims.
+        </p>
         <div class="mt-4 flex flex-wrap gap-2">
           {stacks.map((item) => <span class="focus-pill">{item}</span>)}
         </div>
       </div>
       <div class="paper p-6">
-        <h2 class="font-serif text-2xl">推荐先读</h2>
+        <h2 class="font-serif text-2xl">Recommended First Reads</h2>
         <div class="mt-4 grid gap-3 text-sm leading-7 text-ink-600 dark:text-ink-300">
-          <a class="hover:text-accent-600 dark:hover:text-accent-400" href="/books/aivc-whitepaper/">AIVC白皮书</a>
-          <a class="hover:text-accent-600 dark:hover:text-accent-400" href="/articles/">原创文章</a>
-          <a class="hover:text-accent-600 dark:hover:text-accent-400" href="/knowledge-map">知识地图</a>
+          <a class="hover:text-accent-600 dark:hover:text-accent-400" href="/books/aivc-whitepaper/">AIVC Learning Notes</a>
+          <a class="hover:text-accent-600 dark:hover:text-accent-400" href="/articles/">Writing archive</a>
+          <a class="hover:text-accent-600 dark:hover:text-accent-400" href="/knowledge-map">Knowledge map</a>
         </div>
       </div>
       <div class="paper p-6">
-        <h2 class="font-serif text-2xl">联系信息</h2>
-        <p class="mt-4 text-sm leading-7 text-ink-600 dark:text-ink-300">
-          目前公开联系入口以 GitHub 为主；用于学术交流、笔记反馈和项目沟通。
-        </p>
+        <h2 class="font-serif text-2xl">Contact</h2>
+        <div class="mt-4 grid gap-3 text-sm leading-7 text-ink-600 dark:text-ink-300">
+          <a class="hover:text-accent-600 dark:hover:text-accent-400" href={`mailto:${siteConfig.contactEmail}`}>{siteConfig.contactEmail}</a>
+          <a class="hover:text-accent-600 dark:hover:text-accent-400" href="https://github.com/methylation5mc2026-jpg" target="_blank" rel="noreferrer">GitHub overview</a>
+          <a class="hover:text-accent-600 dark:hover:text-accent-400" href={siteConfig.cvHref} download>Download CV</a>
+        </div>
       </div>
     </aside>
   </div>

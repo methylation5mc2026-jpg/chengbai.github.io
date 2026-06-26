@@ -22,7 +22,7 @@ export async function GET(context) {
 
   return rss({
     title: siteConfig.title,
-    description: `${siteConfig.name}的个人知识资产网站 RSS`,
+    description: `${siteConfig.name} personal homepage RSS`,
     site: context.site,
     items,
     customData: `<language>zh-cn</language>`

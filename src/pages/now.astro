@@ -2,33 +2,33 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 
 const nowItems = [
-  "把 AIVC、AI 蛋白质组学、空间与单细胞组学作为长期方向，而不是短期热点。",
-  "继续补齐生物信息学与计算生物学底座，重点关注数据质控、可复现流程和多组学表示。",
-  "用项目式学习训练 AI 能力：Python、机器学习、深度学习、强化学习和多智能体协作。",
-  "把每次阅读、项目和复盘沉淀成可搜索的知识资产，减少只学不留痕的低效循环。"
+  "Preparing for biology competitions while strengthening core biology knowledge and experimental reasoning.",
+  "Building foundations in computational biology, bioinformatics, and AI for Biology through reading and small projects.",
+  "Organizing AIVC learning notes around virtual cells, single-cell and spatial omics, proteomics, and model evaluation.",
+  "Improving reproducible project habits: version control, data provenance, benchmark boundaries, and clear documentation."
 ];
 
 const nextActions = [
-  "扩写 AIVC 白皮书中的质控、标准和虚拟细胞章节。",
-  "整理 AI 蛋白质组学论文阅读地图。",
-  "把 Datawhale 多智能体药物设计经历写成项目复盘。",
-  "补充 GitHub 项目入口和正式联系方式。"
+  "Revise the AIVC learning notes with clearer evidence levels, figures, and references.",
+  "Write a concise project page for the SAIS AI4S Agent CNS Challenge experience.",
+  "Keep the EvoPrior-AIVC repository framed as an exploratory benchmark engineering project.",
+  "Keep the public CV, project records, and contact information accurate as the site evolves."
 ];
 ---
-<BaseLayout title="Now | 白城 AI for Biology Knowledge Assets" description="白城当前正在关注、学习和建设的方向。">
+<BaseLayout title="Now | Cheng Bai" description="Current focus of Cheng Bai: biology competition preparation, computational biology foundations, and AI for Biology learning notes.">
   <div class="grid gap-10 lg:grid-cols-[minmax(0,1fr)_360px]">
     <section class="border-b border-ink-200 pb-10 dark:border-white/10 lg:border-b-0">
       <p class="eyebrow">Now</p>
-      <h1 class="mt-4 max-w-4xl font-serif text-5xl leading-tight tracking-normal md:text-7xl">目前正在押注和建设的东西。</h1>
+      <h1 class="mt-4 max-w-4xl font-serif text-5xl leading-tight tracking-normal md:text-7xl">Current Focus</h1>
       <p class="mt-6 max-w-3xl text-base leading-8 text-ink-600 dark:text-ink-300">
-        这个页面记录我现在真正关注什么、正在补什么、下一步会把哪些内容变成公开知识资产。
+        Currently, I am preparing for biology competitions while building foundations in computational biology and AI for Biology.
       </p>
     </section>
 
     <aside class="h-fit border-y border-ink-200 py-6 text-sm dark:border-white/10 lg:border-l lg:border-y-0 lg:pl-8">
       <p class="font-mono text-xs uppercase tracking-[0.18em] text-ink-500 dark:text-ink-400">Updated</p>
       <p class="mt-3 font-serif text-3xl">2026 / 06</p>
-      <p class="mt-4 leading-7 text-ink-600 dark:text-ink-300">当前版本服务于 AIVC Week 申请、自荐和长期成长档案。</p>
+      <p class="mt-4 leading-7 text-ink-600 dark:text-ink-300">This page is a short status note, not a complete project list.</p>
     </aside>
 
     <section class="grid gap-5 lg:col-span-2">
@@ -42,7 +42,7 @@ const nextActions = [
 
     <section class="section-rule lg:col-span-2">
       <p class="eyebrow">Next</p>
-      <h2 class="mt-2 font-serif text-4xl tracking-normal">下一批要补成资产的内容</h2>
+      <h2 class="mt-2 font-serif text-4xl tracking-normal">Near-term Updates</h2>
       <div class="mt-6 grid gap-4 md:grid-cols-2">
         {nextActions.map((item) => (
           <p class="border-y border-ink-200 py-5 text-sm leading-7 text-ink-600 dark:border-white/10 dark:text-ink-300">{item}</p>

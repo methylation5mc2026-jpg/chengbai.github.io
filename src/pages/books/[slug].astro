@@ -1,17 +1,14 @@
 ---
-import { getCollection } from "astro:content";
 import BaseLayout from "../../layouts/BaseLayout.astro";
-import { cleanSlug, formatDate, getBookChapters, getChapterDisplayNumber, getLeafSlug, getWordCount } from "../../lib/content";
+import { cleanSlug, formatDate, getBookChapters, getBooks, getChapterDisplayNumber, getLeafSlug, getWordCount } from "../../lib/content";
 import { bookPlans } from "../../lib/bookPlans";
 
 export async function getStaticPaths() {
-  const entries = await getCollection("books");
-  return entries
-    .filter((entry) => entry.data.type === "book")
-    .map((entry) => ({
-      params: { slug: cleanSlug(entry.id) },
-      props: { entry }
-    }));
+  const entries = await getBooks();
+  return entries.map((entry) => ({
+    params: { slug: cleanSlug(entry.id) },
+    props: { entry }
+  }));
 }
 
 const { entry } = Astro.props;

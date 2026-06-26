@@ -8,17 +8,17 @@ const links = siteConfig.nav;
   <div class="container-shell flex min-h-16 flex-wrap items-center justify-between gap-x-6 gap-y-3 py-3">
     <a href="/" class="flex items-baseline gap-2 font-serif text-xl tracking-normal">
       <span>{siteConfig.name}</span>
-      <span class="font-mono text-xs uppercase text-ink-500 dark:text-ink-400">AI for Biology Assets</span>
+      <span class="font-mono text-xs uppercase text-ink-500 dark:text-ink-400">Personal Homepage</span>
     </a>
     <div class="flex items-center gap-4">
-      <nav class="hidden gap-4 md:flex">
+      <nav class="hidden gap-4 md:flex" aria-label="Primary navigation">
         {links.map((link) => (
           <a class="nav-link whitespace-nowrap" href={link.href}>{link.label}</a>
         ))}
       </nav>
       <ThemeToggle />
     </div>
-    <nav class="order-3 -mx-1 flex w-full gap-4 overflow-x-auto border-t border-ink-200/70 px-1 pt-3 md:hidden">
+    <nav class="order-3 -mx-1 flex w-full gap-4 overflow-x-auto border-t border-ink-200/70 px-1 pt-3 md:hidden" aria-label="Mobile navigation">
       {links.map((link) => (
         <a class="nav-link whitespace-nowrap" href={link.href}>{link.label}</a>
       ))}

@@ -16,7 +16,7 @@ const { entry, headings, prev, next } = Astro.props;
 const stats = readingTime(entry.body);
 const minutes = entry.data.readingMinutes ?? Math.max(1, Math.round(stats.minutes));
 ---
-<BaseLayout title={`${entry.data.title} | 白城 AI for Biology Knowledge Assets`} description={entry.data.description}>
+<BaseLayout title={`${entry.data.title} | Cheng Bai`} description={entry.data.description}>
   <div class="grid gap-10 lg:grid-cols-[minmax(0,1fr)_280px]">
     <article class="space-y-8">
       <header class="paper px-6 py-8 md:px-10 md:py-10">

@@ -1,6 +1,6 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
-import { getArticles, getBooks, getTopicCollections, tagToSlug } from "../lib/content";
+import { cleanSlug, getArticles, getBooks, getTopicCollections, tagToSlug } from "../lib/content";
 import { getBookProjects } from "../lib/bookPlans";
 
 const articles = await getArticles();
@@ -14,38 +14,31 @@ const bookBySlug = new Map(bookProjects.map((item) => [item.slug, item]));
 const tracks = [
   {
     title: "AIVC / AI for Science",
-    description: "当前最重要的长期押注：从 AI Virtual Cell、计算蛋白质设计到科研创业机会。",
+    description: "Learning notes on AI Virtual Cell, AI for Science, protein design, single-cell data, and model evaluation.",
     tags: ["AIVC", "AI for Science", "Virtual Cell", "Protein Design"],
     books: ["aivc-whitepaper"],
     collections: ["AI for Science"]
   },
   {
-    title: "AI4Bio",
-    description: "围绕生物学与人工智能交叉方向，沉淀论文地图、技术路线与产业判断。",
-    tags: ["AI4Bio", "Biology", "Whitepaper", "Paper Reading"],
+    title: "AI for Biology",
+    description: "Reading and project records around the intersection of biology, computation, and machine learning.",
+    tags: ["AI4Bio", "Biology", "Paper Reading"],
     books: [],
     collections: ["AI for Science", "Paper Reading"]
   },
   {
     title: "Bioinformatics",
-    description: "组学、单细胞、生物信息学工作流和计算生物学问题意识。",
+    description: "Omics data, single-cell concepts, workflow thinking, and computational biology foundations.",
     tags: ["Bioinformatics", "Roadmap", "Single-cell"],
     books: [],
     collections: ["Bioinformatics"]
   },
   {
-    title: "Bio Olympiad",
-    description: "面向生物竞赛的知识体系、题目拆解、专题训练与长期记忆方法。",
+    title: "Biology Olympiad",
+    description: "Competition-oriented biology foundations, problem analysis, and long-term review notes.",
     tags: ["Bio Olympiad", "Metabolism", "Learning Notes"],
     books: [],
     collections: ["Bio Olympiad", "Learning Notes"]
-  },
-  {
-    title: "Daily Principles",
-    description: "每天把思想认知上的突破凝结成原则、方法论和可执行规则，作为早年成长锚点。",
-    tags: ["Daily", "Principles", "Self Discipline", "Growth"],
-    books: [],
-    collections: ["Learning Notes"]
   }
 ];
 
@@ -60,15 +53,15 @@ const articleMatches = (track: (typeof tracks)[number]) =>
     return track.tags.some((tag) => haystack.toLowerCase().includes(tag.toLowerCase()));
   });
 ---
-<BaseLayout title="Knowledge Map | 白城 AI for Biology Knowledge Assets" description="白城个人知识资产网站的长期知识地图。">
+<BaseLayout title="Knowledge Map | Cheng Bai" description="A compact map of Cheng Bai's current learning notes, projects, and writing topics.">
   <div class="space-y-12">
     <section class="grid gap-8 border-b border-ink-200 pb-10 dark:border-white/10 lg:grid-cols-[1fr_0.6fr]">
       <div>
         <p class="eyebrow">Knowledge Map</p>
-        <h1 class="mt-4 max-w-4xl font-serif text-5xl leading-tight tracking-normal md:text-7xl">把零散内容组织成几条长期主线。</h1>
+        <h1 class="mt-4 max-w-4xl font-serif text-5xl leading-tight tracking-normal md:text-7xl">Learning Directions</h1>
       </div>
       <p class="text-sm leading-8 text-ink-600 dark:text-ink-300">
-        这个页面是全站导航的高密度版本。它不按时间排序，而按长期问题排序：每条主线下面都可以挂书、专题、文章和标签。
+        This page groups the public notes and articles by topic. It is intended as a compact navigation map, not a complete curriculum.
       </p>
     </section>
 
@@ -91,30 +84,42 @@ const articleMatches = (track: (typeof tracks)[number]) =>
               </div>
             </div>
             <div class="grid gap-4 text-sm">
-              <div>
-                <p class="font-mono text-xs uppercase tracking-[0.18em] text-ink-500 dark:text-ink-400">Books</p>
-                <div class="mt-2 grid gap-2">
-                  {trackBooks.length > 0 ? trackBooks.map((item: any) => (
-                    <a class="text-ink-700 transition hover:text-accent-600 dark:text-ink-200 dark:hover:text-accent-400" href={`/books/${item.slug}/`}>
-                      {item.book.data.title} · {item.chapters.length}/{item.plan.goal} 章
-                    </a>
-                  )) : <span class="text-ink-500 dark:text-ink-400">暂未绑定书籍</span>}
+              {trackBooks.length > 0 && (
+                <div>
+                  <p class="font-mono text-xs uppercase tracking-[0.18em] text-ink-500 dark:text-ink-400">Books / Notes</p>
+                  <div class="mt-2 grid gap-2">
+                    {trackBooks.map((item: any) => (
+                      <a class="text-ink-700 transition hover:text-accent-600 dark:text-ink-200 dark:hover:text-accent-400" href={`/books/${item.slug}/`}>
+                        {item.book.data.title} · {item.chapters.length} chapters
+                      </a>
+                    ))}
+                  </div>
                 </div>
-              </div>
-              <div>
-                <p class="font-mono text-xs uppercase tracking-[0.18em] text-ink-500 dark:text-ink-400">Topics</p>
-                <div class="mt-2 grid gap-2">
-                  {trackCollections.length > 0 ? trackCollections.map((item: any) => (
-                    <a class="text-ink-700 transition hover:text-accent-600 dark:text-ink-200 dark:hover:text-accent-400" href={`/collections/${item.id}/`}>
-                      {item.data.title}
-                    </a>
-                  )) : <span class="text-ink-500 dark:text-ink-400">暂未绑定专题</span>}
+              )}
+              {trackCollections.length > 0 && (
+                <div>
+                  <p class="font-mono text-xs uppercase tracking-[0.18em] text-ink-500 dark:text-ink-400">Topics</p>
+                  <div class="mt-2 grid gap-2">
+                    {trackCollections.map((item: any) => (
+                      <a class="text-ink-700 transition hover:text-accent-600 dark:text-ink-200 dark:hover:text-accent-400" href={`/collections/${item.id}/`}>
+                        {item.data.title}
+                      </a>
+                    ))}
+                  </div>
                 </div>
-              </div>
-              <div>
-                <p class="font-mono text-xs uppercase tracking-[0.18em] text-ink-500 dark:text-ink-400">Articles</p>
-                <p class="mt-2 text-ink-600 dark:text-ink-300">{matchedArticles.length} 篇相关短文</p>
-              </div>
+              )}
+              {matchedArticles.length > 0 && (
+                <div>
+                  <p class="font-mono text-xs uppercase tracking-[0.18em] text-ink-500 dark:text-ink-400">Articles</p>
+                  <div class="mt-2 grid gap-2">
+                    {matchedArticles.slice(0, 3).map((article) => (
+                      <a class="text-ink-700 transition hover:text-accent-600 dark:text-ink-200 dark:hover:text-accent-400" href={`/articles/${cleanSlug(article.id)}/`}>
+                        {article.data.title}
+                      </a>
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
           </article>
         );

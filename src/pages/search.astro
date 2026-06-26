@@ -1,12 +1,12 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 ---
-<BaseLayout title="搜索 | 白城 AI for Biology Knowledge Assets" description="搜索白城的文章、专题、书籍章节与长期知识资产。">
+<BaseLayout title="Search | Cheng Bai" description="Search Cheng Bai's writing, notes, and chapters.">
   <section class="paper px-6 py-8 md:px-10 md:py-10">
     <p class="eyebrow mb-3">Search</p>
     <h1 class="font-serif text-4xl tracking-normal md:text-6xl">全文搜索</h1>
     <p class="mt-4 max-w-2xl text-sm leading-7 text-ink-600 dark:text-ink-300">
-      使用 Pagefind 搜索文章、专题、书籍章节和长期笔记。适合查找 AIVC、AI4Bio、生物信息学、生物竞赛、论文阅读、商业与投资相关内容。
+      Use Pagefind to search articles, topics, chapters, and long-form notes on this site.
     </p>
     <div id="search" class="mt-8"></div>
   </section>
@@ -21,7 +21,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
           showSubResults: true,
           resetStyles: false,
           translations: {
-            placeholder: "搜索 AIVC、AI4Bio、生信、竞赛、论文、商业..."
+            placeholder: "Search AIVC, AI for Biology, bioinformatics, competitions, papers..."
           }
         });
       }

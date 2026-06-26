@@ -7,8 +7,8 @@ const articles = await getArticles();
 const grouped = groupArticlesByYear(articles);
 const years = Object.keys(grouped).sort((a, b) => Number(b) - Number(a));
 ---
-<BaseLayout title="文章 | 白城 AI for Biology Knowledge Assets">
-  <SectionHeading title="文章" description="从微信公众号迁移来的原创公开写作，保留原文、原图与主要排版。" />
+<BaseLayout title="Writing | Cheng Bai">
+  <SectionHeading title="Writing" description="Original public articles migrated from WeChat, with original text, images, and main layout preserved." />
   <div class="space-y-10">
     {years.map((year) => (
       <section>

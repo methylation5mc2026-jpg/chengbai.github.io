@@ -1,5 +1,12 @@
 import { getCollection } from "astro:content";
 
+const PUBLIC_BOOK_SLUGS = new Set(["aivc-whitepaper"]);
+const SHOW_DAILY_NOTES = false;
+
+export function isPublicBookSlug(slug: string) {
+  return PUBLIC_BOOK_SLUGS.has(cleanSlug(slug));
+}
+
 export async function getArticles() {
   const entries = await getCollection("articles", ({ data }) => !data.draft);
   return entries.sort(
@@ -14,19 +21,25 @@ export async function getTopicCollections() {
 
 export async function getBooks() {
   const entries = await getCollection("books");
-  const books = entries.filter((entry) => entry.data.type === "book");
+  const books = entries.filter((entry) => entry.data.type === "book" && isPublicBookSlug(entry.id));
   return books.sort((a, b) => a.data.order - b.data.order);
 }
 
 export async function getBookChapters(bookSlug: string) {
   const entries = await getCollection("books");
   const normalizedBookSlug = cleanSlug(bookSlug);
+  if (!isPublicBookSlug(normalizedBookSlug)) {
+    return [];
+  }
   return entries
     .filter((entry) => entry.data.type === "chapter" && entry.data.bookSlug === normalizedBookSlug)
     .sort((a, b) => a.data.order - b.data.order);
 }
 
 export async function getDailyEntries() {
+  if (!SHOW_DAILY_NOTES) {
+    return [];
+  }
   const entries = await getCollection("daily");
   return entries.sort(
     (a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime()
@@ -96,8 +109,8 @@ export async function getTaggedEntries() {
   const articles = await getArticles();
   const daily = await getDailyEntries();
   const books = await getCollection("books");
-  const bookEntries = books.filter((entry) => entry.data.type === "book");
-  const chapterEntries = books.filter((entry) => entry.data.type === "chapter");
+  const bookEntries = books.filter((entry) => entry.data.type === "book" && isPublicBookSlug(entry.id));
+  const chapterEntries = books.filter((entry) => entry.data.type === "chapter" && isPublicBookSlug(entry.data.bookSlug));
 
   return [
     ...articles.map((entry) => ({

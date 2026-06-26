@@ -5,12 +5,12 @@ export const bookPlans: Record<
   { status: string; goal: number; next: string; audience: string; cadence: string; promise: string }
 > = {
   "aivc-whitepaper": {
-    status: "重点推进",
+    status: "Learning notes",
     goal: 12,
-    next: "继续整理章节目录、图表、参考文献和可复读的学习笔记。",
-    audience: "关注 AI for Science、AI4Bio、科研创业和未来产业机会的人。",
-    cadence: "建议按章节连续阅读，后续会持续追加。",
-    promise: "理解 AI Virtual Cell、计算蛋白质设计与科研创业机会。"
+    next: "Continue revising chapter structure, figures, citations, and paper-reading notes.",
+    audience: "Readers interested in AI Virtual Cell, AI for Biology, omics data, and model evaluation.",
+    cadence: "Best read chapter by chapter; new notes will be added gradually.",
+    promise: "A personal learning route for understanding AI Virtual Cell and related AI for Biology methods."
   },
   "founders-playbook": {
     status: "中英对照手册",

@@ -1,11 +1,11 @@
 ---
 import { getCollection } from "astro:content";
 import BookChapterLayout from "../../../layouts/BookChapterLayout.astro";
-import { getBookChapters, getLeafSlug } from "../../../lib/content";
+import { getBookChapters, getLeafSlug, isPublicBookSlug } from "../../../lib/content";
 
 export async function getStaticPaths() {
   const entries = await getCollection("books");
-  const chapters = entries.filter((entry) => entry.data.type === "chapter");
+  const chapters = entries.filter((entry) => entry.data.type === "chapter" && isPublicBookSlug(entry.data.bookSlug));
   return chapters.map((entry) => ({
     params: {
       book: entry.data.bookSlug,

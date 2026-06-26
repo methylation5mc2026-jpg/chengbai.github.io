@@ -2,19 +2,19 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 
 const routes = [
-  { href: "/start-here", title: "从这里开始", text: "如果你不确定该读什么，从新读者路径重新进入。" },
-  { href: "/books", title: "进入书架", text: "查看正在写的四本书和已有章节。" },
-  { href: "/knowledge-map", title: "知识地图", text: "按长期主线寻找相关书籍、专题和标签。" },
-  { href: "/search", title: "搜索全站", text: "直接搜索 AIVC、AI4Bio、生信、商业等关键词。" }
+  { href: "/", title: "回到首页", text: "查看 About、Projects、Honors、Writing、Notes 和 Contact。" },
+  { href: "/books/aivc-whitepaper/", title: "AIVC Learning Notes", text: "阅读 AI Virtual Cell 相关学习笔记和章节。" },
+  { href: "/knowledge-map", title: "Knowledge Map", text: "按 AIVC、AI for Biology、生信和竞赛等主题浏览。" },
+  { href: "/search", title: "Search", text: "搜索 AIVC、AI for Biology、生信、竞赛和论文笔记。" }
 ];
 ---
-<BaseLayout title="404 | 页面未找到" description="页面未找到，可以从搜索、书架或知识地图继续浏览。">
+<BaseLayout title="404 | Cheng Bai" description="Page not found. Continue from the homepage, AIVC notes, knowledge map, or search.">
   <div class="space-y-10">
     <section class="border-b border-ink-200 pb-10 dark:border-white/10">
       <p class="eyebrow">404</p>
       <h1 class="mt-4 max-w-4xl font-serif text-5xl leading-tight tracking-normal md:text-7xl">这页暂时不存在。</h1>
       <p class="mt-6 max-w-3xl text-base leading-8 text-ink-600 dark:text-ink-300">
-        可能是链接还没写完，也可能是旧路径已经移动。别急，知识库还在，我们可以从下面几个入口继续。
+        可能是链接还没写完，也可能是旧路径已经移动。可以从下面几个入口继续。
       </p>
     </section>
 

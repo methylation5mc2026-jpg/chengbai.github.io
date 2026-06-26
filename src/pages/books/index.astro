@@ -5,24 +5,25 @@ import { getBookProjects, getBookStyle } from "../../lib/bookPlans";
 
 const books = await getBooks();
 const bookProjects = await getBookProjects(books);
+const visibleBookProjects = bookProjects.filter((project) => project.slug === "aivc-whitepaper");
 ---
-<BaseLayout title="书籍 | 白城 AI for Biology Knowledge Assets" description="白城个人网站中的长期书籍项目。">
+<BaseLayout title="Long-form Notes | Cheng Bai" description="Long-form learning notes on Cheng Bai's personal homepage.">
   <div class="space-y-12">
     <section class="grid gap-8 border-b border-ink-200 pb-10 dark:border-white/10 lg:grid-cols-[1fr_0.6fr]">
       <div>
-        <p class="eyebrow">Books</p>
-        <h1 class="mt-4 max-w-4xl font-serif text-5xl leading-tight tracking-normal md:text-7xl">书籍项目</h1>
+        <p class="eyebrow">Long-form Notes</p>
+        <h1 class="mt-4 max-w-4xl font-serif text-5xl leading-tight tracking-normal md:text-7xl">Notes and Chapters</h1>
       </div>
       <div class="text-sm leading-8 text-ink-600 dark:text-ink-300">
         <p class="font-mono text-xs uppercase tracking-[0.18em] text-ink-500 dark:text-ink-400">
-          {books.length} books / {bookProjects.reduce((sum, item) => sum + item.chapters.length, 0)} chapters / MDX powered
+          {visibleBookProjects.reduce((sum, item) => sum + item.chapters.length, 0)} chapters / currently public
         </p>
       </div>
     </section>
 
     <section class="overflow-x-auto border-y border-ink-200 dark:border-white/10">
       <div class="book-shelf flex min-h-[34rem] min-w-max items-end gap-4 px-1 pb-10 pt-40">
-        {bookProjects.map((project) => (
+        {visibleBookProjects.map((project) => (
           <a
             href={`/books/${project.slug}/`}
             style={getBookStyle(project.index)}
@@ -39,7 +40,7 @@ const bookProjects = await getBookProjects(books);
     </section>
 
     <section class="grid gap-6">
-      {bookProjects.map((project) => (
+      {visibleBookProjects.map((project) => (
         <article class="writing-card">
           <div>
             <p class="font-mono text-xs uppercase tracking-[0.18em] text-ink-500 dark:text-ink-400">
