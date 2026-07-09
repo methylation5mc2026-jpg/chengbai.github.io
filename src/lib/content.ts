@@ -1,10 +1,28 @@
-import { getCollection } from "astro:content";
+import { getCollection, type CollectionEntry } from "astro:content";
+
+type BooksData = CollectionEntry<"books">["data"];
+export type BookEntry = Omit<CollectionEntry<"books">, "data"> & {
+  data: Extract<BooksData, { type: "book" }>;
+};
+export type BookChapterEntry = Omit<CollectionEntry<"books">, "data"> & {
+  data: Extract<BooksData, { type: "chapter" }>;
+};
 
 const PUBLIC_BOOK_SLUGS = new Set(["aivc-whitepaper"]);
 const SHOW_DAILY_NOTES = false;
 
 export function isPublicBookSlug(slug: string) {
   return PUBLIC_BOOK_SLUGS.has(cleanSlug(slug));
+}
+
+export function isBookEntry(entry: CollectionEntry<"books">): entry is BookEntry {
+  return entry.data.type === "book";
+}
+
+export function isBookChapterEntry(
+  entry: CollectionEntry<"books">
+): entry is BookChapterEntry {
+  return entry.data.type === "chapter";
 }
 
 export async function getArticles() {
@@ -21,7 +39,9 @@ export async function getTopicCollections() {
 
 export async function getBooks() {
   const entries = await getCollection("books");
-  const books = entries.filter((entry) => entry.data.type === "book" && isPublicBookSlug(entry.id));
+  const books = entries.filter(
+    (entry): entry is BookEntry => isBookEntry(entry) && isPublicBookSlug(entry.id)
+  );
   return books.sort((a, b) => a.data.order - b.data.order);
 }
 
@@ -32,7 +52,10 @@ export async function getBookChapters(bookSlug: string) {
     return [];
   }
   return entries
-    .filter((entry) => entry.data.type === "chapter" && entry.data.bookSlug === normalizedBookSlug)
+    .filter(
+      (entry): entry is BookChapterEntry =>
+        isBookChapterEntry(entry) && entry.data.bookSlug === normalizedBookSlug
+    )
     .sort((a, b) => a.data.order - b.data.order);
 }
 
@@ -109,8 +132,13 @@ export async function getTaggedEntries() {
   const articles = await getArticles();
   const daily = await getDailyEntries();
   const books = await getCollection("books");
-  const bookEntries = books.filter((entry) => entry.data.type === "book" && isPublicBookSlug(entry.id));
-  const chapterEntries = books.filter((entry) => entry.data.type === "chapter" && isPublicBookSlug(entry.data.bookSlug));
+  const bookEntries = books.filter(
+    (entry): entry is BookEntry => isBookEntry(entry) && isPublicBookSlug(entry.id)
+  );
+  const chapterEntries = books.filter(
+    (entry): entry is BookChapterEntry =>
+      isBookChapterEntry(entry) && isPublicBookSlug(entry.data.bookSlug)
+  );
 
   return [
     ...articles.map((entry) => ({
