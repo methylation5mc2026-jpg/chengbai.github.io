@@ -1,11 +1,20 @@
 ---
-import { getCollection } from "astro:content";
+import { getCollection, render } from "astro:content";
 import BookChapterLayout from "../../../layouts/BookChapterLayout.astro";
-import { getBookChapters, getLeafSlug, isPublicBookSlug } from "../../../lib/content";
+import {
+  getBookChapters,
+  getLeafSlug,
+  isBookChapterEntry,
+  isPublicBookSlug,
+  type BookChapterEntry
+} from "../../../lib/content";
 
 export async function getStaticPaths() {
   const entries = await getCollection("books");
-  const chapters = entries.filter((entry) => entry.data.type === "chapter" && isPublicBookSlug(entry.data.bookSlug));
+  const chapters = entries.filter(
+    (entry): entry is BookChapterEntry =>
+      isBookChapterEntry(entry) && isPublicBookSlug(entry.data.bookSlug)
+  );
   return chapters.map((entry) => ({
     params: {
       book: entry.data.bookSlug,
@@ -15,11 +24,13 @@ export async function getStaticPaths() {
   }));
 }
 
-const { entry } = Astro.props;
+const { entry } = Astro.props as { entry: BookChapterEntry };
 const allBooks = await getCollection("books");
-const book = allBooks.find((item) => item.data.type === "book" && item.id === entry.data.bookSlug);
+const book = allBooks.find(
+  (item) => item.data.type === "book" && item.id === entry.data.bookSlug
+);
 const chapters = await getBookChapters(entry.data.bookSlug);
-const { Content } = await entry.render();
+const { Content } = await render(entry);
 const currentIndex = chapters.findIndex((item) => item.id === entry.id);
 const prevEntry = chapters[currentIndex - 1];
 const nextEntry = chapters[currentIndex + 1];

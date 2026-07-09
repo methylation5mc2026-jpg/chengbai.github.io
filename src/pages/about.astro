@@ -3,7 +3,6 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import { siteConfig } from "../site.config";
 
 const contactEmail = siteConfig.contactEmail;
-const cvHref = siteConfig.cvHref;
 ---
 <BaseLayout title="About | Zeheng Shen" description="About Zeheng Shen.">
   <section class="paper px-6 py-8 md:px-10">
@@ -17,9 +16,6 @@ const cvHref = siteConfig.cvHref;
       </p>
       <p>
         I am always open to collaborations and discussions. Please feel free to contact me at <a class="text-accent-600 hover:text-accent-500 dark:text-accent-400" href={`mailto:${contactEmail}`}>{contactEmail}</a>.
-      </p>
-      <p>
-        My CV is available here: <a class="text-accent-600 hover:text-accent-500 dark:text-accent-400" href={cvHref}>CV_ZehengShen.pdf</a>
       </p>
       <p>
         I am actively looking for research internship and student assistant opportunities for the summer of 2026.

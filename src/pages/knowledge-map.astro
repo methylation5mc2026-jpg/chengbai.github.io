@@ -1,12 +1,23 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
-import { cleanSlug, getArticles, getBooks, getTopicCollections, tagToSlug } from "../lib/content";
+import {
+  cleanSlug,
+  getArticles,
+  getBooks,
+  getTaggedEntries,
+  getTopicCollections,
+  tagToSlug
+} from "../lib/content";
 import { getBookProjects } from "../lib/bookPlans";
 
 const articles = await getArticles();
 const collections = await getTopicCollections();
 const books = await getBooks();
+const taggedEntries = await getTaggedEntries();
 const bookProjects = await getBookProjects(books);
+const availableTagSlugs = new Set(
+  taggedEntries.flatMap((entry) => entry.tags.map((tag) => tagToSlug(tag)))
+);
 
 const collectionByTitle = new Map(collections.map((item) => [item.data.title, item]));
 const bookBySlug = new Map(bookProjects.map((item) => [item.slug, item]));
@@ -69,7 +80,7 @@ const articleMatches = (track: (typeof tracks)[number]) =>
             <div>
               <h2 class="font-serif text-4xl tracking-normal">{track.title}</h2>
               <div class="mt-5 flex flex-wrap gap-2">
-                {track.tags.map((tag) => (
+                {track.tags.filter((tag) => availableTagSlugs.has(tagToSlug(tag))).map((tag) => (
                   <a class="tag-chip transition hover:border-accent-500 hover:text-accent-600 dark:hover:text-accent-400" href={`/tags/${tagToSlug(tag)}/`}>#{tag}</a>
                 ))}
               </div>
@@ -92,7 +103,7 @@ const articleMatches = (track: (typeof tracks)[number]) =>
                   <p class="font-mono text-xs uppercase tracking-[0.18em] text-ink-500 dark:text-ink-400">Topics</p>
                   <div class="mt-2 grid gap-2">
                     {trackCollections.map((item: any) => (
-                      <a class="text-ink-700 transition hover:text-accent-600 dark:text-ink-200 dark:hover:text-accent-400" href={`/collections/${item.id}/`}>
+                      <a class="text-ink-700 transition hover:text-accent-600 dark:text-ink-200 dark:hover:text-accent-400" href={`/collections/${cleanSlug(item.id)}/`}>
                         {item.data.title}
                       </a>
                     ))}

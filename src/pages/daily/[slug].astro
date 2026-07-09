@@ -1,5 +1,6 @@
 ---
 import readingTime from "reading-time";
+import { render } from "astro:content";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import PrevNextNav from "../../components/PrevNextNav.astro";
 import TOC from "../../components/TOC.astro";
@@ -18,8 +19,8 @@ const entries = await getDailyEntries();
 const currentIndex = entries.findIndex((item) => item.id === entry.id);
 const prevEntry = entries[currentIndex + 1];
 const nextEntry = entries[currentIndex - 1];
-const stats = readingTime(entry.body);
-const { Content, headings } = await entry.render();
+const stats = readingTime(entry.body ?? "");
+const { Content, headings } = await render(entry);
 ---
 <BaseLayout title={`${entry.data.title} | Daily`} description={entry.data.description}>
   <div class="grid gap-10 lg:grid-cols-[minmax(0,1fr)_280px]">

@@ -1,7 +1,9 @@
-import { defineCollection, z } from "astro:content";
+import { defineCollection } from "astro:content";
+import { glob } from "astro/loaders";
+import { z } from "astro/zod";
 
 const articles = defineCollection({
-  type: "content",
+  loader: glob({ pattern: "**/[^_]*.{md,mdx}", base: "./src/content/articles" }),
   schema: z.object({
     title: z.string(),
     description: z.string(),
@@ -16,7 +18,7 @@ const articles = defineCollection({
 });
 
 const topicCollections = defineCollection({
-  type: "content",
+  loader: glob({ pattern: "**/[^_]*.{md,mdx}", base: "./src/content/collections" }),
   schema: z.object({
     title: z.string(),
     description: z.string(),
@@ -26,7 +28,7 @@ const topicCollections = defineCollection({
 });
 
 const books = defineCollection({
-  type: "content",
+  loader: glob({ pattern: "**/[^_]*.{md,mdx}", base: "./src/content/books" }),
   schema: z.discriminatedUnion("type", [
     z.object({
       type: z.literal("book"),
@@ -49,7 +51,7 @@ const books = defineCollection({
 });
 
 const daily = defineCollection({
-  type: "content",
+  loader: glob({ pattern: "**/[^_]*.{md,mdx}", base: "./src/content/daily" }),
   schema: z.object({
     title: z.string(),
     description: z.string(),

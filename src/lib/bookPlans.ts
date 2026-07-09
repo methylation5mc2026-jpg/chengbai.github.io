@@ -60,7 +60,7 @@ export async function getBookProjects(books: any[]) {
         plan,
         readingUrl,
         progress: Math.min(100, Math.round((chapters.length / plan.goal) * 100)),
-        words: chapters.reduce((sum, chapter) => sum + getWordCount(chapter.body), 0)
+        words: chapters.reduce((sum, chapter) => sum + getWordCount(chapter.body ?? ""), 0)
       };
     })
   );

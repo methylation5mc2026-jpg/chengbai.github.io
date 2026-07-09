@@ -7,7 +7,6 @@ export const siteConfig = {
   author: "Zeheng Shen",
   securityEmail: "shenzeheng@hsefz.com",
   contactEmail: "shenzeheng@hsefz.com",
-  cvHref: "/files/CV_ZehengShen.pdf",
   identity: "High School Student / Biology Olympiad / AI for Biology",
   focus: ["Biology Olympiad", "AI for Biology", "Computational Biology", "Bioinformatics", "Proteomics"],
   nav: [

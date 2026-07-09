@@ -1,8 +1,9 @@
 import rss from "@astrojs/rss";
+import type { APIContext } from "astro";
 import { cleanSlug, getArticles, getDailyEntries } from "../lib/content";
 import { siteConfig } from "../site.config";
 
-export async function GET(context) {
+export async function GET(context: APIContext) {
   const articles = await getArticles();
   const daily = await getDailyEntries();
   const items = [
@@ -23,7 +24,7 @@ export async function GET(context) {
   return rss({
     title: siteConfig.title,
     description: `${siteConfig.name} personal homepage RSS`,
-    site: context.site,
+    site: context.site ?? siteConfig.url,
     items,
     customData: `<language>en</language>`
   });
