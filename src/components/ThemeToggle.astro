@@ -8,15 +8,21 @@
   <span class="hidden dark:inline">◑</span>
 </button>
 
-<script is:inline>
+<script>
+  import { readPreference, writePreference } from "../lib/browser-preferences";
+
   const root = document.documentElement;
-  const saved = localStorage.getItem("theme");
+  const toggle = document.querySelector<HTMLButtonElement>("[data-theme-toggle]");
+  const saved = readPreference("theme");
   if (saved === "dark") {
     root.classList.add("dark");
   }
+  toggle?.setAttribute("aria-pressed", String(root.classList.contains("dark")));
 
-  document.querySelector("[data-theme-toggle]")?.addEventListener("click", () => {
+  toggle?.addEventListener("click", () => {
     root.classList.toggle("dark");
-    localStorage.setItem("theme", root.classList.contains("dark") ? "dark" : "light");
+    const dark = root.classList.contains("dark");
+    toggle.setAttribute("aria-pressed", String(dark));
+    writePreference("theme", dark ? "dark" : "light");
   });
 </script>

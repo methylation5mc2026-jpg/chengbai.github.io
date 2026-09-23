@@ -13,10 +13,13 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 
   <link rel="stylesheet" href="/pagefind/pagefind-ui.css" />
   <script is:inline src="/pagefind/pagefind-ui.js"></script>
-  <script is:inline>
-    window.addEventListener("DOMContentLoaded", () => {
-      if (window.PagefindUI) {
-        new window.PagefindUI({
+  <script>
+    const initSearch = () => {
+      const PagefindUI = (window as typeof window & {
+        PagefindUI?: new (options: Record<string, unknown>) => unknown;
+      }).PagefindUI;
+      if (PagefindUI) {
+        new PagefindUI({
           element: "#search",
           showSubResults: true,
           resetStyles: false,
@@ -25,6 +28,11 @@ import BaseLayout from "../layouts/BaseLayout.astro";
           }
         });
       }
-    });
+    };
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", initSearch, { once: true });
+    } else {
+      initSearch();
+    }
   </script>
 </BaseLayout>

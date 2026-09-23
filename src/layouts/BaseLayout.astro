@@ -18,6 +18,9 @@ const {
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+    <!-- GitHub Pages ignores _headers. Apply the policy in built pages; dev needs Vite HMR. -->
+    {import.meta.env.PROD && <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'none'; object-src 'none'; form-action 'self'; frame-src 'none'; img-src 'self' data:; font-src 'self' https://fonts.gstatic.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; script-src 'self' 'wasm-unsafe-eval'; worker-src 'self' blob:; connect-src 'self'" />}
+    <meta name="referrer" content="strict-origin-when-cross-origin" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{title}</title>
     <meta name="description" content={description} />

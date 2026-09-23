@@ -5,42 +5,44 @@
   <button class="reader-control-button" type="button" data-reader-width="wide" aria-label="Wide reading width">W</button>
 </div>
 
-<script is:inline>
+<script>
+  import { chapterUrl, readPreference, readerNumber, writePreference } from "../lib/browser-preferences";
+
   (() => {
-  const shell = document.querySelector("[data-reader-shell]");
+  const shell = document.querySelector<HTMLElement>("[data-reader-shell]");
   if (!shell || shell.dataset.readerReady === "true") return;
   shell.dataset.readerReady = "true";
 
-  const progress = document.querySelector("[data-reader-progress]");
-  const prevHref = shell.dataset.prevChapter;
-  const nextHref = shell.dataset.nextChapter;
+  const progress = document.querySelector<HTMLElement>("[data-reader-progress]");
+  const prevHref = chapterUrl(shell.dataset.prevChapter, import.meta.env.BASE_URL, window.location.href);
+  const nextHref = chapterUrl(shell.dataset.nextChapter, import.meta.env.BASE_URL, window.location.href);
+  let font = readerNumber(readPreference("reader-font"), 1.08, 0.96, 1.28);
+  let width = readerNumber(readPreference("reader-width"), 74, 64, 86);
 
-  const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
+  const clamp = (value: number, min: number, max: number) => Math.min(max, Math.max(min, value));
   const applyReaderState = () => {
-    if (!shell) return;
-    const font = localStorage.getItem("reader-font") || "1.08";
-    const width = localStorage.getItem("reader-width") || "74";
     shell.style.setProperty("--reader-size", `${font}rem`);
     shell.style.setProperty("--reader-width", `${width}ch`);
   };
 
   document.addEventListener("click", (event) => {
     const target = event.target;
-    if (!(target instanceof HTMLElement)) return;
+    if (!(target instanceof Element)) return;
 
     const fontButton = target.closest("[data-reader-font]");
     if (fontButton instanceof HTMLElement) {
-      const current = Number(localStorage.getItem("reader-font") || "1.08");
       const delta = fontButton.dataset.readerFont === "plus" ? 0.04 : -0.04;
-      localStorage.setItem("reader-font", String(clamp(current + delta, 0.96, 1.28).toFixed(2)));
+      font = Number(clamp(font + delta, 0.96, 1.28).toFixed(2));
       applyReaderState();
+      writePreference("reader-font", String(font));
       return;
     }
 
     const widthButton = target.closest("[data-reader-width]");
     if (widthButton instanceof HTMLElement) {
-      localStorage.setItem("reader-width", widthButton.dataset.readerWidth === "wide" ? "86" : "64");
+      width = widthButton.dataset.readerWidth === "wide" ? 86 : 64;
       applyReaderState();
+      writePreference("reader-width", String(width));
     }
   });
 
@@ -52,9 +54,15 @@
   };
 
   document.addEventListener("keydown", (event) => {
-    if (event.target instanceof HTMLInputElement || event.target instanceof HTMLTextAreaElement) return;
-    if (event.key === "ArrowLeft" && prevHref) window.location.href = prevHref;
-    if (event.key === "ArrowRight" && nextHref) window.location.href = nextHref;
+    if (event.defaultPrevented || event.altKey || event.ctrlKey || event.metaKey || event.shiftKey || event.repeat) return;
+    if (event.target instanceof Element && event.target.closest(
+      'input, textarea, select, button, a, [contenteditable]:not([contenteditable="false"]), [role="textbox"], [role="slider"]'
+    )) return;
+    const href = event.key === "ArrowLeft" ? prevHref : event.key === "ArrowRight" ? nextHref : undefined;
+    if (href) {
+      event.preventDefault();
+      window.location.assign(href);
+    }
   });
 
   applyReaderState();

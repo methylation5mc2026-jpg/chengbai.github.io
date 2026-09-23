@@ -3,19 +3,19 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 
 const checks = [
   {
-    title: "Local Health Check",
-    command: "npm run ops:health",
-    text: "Checks health endpoints, the homepage, book routes, the AIVC book page, search, and security headers."
+    title: "Build Verification",
+    command: "npm run build && npm run verify:dist",
+    text: "Checks generated links, RSS, Sitemap, content exposure, and page security policies."
   },
   {
-    title: "Local Persistent Preview",
-    command: "npm run preview:keepalive",
-    text: "Starts a static preview service and restarts it when needed."
+    title: "Local Preview",
+    command: "npm run preview",
+    text: "Serves the latest build for local browser checks."
   },
   {
-    title: "Startup Preview",
-    command: "npm run startup:install",
-    text: "Installs the local preview process for the current Windows user."
+    title: "Dependency Audit",
+    command: "npm audit",
+    text: "Checks installed dependencies against the current npm advisory database."
   },
   {
     title: "Production Build",
@@ -25,12 +25,11 @@ const checks = [
 ];
 
 const securityItems = [
-  "Content-Security-Policy limits script, style, image, font, and frame sources.",
-  "X-Content-Type-Options: nosniff reduces MIME sniffing risk.",
-  "X-Frame-Options: DENY and frame-ancestors reduce framing risk.",
-  "Referrer-Policy limits cross-site referrer leakage.",
-  "Permissions-Policy disables browser permissions that the static site does not need.",
-  "_headers supports Cloudflare Pages, and vercel.json supports Vercel."
+  "Each HTML page supplies a Content-Security-Policy meta tag that restricts scripts and other resources.",
+  "Inline JavaScript is blocked; inline styles remain allowed for article formatting and syntax highlighting.",
+  "A referrer meta tag limits cross-site referrer details.",
+  "GitHub Pages does not apply _headers. Header-only protections such as frame-ancestors, X-Frame-Options, nosniff, and Permissions-Policy require a host or proxy that supports response headers.",
+  "Only published book assets belong in public/. Excluding a file from the deployed site does not make a public Git repository private."
 ];
 ---
 <BaseLayout title="Ops | Zeheng Shen" description="Security, operations, health checks, and deployment notes for this static personal site.">

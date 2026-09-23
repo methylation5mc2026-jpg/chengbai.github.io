@@ -4,6 +4,7 @@ import { cleanSlug, getArticles, getDailyEntries } from "../lib/content";
 import { siteConfig } from "../site.config";
 
 export async function GET(context: APIContext) {
+  const siteUrl = new URL(`${import.meta.env.BASE_URL.replace(/\/$/, "")}/`, context.site ?? siteConfig.url);
   const articles = await getArticles();
   const daily = await getDailyEntries();
   const items = [
@@ -11,20 +12,20 @@ export async function GET(context: APIContext) {
       title: article.data.title,
       description: article.data.description,
       pubDate: article.data.pubDate,
-      link: `/articles/${cleanSlug(article.id)}/`
+      link: new URL(`articles/${cleanSlug(article.id)}/`, siteUrl).href
     })),
     ...daily.map((entry) => ({
       title: `Daily: ${entry.data.title}`,
       description: entry.data.description,
       pubDate: entry.data.pubDate,
-      link: `/daily/${cleanSlug(entry.id)}/`
+      link: new URL(`daily/${cleanSlug(entry.id)}/`, siteUrl).href
     }))
   ].sort((a, b) => b.pubDate.getTime() - a.pubDate.getTime());
 
   return rss({
     title: siteConfig.title,
     description: `${siteConfig.name} personal homepage RSS`,
-    site: context.site ?? siteConfig.url,
+    site: siteUrl,
     items,
     customData: `<language>en</language>`
   });
