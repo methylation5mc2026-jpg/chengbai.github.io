@@ -1,6 +1,13 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss/index.css";
+@config "../../tailwind.config.mjs";
+
+/* Preserve the previous button cursor after Tailwind's preflight update. */
+@layer base {
+  button:not(:disabled),
+  [role="button"]:not(:disabled) {
+    cursor: pointer;
+  }
+}
 
 :root {
   color-scheme: light;
@@ -30,8 +37,15 @@ body {
   @apply mx-auto w-full max-w-[1500px] px-5 md:px-8;
 }
 
-.paper {
-  @apply rounded-lg border border-ink-200/80 bg-white/80 shadow-paper backdrop-blur dark:border-white/10 dark:bg-white/[0.04] dark:shadow-none;
+/* Caller utilities must be able to override these component defaults. */
+@layer components {
+  .paper {
+    @apply rounded-lg border border-ink-200/80 bg-white/80 shadow-paper backdrop-blur-sm dark:border-white/10 dark:bg-white/[0.04] dark:shadow-none;
+  }
+
+  .tag-chip {
+    @apply inline-flex items-center rounded-full border border-ink-200 px-3 py-1 text-xs text-ink-600 dark:border-white/10 dark:text-ink-300;
+  }
 }
 
 .eyebrow {
@@ -39,7 +53,7 @@ body {
 }
 
 .prose-shell {
-  @apply prose max-w-reading prose-headings:font-serif prose-headings:text-ink-900 prose-headings:tracking-normal prose-p:text-[1.07rem] prose-p:leading-8 prose-li:leading-8 prose-a:text-accent-600 prose-a:no-underline hover:prose-a:text-accent-500 prose-strong:text-ink-900 prose-code:rounded prose-code:bg-ink-100 prose-code:px-1 prose-code:py-0.5 prose-pre:rounded-lg prose-pre:border prose-pre:border-ink-200 prose-pre:bg-ink-900 prose-blockquote:border-accent-500 dark:prose-invert dark:prose-headings:text-white dark:prose-strong:text-white dark:prose-code:bg-white/10 dark:prose-pre:border-white/10;
+  @apply prose max-w-reading prose-headings:font-serif prose-headings:text-ink-900 prose-headings:tracking-normal prose-p:text-[1.07rem] prose-p:leading-8 prose-li:leading-8 prose-a:text-accent-600 prose-a:no-underline prose-a:hover:text-accent-500 prose-strong:text-ink-900 prose-code:rounded-sm prose-code:bg-ink-100 prose-code:px-1 prose-code:py-0.5 prose-pre:rounded-lg prose-pre:border prose-pre:border-ink-200 prose-pre:bg-ink-900 prose-blockquote:border-accent-500 dark:prose-invert dark:prose-headings:text-white dark:prose-strong:text-white dark:prose-code:bg-white/10 dark:prose-pre:border-white/10;
 }
 
 .toc-link {
@@ -48,10 +62,6 @@ body {
 
 .nav-link {
   @apply text-sm text-ink-600 transition hover:text-ink-900 dark:text-ink-300 dark:hover:text-white;
-}
-
-.tag-chip {
-  @apply inline-flex items-center rounded-full border border-ink-200 px-3 py-1 text-xs text-ink-600 dark:border-white/10 dark:text-ink-300;
 }
 
 .section-rule {
