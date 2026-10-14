@@ -12,7 +12,7 @@
     "verify:dist": "node scripts/verify-dist.mjs"
   },
   "dependencies": {
-    "@astrojs/markdown-remark": "7.3.1",
+    "@astrojs/markdown-remark": "7.3.2",
     "@astrojs/mdx": "7.0.8",
     "@astrojs/rss": "4.0.19",
     "@astrojs/sitemap": "3.7.3",
